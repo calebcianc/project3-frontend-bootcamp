@@ -25,6 +25,25 @@ export default function ItineraryOptionsButton({ option }) {
     p: 4,
   };
 
+  const currencies = [
+    {
+      value: "USD",
+      label: "$",
+    },
+    {
+      value: "EUR",
+      label: "€",
+    },
+    {
+      value: "BTC",
+      label: "฿",
+    },
+    {
+      value: "JPY",
+      label: "¥",
+    },
+  ];
+
   return (
     <div>
       {/* depending on the prop, to render a button to add an itinerary or delete an itinerary */}
@@ -48,11 +67,41 @@ export default function ItineraryOptionsButton({ option }) {
         <Box sx={style} component="form">
           <div>
             <TextField
-              required
-              id="outlined-required"
-              label="Required"
-              defaultValue="Hello World"
-            />
+              id="select-country"
+              select
+              label="Native select"
+              defaultValue="Where'd you like to visit?"
+              SelectProps={{
+                native: true,
+              }}
+              helperText="Please select the country you want to visit"
+            >
+              {" "}
+              {currencies.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </TextField>
+            <br />
+            <br />
+            <TextField
+              id="select-type"
+              select
+              label="Native select"
+              defaultValue="Where'd you like to visit?"
+              SelectProps={{
+                native: true,
+              }}
+              helperText="Please select the travel type"
+            >
+              {" "}
+              {currencies.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </TextField>
           </div>{" "}
           {/* <Typography id="modal-modal-title" variant="h6" component="h2">
             Text in a modal
