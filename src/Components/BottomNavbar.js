@@ -6,8 +6,13 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 export default function BottomNavbar() {
   return (
     <BottomNavigation
-      position="fixed"
-      sx={{ top: "auto", bottom: 0 }}
+      style={{
+        position: "absolute",
+        top: "100vh",
+        transform: "translateY(-100%)",
+        width: "100%",
+        justifyContent: "space-around",
+      }}
       showLabels
       // value={value}
       // onChange={(event, newValue) => {
