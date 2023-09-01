@@ -2,8 +2,17 @@ import { useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import Autocomplete from "@mui/material/Autocomplete";
 import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import {
+  Unstable_NumberInput as NumberInput,
+  NumberInputProps,
+  numberInputClasses,
+} from "@mui/base/Unstable_NumberInput";
 import { DatePicker } from "@mui/x-date-pickers";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
@@ -21,10 +30,14 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
     p: 4,
   };
 
+  const [name, setName] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [country, setCountry] = useState(null);
   const [category, setCategory] = useState(null);
+  const [isPublic, setIsPublic] = useState("private");
+  const [maxPax, setMaxPax] = useState(1);
+  const [genderPreference, setGenderPreference] = useState("any");
 
   const handleEndDateChange = (newValue) => {
     if (startDate && newValue && newValue < startDate) {
@@ -34,12 +47,24 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
     }
   };
 
+  const handlePublicChange = (event) => {
+    setIsPublic(event.target.value);
+  };
+
+  const handleGenderChange = (event) => {
+    setGenderPreference(event.target.value);
+  };
+
   async function handleGenerateItinerary() {
     const itineraryInputs = {
+      name,
       startDate,
       endDate,
       country,
       category,
+      isPublic,
+      maxPax,
+      genderPreference,
     };
 
     try {
@@ -59,27 +84,28 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
     <div>
       <Modal open={modalView} onClose={handleClose}>
         <Box sx={style} component="form">
-          <FormControl>
-            <DatePicker
-              label="Choose a start date"
-              value={startDate}
-              onChange={(newValue) => {
-                setStartDate(newValue);
+          <h1>Generate your ideal itinerary!</h1>
 
-                console.log(newValue);
-              }}
-            />
-          </FormControl>
-          <br />
-          <br />
-          <FormControl>
-            <DatePicker
-              label="Choose an end date"
-              value={endDate}
-              onChange={(newValue) => handleEndDateChange(newValue)}
-            />
-          </FormControl>
-          <br />
+          <div style={{ display: "flex" }}>
+            <FormControl>
+              <DatePicker
+                label="Choose a start date"
+                value={startDate}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                  console.log(newValue);
+                }}
+              />
+            </FormControl>
+
+            <FormControl>
+              <DatePicker
+                label="Choose an end date"
+                value={endDate}
+                onChange={(newValue) => handleEndDateChange(newValue)}
+              />
+            </FormControl>
+          </div>
           <br />
           <Autocomplete
             id="country-select"
@@ -148,6 +174,87 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
               />
             )}
           />
+          <br />
+
+          {/* <NumberInput
+            aria-label="max-pax"
+            placeholder="Type a number…"
+            value={maxPax}
+            onChange={(event, val) => setMaxPax(val)}
+          /> */}
+
+          <FormControl>
+            <FormLabel id="is-public">
+              Make your itinerary private or public?
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="gender-preference"
+              name="controlled-radio-buttons-group"
+              value={isPublic}
+              onChange={handlePublicChange}
+              row
+            >
+              <FormControlLabel
+                value="private"
+                control={<Radio />}
+                label="Private"
+              />
+              <FormControlLabel
+                value="Public"
+                control={<Radio />}
+                label="Public"
+              />
+            </RadioGroup>
+          </FormControl>
+          <br />
+          <br />
+
+          {isPublic == "private" ? null : (
+            <div>
+              <form>
+                <label for="max-pax">
+                  How many people do you want in your group?
+                </label>
+                <input
+                  type="number"
+                  id="max-pax"
+                  placeholder="Type a number..."
+                  value={maxPax}
+                  onChange={(event, val) => setMaxPax(val)}
+                  min="1"
+                />
+              </form>
+              <br />
+              <FormControl>
+                <FormLabel id="gender-preference">Gender Preference</FormLabel>
+                <RadioGroup
+                  aria-labelledby="gender-preference"
+                  name="controlled-radio-buttons-group"
+                  value={genderPreference}
+                  onChange={handleGenderChange}
+                  row
+                >
+                  <FormControlLabel
+                    value="any"
+                    control={<Radio />}
+                    label="Any"
+                  />
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <br />
+            </div>
+          )}
+          <br />
 
           <button onClick={handleGenerateItinerary}>Generate itinerary</button>
         </Box>
