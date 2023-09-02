@@ -4,8 +4,9 @@ import RightContainer from "./RightContainer";
 import ItineraryOptionsButton from "./ItineraryOptionsButton";
 
 export default function BelowNavbar() {
-  const [itineraries, setItineraries] = useState(false);
-  const [selectedItinerary, setselectedItinerary] = useState(false);
+  const [itineraries, setItineraries] = useState(true);
+  const [selectedItinerary, setselectedItinerary] = useState(true);
+  const [itineraryActivities, setItineraryActivities] = useState(null);
 
   return (
     <div>
@@ -19,11 +20,18 @@ export default function BelowNavbar() {
       {itineraries ? (
         <div>
           <LeftContainer selectedItinerary={selectedItinerary} />
-          <RightContainer selectedItinerary={selectedItinerary} />
+          <RightContainer
+            selectedItinerary={selectedItinerary}
+            itineraryActivities={itineraryActivities}
+          />
         </div>
-      ) : (
-        <ItineraryOptionsButton option="add" />
-      )}
+      ) : null}
+
+      <ItineraryOptionsButton
+        option="add"
+        itineraryActivities={itineraryActivities}
+        setItineraryActivities={setItineraryActivities}
+      />
     </div>
   );
 }
