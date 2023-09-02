@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -16,4 +16,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+} */
+
+.BelowNavBar-Container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: aqua;
+  overflow: auto;
 }

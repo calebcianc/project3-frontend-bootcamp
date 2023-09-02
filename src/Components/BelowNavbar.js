@@ -1,37 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LeftContainer from "./LeftContainer";
 import RightContainer from "./RightContainer";
 import ItineraryOptionsButton from "./ItineraryOptionsButton";
+import axios from "axios";
+import { BACKEND_URL } from "../constants.js";
+import "../App.css";
 
 export default function BelowNavbar() {
-  const [itineraries, setItineraries] = useState(true);
-  const [selectedItinerary, setselectedItinerary] = useState(true);
-  const [itineraryActivities, setItineraryActivities] = useState(null);
+  const [selectedItinerary, setselectedItinerary] = useState(false);
+  const [itineraryActivities, setItineraryActivities] = useState([]);
+
+  // use auth0 to retrieve email. use email to find userid
+  // to change 1 to userid variable
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/itinerary/1`).then((response) => {
+      setItineraryActivities(response.data); //JSON.stringify
+    });
+  }, []);
+  console.log("itineraryActivities_origin", itineraryActivities);
 
   return (
     <div>
-      <p>BelowNavbar</p>
-      <p>Itineraries: {itineraries ? "True" : "False"}</p>
-      <p>SelectedItinerary: {selectedItinerary ? "True" : "False"}</p>
-
       {/* if there are itineraries, render 2 components: left container to display picture, right container to display list of itineraries */}
       {/* if no itinerary, render button for user to add itinerary  */}
 
-      {itineraries ? (
-        <div>
-          <LeftContainer selectedItinerary={selectedItinerary} />
-          <RightContainer
-            selectedItinerary={selectedItinerary}
-            itineraryActivities={itineraryActivities}
-          />
+      {itineraryActivities.length > 0 ? (
+        <div className="BelowNavBar-Container">
+          <div>
+            {" "}
+            <LeftContainer selectedItinerary={selectedItinerary} />
+          </div>
+          <div>
+            <RightContainer
+              selectedItinerary={selectedItinerary}
+              itineraryActivities={itineraryActivities}
+            />
+          </div>
         </div>
-      ) : null}
+      ) : (
+        <p>Nothing to display</p>
+      )}
 
-      <ItineraryOptionsButton
-        option="add"
-        itineraryActivities={itineraryActivities}
-        setItineraryActivities={setItineraryActivities}
-      />
+      <ItineraryOptionsButton option="add" />
     </div>
   );
 }
