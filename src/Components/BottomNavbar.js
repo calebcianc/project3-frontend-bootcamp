@@ -7,9 +7,8 @@ export default function BottomNavbar() {
   return (
     <BottomNavigation
       style={{
-        position: "absolute",
-        top: "100vh",
-        transform: "translateY(-100%)",
+        position: "fixed",
+        bottom: 0,
         width: "100%",
         justifyContent: "space-around",
       }}
