@@ -8,11 +8,6 @@ import Autocomplete from "@mui/material/Autocomplete";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import {
-  Unstable_NumberInput as NumberInput,
-  NumberInputProps,
-  numberInputClasses,
-} from "@mui/base/Unstable_NumberInput";
 import { DatePicker } from "@mui/x-date-pickers";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
@@ -30,6 +25,7 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
     p: 4,
   };
 
+  const [userId, setUserId] = useState(1); // to write code to get the userId when logged in
   const [name, setName] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -38,6 +34,8 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
   const [isPublic, setIsPublic] = useState(false);
   const [maxPax, setMaxPax] = useState(1);
   const [genderPreference, setGenderPreference] = useState("any");
+
+  const [itineraryDetails, setItineraryDetails] = useState(null);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -74,15 +72,17 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
       isPublic,
       maxPax,
       genderPreference,
+      userId,
     };
 
     try {
-      const response = await fetch("http://localhost:3000/generateItinerary", {
+      const response = await fetch("http://localhost:3000/itinerary/new", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(itineraryInputs),
       });
-      const itineraryDetails = await response.json();
+      const newItineraryDetails = await response.json();
+      setItineraryDetails(newItineraryDetails);
       console.log("Data received: ", itineraryDetails);
     } catch (error) {
       console.error("Error: ", error);
