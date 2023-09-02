@@ -6,7 +6,6 @@ export default function RightContainer({
   selectedItinerary,
   itineraryActivities,
 }) {
-  console.log("user", itineraryActivities[0].users);
   return (
     <div>
       {/* if itinerary is selected, render list of activities */}

@@ -1,7 +1,5 @@
 import { Box, Tooltip } from "@mui/material";
 export default function UserIcon({ user }) {
-  console.log("user now", user.user.gender);
-
   const firstLetter = user.user.firstName.charAt(0).toUpperCase();
   const backgroundColor =
     user.user.gender === "Female"
@@ -28,7 +26,7 @@ export default function UserIcon({ user }) {
             },
           }}
         >
-          <p>{firstLetter}</p>
+          <div>{firstLetter}</div>
         </Box>
       </Tooltip>
     </div>
