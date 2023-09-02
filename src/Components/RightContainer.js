@@ -6,9 +6,9 @@ export default function RightContainer({
   selectedItinerary,
   itineraryActivities,
 }) {
+  console.log("user", itineraryActivities[0].users);
   return (
     <div>
-      Right Container
       {/* if itinerary is selected, render list of activities */}
       {/* if itnerary is not selected, render list of itineraries */}
       {selectedItinerary ? (
@@ -16,7 +16,7 @@ export default function RightContainer({
       ) : (
         <div>
           <RightContainerFilterButton />
-          <ItineraryList />
+          <ItineraryList itineraryActivities={itineraryActivities} />
         </div>
       )}
     </div>

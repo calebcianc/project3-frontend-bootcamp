@@ -1,10 +1,11 @@
 import ItineraryCard from "./ItineraryCard";
 
-export default function ItineraryList() {
+export default function ItineraryList({ itineraryActivities }) {
   return (
     <div>
-      Itinerary List <br />
-      <ItineraryCard />
+      {itineraryActivities.map((itinerary, index) => (
+        <ItineraryCard key={index} itinerary={itinerary} />
+      ))}
     </div>
   );
 }
