@@ -77,7 +77,7 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
     };
 
     try {
-      const response = await fetch("http://localhost:3001/generateItinerary", {
+      const response = await fetch("http://localhost:3000/generateItinerary", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(itineraryInputs),
@@ -221,7 +221,7 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
           <br />
           <br />
 
-          {isPublic == "private" ? null : (
+          {isPublic === false ? null : (
             <div>
               <form>
                 <label for="max-pax">
