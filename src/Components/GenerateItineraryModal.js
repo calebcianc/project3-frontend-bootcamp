@@ -35,9 +35,13 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
   const [endDate, setEndDate] = useState(null);
   const [country, setCountry] = useState(null);
   const [category, setCategory] = useState(null);
-  const [isPublic, setIsPublic] = useState("private");
+  const [isPublic, setIsPublic] = useState(false);
   const [maxPax, setMaxPax] = useState(1);
   const [genderPreference, setGenderPreference] = useState("any");
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
 
   const handleEndDateChange = (newValue) => {
     if (startDate && newValue && newValue < startDate) {
@@ -48,7 +52,8 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
   };
 
   const handlePublicChange = (event) => {
-    setIsPublic(event.target.value);
+    const value = event.target.value;
+    setIsPublic(value === "true");
   };
 
   const handleGenderChange = (event) => {
@@ -56,12 +61,16 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
   };
 
   async function handleGenerateItinerary() {
-    const itineraryInputs = {
-      name,
+    const prompts = {
       startDate,
       endDate,
       country,
       category,
+    };
+
+    const itineraryInputs = {
+      name,
+      prompts,
       isPublic,
       maxPax,
       genderPreference,
@@ -86,6 +95,16 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
         <Box sx={style} component="form">
           <h1>Generate your ideal itinerary!</h1>
 
+          <form>
+            <label htmlFor="name">Name your itinerary: </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={handleNameChange}
+            />
+          </form>
+          <br />
           <div style={{ display: "flex" }}>
             <FormControl>
               <DatePicker
@@ -176,13 +195,6 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
           />
           <br />
 
-          {/* <NumberInput
-            aria-label="max-pax"
-            placeholder="Type a number…"
-            value={maxPax}
-            onChange={(event, val) => setMaxPax(val)}
-          /> */}
-
           <FormControl>
             <FormLabel id="is-public">
               Make your itinerary private or public?
@@ -195,12 +207,12 @@ export default function GenerateItineraryModal({ modalView, handleClose }) {
               row
             >
               <FormControlLabel
-                value="private"
+                value="false"
                 control={<Radio />}
                 label="Private"
               />
               <FormControlLabel
-                value="Public"
+                value="true"
                 control={<Radio />}
                 label="Public"
               />
