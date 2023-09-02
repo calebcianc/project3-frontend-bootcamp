@@ -18,7 +18,6 @@ export default function ItineraryCard({ itinerary }) {
   useEffect(() => {
     axios.get(`${BACKEND_URL}/user/${itinerary.id}`).then((response) => {
       setUsers(response.data); //JSON.stringify
-      console.log("users", response.data);
     });
   }, []);
 
@@ -31,11 +30,7 @@ export default function ItineraryCard({ itinerary }) {
             height: 140,
             objectFit: "cover",
           }}
-          image={
-            itinerary.activities[0].photoUrl
-              ? itinerary.activities[0].photoUrl
-              : null
-          }
+          image={itinerary.photoUrl ? itinerary.photoUrl : null}
           title={itinerary.name}
         />
         <Box

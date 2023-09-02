@@ -10,14 +10,15 @@ export default function BelowNavbar() {
   const [selectedItinerary, setselectedItinerary] = useState(false);
   const [itineraryActivities, setItineraryActivities] = useState([]);
 
+  const userId = 2;
   // use auth0 to retrieve email. use email to find userid
   // to change 1 to userid variable
   useEffect(() => {
-    axios.get(`${BACKEND_URL}/itinerary/1`).then((response) => {
+    axios.get(`${BACKEND_URL}/itinerary/${userId}`).then((response) => {
       setItineraryActivities(response.data); //JSON.stringify
     });
   }, []);
-  console.log("itineraryActivities_origin", itineraryActivities);
+  // console.log("itineraryActivities_origin", itineraryActivities[0].photoUrl);
 
   return (
     <div>
@@ -38,7 +39,7 @@ export default function BelowNavbar() {
           </div>
         </div>
       ) : (
-        <p>Nothing to display</p>
+        <div>Nothing to display</div>
       )}
 
       <ItineraryOptionsButton option="add" />
