@@ -31,7 +31,10 @@ export default function BelowNavbar({ type }) {
         <div className="BelowNavBar-Container">
           <div>
             {" "}
-            <LeftContainer selectedItinerary={selectedItinerary} />
+            <LeftContainer
+              selectedItinerary={selectedItinerary}
+              itineraryActivities={itineraryActivities}
+            />
           </div>
           <div>
             <RightContainer
