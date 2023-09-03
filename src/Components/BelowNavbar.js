@@ -42,7 +42,11 @@ export default function BelowNavbar() {
         <div>Nothing to display</div>
       )}
 
-      <ItineraryOptionsButton option="add" />
+      <ItineraryOptionsButton
+        option="add"
+        itineraryActivities={itineraryActivities}
+        setItineraryActivities={setItineraryActivities}
+      />
     </div>
   );
 }

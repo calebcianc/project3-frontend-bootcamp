@@ -33,7 +33,7 @@ export default function GenerateItineraryModal({
   const [category, setCategory] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [maxPax, setMaxPax] = useState(1);
-  const [genderPreference, setGenderPreference] = useState("any");
+  const [genderPreference, setGenderPreference] = useState(null);
 
   // Validation function to be called before submitting form
   const isFormValid = () => {
