@@ -5,7 +5,7 @@ export default function ActivityList({ itineraryActivities }) {
     <div>
       Activity List
       <br />
-      GPT output: {itineraryActivities}
+      GPT output: {JSON.stringify(itineraryActivities)}
       <br />
       <ActivityCard />
     </div>

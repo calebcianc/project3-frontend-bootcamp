@@ -9,16 +9,16 @@ export default function BelowNavbar() {
   const [itineraryActivities, setItineraryActivities] = useState(null);
 
   return (
-    <div>
-      <p>BelowNavbar</p>
+    <div style={{ height: "calc(100vh - 64px - 56px)" }}>
+      {/* <p style={{ margin: "0" }}>BelowNavbar</p>
       <p>Itineraries: {itineraries ? "True" : "False"}</p>
-      <p>SelectedItinerary: {selectedItinerary ? "True" : "False"}</p>
+      <p>SelectedItinerary: {selectedItinerary ? "True" : "False"}</p> */}
 
       {/* if there are itineraries, render 2 components: left container to display picture, right container to display list of itineraries */}
       {/* if no itinerary, render button for user to add itinerary  */}
 
       {itineraries ? (
-        <div>
+        <div style={{ display: "flex" }}>
           <LeftContainer selectedItinerary={selectedItinerary} />
           <RightContainer
             selectedItinerary={selectedItinerary}

@@ -17,6 +17,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
+import { CircularProgress } from "@mui/joy";
+import "./LoadingSpinner.css";
 
 export default function GenerateItineraryModal({
   modalView,
@@ -24,7 +26,7 @@ export default function GenerateItineraryModal({
   itineraryActivities,
   setItineraryActivities,
 }) {
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
   const [userId, setUserId] = useState(1); // to write code to get the userId when logged in
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState(null);
@@ -34,6 +36,7 @@ export default function GenerateItineraryModal({
   const [isPublic, setIsPublic] = useState(false);
   const [maxPax, setMaxPax] = useState(1);
   const [genderPreference, setGenderPreference] = useState("any");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Validation function to be called before submitting form
   const isFormValid = () => {
@@ -104,15 +107,26 @@ export default function GenerateItineraryModal({
     console.log("Itinerary inputs: ", JSON.stringify(itineraryInputs));
 
     try {
+      setIsLoading(true);
       const response = await fetch("http://localhost:3000/itinerary/new", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(itineraryInputs),
       });
       const newItineraryDetails = await response.json();
-      setItineraryActivities(newItineraryDetails);
-      console.log("Data received: ", itineraryActivities);
+
+      if (newItineraryDetails && newItineraryDetails.error) {
+        console.error("Backend Error:", newItineraryDetails.error);
+        console.error("Backend Error:", newItineraryDetails.msg);
+        // Set some state to indicate an error in the UI
+      } else {
+        setItineraryActivities(newItineraryDetails);
+        console.log("Data received: ", JSON.stringify(itineraryActivities));
+      }
+
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error("Error: ", error);
     }
 
@@ -122,7 +136,11 @@ export default function GenerateItineraryModal({
   return (
     <div>
       <Modal open={modalView} onClose={handleClose}>
-        <ModalDialog size="lg" variant="outlined" layout="fullscreen">
+        <ModalDialog
+          size="lg"
+          variant="outlined"
+          // layout="fullscreen"
+        >
           <ModalClose />
           <Box component="form">
             <Typography
@@ -319,6 +337,11 @@ export default function GenerateItineraryModal({
           </Box>
         </ModalDialog>
       </Modal>
+      {isLoading && (
+        <div className="loading-overlay">
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 }

@@ -8,7 +8,10 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import GenerateItineraryModal from "./GenerateItineraryModal";
 
-export default function ItineraryOptionsButton({ option }) {
+export default function ItineraryOptionsButton({
+  option,
+  setItineraryActivities,
+}) {
   const [modalView, setModalView] = useState(false);
   const handleOpen = () => setModalView(true);
   const handleClose = () => setModalView(false);
@@ -37,7 +40,11 @@ export default function ItineraryOptionsButton({ option }) {
         <div>Render delete itinerary button</div>
       ) : null}
 
-      <GenerateItineraryModal modalView={modalView} handleClose={handleClose} />
+      <GenerateItineraryModal
+        modalView={modalView}
+        handleClose={handleClose}
+        setItineraryActivities={setItineraryActivities}
+      />
     </div>
   );
 }
