@@ -17,6 +17,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
+import { CircularProgress } from "@mui/joy";
+import "./LoadingSpinner.css";
+import { Button } from "@mui/material";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import { spacing } from "@mui/system";
 
 export default function GenerateItineraryModal({
   modalView,
@@ -24,7 +29,7 @@ export default function GenerateItineraryModal({
   itineraryActivities,
   setItineraryActivities,
 }) {
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
   const [userId, setUserId] = useState(1); // to write code to get the userId when logged in
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState(null);
@@ -33,7 +38,8 @@ export default function GenerateItineraryModal({
   const [category, setCategory] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [maxPax, setMaxPax] = useState(1);
-  const [genderPreference, setGenderPreference] = useState(null);
+  const [genderPreference, setGenderPreference] = useState("any");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Validation function to be called before submitting form
   const isFormValid = () => {
@@ -104,15 +110,26 @@ export default function GenerateItineraryModal({
     console.log("Itinerary inputs: ", JSON.stringify(itineraryInputs));
 
     try {
+      setIsLoading(true);
       const response = await fetch("http://localhost:3000/itinerary/new", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(itineraryInputs),
       });
-      const allItineraries = await response.json();
-      setItineraryActivities(allItineraries);
-      console.log("allItineraries: ", allItineraries);
+      const newItineraryDetails = await response.json();
+
+      if (newItineraryDetails && newItineraryDetails.error) {
+        console.error("Backend Error:", newItineraryDetails.error);
+        console.error("Backend Error:", newItineraryDetails.msg);
+        // Set some state to indicate an error in the UI
+      } else {
+        setItineraryActivities(newItineraryDetails);
+        console.log("Data received: ", JSON.stringify(itineraryActivities));
+      }
+
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error("Error: ", error);
     }
 
@@ -122,7 +139,11 @@ export default function GenerateItineraryModal({
   return (
     <div>
       <Modal open={modalView} onClose={handleClose}>
-        <ModalDialog size="lg" variant="outlined" layout="fullscreen">
+        <ModalDialog
+          size="lg"
+          variant="outlined"
+          // layout="fullscreen"
+        >
           <ModalClose />
           <Box component="form">
             <Typography
@@ -131,22 +152,30 @@ export default function GenerateItineraryModal({
               level="h4"
               textColor="inherit"
               fontWeight="lg"
-              mb={3}
+              mb={2}
             >
               Generate your ideal itinerary!
             </Typography>
-
-            <label htmlFor="name">Name your itinerary: </label>
+            {/* <label htmlFor="name">Name your itinerary: </label>
             <input
               type="text"
               id="name"
               value={name}
               onChange={handleNameChange}
-            />
-
+            /> */}
+            <FormControl style={{ display: "flex" }}>
+              <FormLabel style={{ marginBottom: "5px" }}>
+                Name your itinerary:
+              </FormLabel>
+              <TextField
+                id="itinerary-name"
+                label="Itinerary name"
+                value={name}
+                onChange={handleNameChange}
+              />
+            </FormControl>
             <br />
-            <br />
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", marginBottom: "15px" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Start date"
@@ -171,81 +200,88 @@ export default function GenerateItineraryModal({
                 />
               </LocalizationProvider>
             </div>
-            <br />
-            <Autocomplete
-              id="country-select"
-              sx={{ width: 300 }}
-              options={countries}
-              autoHighlight
-              onChange={(event, newValue) => {
-                setCountry(newValue.label);
-              }}
-              getOptionLabel={(option) => option.label}
-              renderOption={(props, option) => (
-                <Box
-                  component="li"
-                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                  {...props}
-                >
-                  <img
-                    loading="lazy"
-                    width="20"
-                    src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                    srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                    alt=""
+
+            <FormControl style={{ marginBottom: "15px" }}>
+              <FormLabel style={{ marginBottom: "5px" }}>Where to?</FormLabel>
+              <Autocomplete
+                id="country-select"
+                sx={{ width: 300 }}
+                options={countries}
+                autoHighlight
+                onChange={(event, newValue) => {
+                  setCountry(newValue.label);
+                }}
+                getOptionLabel={(option) => option.label}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    <img
+                      loading="lazy"
+                      width="20"
+                      src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                      srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                      alt=""
+                    />
+                    {option.label}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose a country"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password", // disable autocomplete and autofill
+                    }}
                   />
-                  {option.label}
-                </Box>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Choose a country"
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "new-password", // disable autocomplete and autofill
-                  }}
-                />
-              )}
-            />
+                )}
+              />
+            </FormControl>
+
+            <FormControl style={{ marginBottom: "15px" }}>
+              <FormLabel style={{ marginBottom: "5px" }}>
+                What'd you like to do?
+              </FormLabel>
+              <Autocomplete
+                id="category-select"
+                sx={{ width: 300 }}
+                options={categories}
+                autoHighlight
+                onChange={(event, newValue) => {
+                  setCategory(newValue);
+                }}
+                getOptionLabel={(option) => option}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    {option}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose a category"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password", // disable autocomplete and autofill
+                    }}
+                  />
+                )}
+              />
+            </FormControl>
             <br />
-            <Autocomplete
-              id="category-select"
-              sx={{ width: 300 }}
-              options={categories}
-              autoHighlight
-              onChange={(event, newValue) => {
-                setCategory(newValue);
-              }}
-              getOptionLabel={(option) => option}
-              renderOption={(props, option) => (
-                <Box
-                  component="li"
-                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                  {...props}
-                >
-                  {option}
-                </Box>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Choose a category"
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "new-password", // disable autocomplete and autofill
-                  }}
-                />
-              )}
-            />
-            <br />
-            <FormControl>
+            <FormControl style={{ marginBottom: "10px" }}>
               <FormLabel id="is-public">
                 Make your itinerary private or public?
               </FormLabel>
               <RadioGroup
-                aria-labelledby="gender-preference"
-                name="controlled-radio-buttons-group"
+                name="is-public"
                 value={isPublic}
                 onChange={handlePublicChange}
                 row
@@ -262,11 +298,9 @@ export default function GenerateItineraryModal({
                 />
               </RadioGroup>
             </FormControl>
-            <br />
-            <br />
             {isPublic === false ? null : (
-              <div>
-                <>
+              <>
+                {/* <>
                   <label htmlFor="max-pax">
                     How many people do you want in your group?
                   </label>
@@ -278,9 +312,40 @@ export default function GenerateItineraryModal({
                     onChange={(event, val) => setMaxPax(val)}
                     min="1"
                   />
-                </>
-                <br />
-                <br />
+                </> */}
+                <FormControl
+                  style={{
+                    // display: "flex",
+                    // flexDirection: "row",
+                    // justifyContent: "space-between",
+                    // height: "30px",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <FormLabel
+                    style={{
+                      marginBottom: "5px",
+                      // height: "60%",
+                    }}
+                  >
+                    How many people do you want in your group?
+                  </FormLabel>
+                  <TextField
+                    style={{
+                      width: "20%",
+                    }}
+                    id="max-pax"
+                    type="number"
+                    InputProps={{
+                      inputProps: { min: 1 },
+                      style: { height: "60%" },
+                    }} // Setting minimum value to 1
+                    placeholder="Type a number..."
+                    value={maxPax}
+                    onChange={(event) => setMaxPax(event.target.value)} // You can directly access the event object
+                  />
+                </FormControl>
+
                 <FormControl>
                   <FormLabel id="gender-preference">
                     Gender Preference
@@ -311,14 +376,27 @@ export default function GenerateItineraryModal({
                 </FormControl>
                 <br />
                 <br />
-              </div>
+              </>
             )}
-            <button disabled={!isFormValid()} onClick={handleGenerateItinerary}>
-              Generate itinerary
-            </button>
+
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                variant="contained"
+                endIcon={<FlightTakeoffIcon />}
+                disabled={!isFormValid()}
+                onClick={handleGenerateItinerary}
+              >
+                Generate itinerary
+              </Button>
+            </div>
           </Box>
         </ModalDialog>
       </Modal>
+      {isLoading && (
+        <div className="loading-overlay">
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 }

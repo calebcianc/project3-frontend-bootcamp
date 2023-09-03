@@ -1,4 +1,4 @@
-import ItineraryMap from "./ItineraryMap";
+import Map from "./Map";
 
 export default function LeftContainer({ selectedItinerary }) {
   return (
@@ -6,7 +6,7 @@ export default function LeftContainer({ selectedItinerary }) {
       {/* Left Container */}
       {/* if itinerary is selected, render map */}
       {/* if itnerary is not selected, render picture of next itinerary */}
-      {selectedItinerary ? <ItineraryMap /> : <div>nothing</div>}
+      {selectedItinerary ? <Map /> : <div>nothing</div>}
     </div>
   );
 }
