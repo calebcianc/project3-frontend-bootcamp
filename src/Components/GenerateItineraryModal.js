@@ -109,9 +109,9 @@ export default function GenerateItineraryModal({
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(itineraryInputs),
       });
-      const newItineraryDetails = await response.json();
-      setItineraryActivities(newItineraryDetails);
-      console.log("Data received: ", itineraryActivities);
+      const allItineraries = await response.json();
+      setItineraryActivities(allItineraries);
+      console.log("allItineraries: ", allItineraries);
     } catch (error) {
       console.error("Error: ", error);
     }

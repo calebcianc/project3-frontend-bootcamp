@@ -10,7 +10,7 @@ export default function BelowNavbar() {
   const [selectedItinerary, setselectedItinerary] = useState(false);
   const [itineraryActivities, setItineraryActivities] = useState([]);
 
-  const userId = 2;
+  const userId = 1;
   // use auth0 to retrieve email. use email to find userid
   // to change 1 to userid variable
   useEffect(() => {
