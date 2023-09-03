@@ -11,6 +11,8 @@ export default function BottomNavbar() {
         bottom: 0,
         width: "100%",
         justifyContent: "space-around",
+        zIndex: 2,
+        // backgroundColor: "white",
       }}
       showLabels
       // value={value}
