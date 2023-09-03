@@ -10,7 +10,7 @@ export default function RightContainer({
     <div
       style={{
         width: "50%",
-        height: "calc(100vh - 64px - 56px)",
+        height: "calc(100vh - 64px - 56px - 20px)",
         backgroundColor: "whitesmoke",
         padding: "10px",
       }}
