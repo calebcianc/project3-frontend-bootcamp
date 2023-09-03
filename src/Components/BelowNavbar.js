@@ -6,9 +6,11 @@ import axios from "axios";
 import { BACKEND_URL } from "../constants.js";
 import "../App.css";
 
-export default function BelowNavbar() {
+export default function BelowNavbar({ type }) {
   const [selectedItinerary, setselectedItinerary] = useState(false);
   const [itineraryActivities, setItineraryActivities] = useState([]);
+
+  // Caleb: introduced a type prop to tweak the itineraries shown based on the selected tab. e.g., if type="explore", to only show itineraries which user is not a part of
 
   const userId = 1;
   // use auth0 to retrieve email. use email to find userid

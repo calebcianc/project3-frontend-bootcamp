@@ -175,7 +175,13 @@ export default function GenerateItineraryModal({
               />
             </FormControl>
             <br />
-            <div style={{ display: "flex", marginBottom: "15px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "15px",
+              }}
+            >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Start date"

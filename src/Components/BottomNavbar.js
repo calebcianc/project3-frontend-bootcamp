@@ -1,9 +1,19 @@
+import { useState } from "react";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import ExploreIcon from "@mui/icons-material/Explore";
 import UpcomingIcon from "@mui/icons-material/Upcoming";
 import ArchiveIcon from "@mui/icons-material/Archive";
 
 export default function BottomNavbar() {
+  const [value, setValue] = useState("upcoming");
+  const navigate = useNavigate();
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    navigate(`/${newValue}`);
+  };
+
   return (
     <BottomNavigation
       style={{
@@ -15,14 +25,24 @@ export default function BottomNavbar() {
         // backgroundColor: "white",
       }}
       showLabels
-      // value={value}
-      // onChange={(event, newValue) => {
-      //   setValue(newValue);
-      // }}
+      value={value}
+      onChange={handleChange}
     >
-      <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
-      <BottomNavigationAction label="Upcoming" icon={<UpcomingIcon />} />
-      <BottomNavigationAction label="Past" icon={<ArchiveIcon />} />
+      <BottomNavigationAction
+        label="Explore"
+        value="explore"
+        icon={<ExploreIcon />}
+      />
+      <BottomNavigationAction
+        label="Upcoming"
+        value="upcoming"
+        icon={<UpcomingIcon />}
+      />
+      <BottomNavigationAction
+        label="Past"
+        value="past"
+        icon={<ArchiveIcon />}
+      />
     </BottomNavigation>
   );
 }
