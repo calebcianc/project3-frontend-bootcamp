@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
+import { convertToDDMMYYYY } from "../utils/utils";
 
 export default function ItineraryCard({ itinerary }) {
   const [users, setUsers] = useState([]);
@@ -21,8 +22,22 @@ export default function ItineraryCard({ itinerary }) {
     });
   }, []);
 
+  const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
+  const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
+
+  console.log("itinerary", itinerary);
+  console.log("users number", users.length);
+
   return (
-    <Card sx={{ width: "100%", m: "2mm", borderRadius: "4px" }}>
+    <Card
+      sx={{
+        width: "calc(100% - 8mm)",
+        m: "4mm",
+        borderRadius: "4px",
+        boxShadow:
+          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+      }}
+    >
       <Box position="relative">
         <CardMedia
           component="img"
@@ -47,9 +62,13 @@ export default function ItineraryCard({ itinerary }) {
       </Box>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Country <br />
-          Start date - End date <br />
-          Category
+          {itinerary.prompts.country} | {itinerary.prompts.category}
+          <br />
+          {startDate} - {endDate}
+          <br />
+          {itinerary.isPublic ? "Public" : "Private"} - {users.length}/
+          {itinerary.maxPax} participants{" "}
+          {users.length === itinerary.maxPax ? "(Full)" : null}
           <Box
             sx={{
               display: "flex",
