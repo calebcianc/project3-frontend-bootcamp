@@ -4,18 +4,27 @@ import RightContainerFilterButton from "./RightContainerFilterButton";
 
 export default function RightContainer({
   selectedItinerary,
+  setSelectedItinerary,
   itineraryActivities,
 }) {
   return (
-    <div>
+    <div style={{ maxWidth: "100%" }}>
       {/* if itinerary is selected, render list of activities */}
       {/* if itnerary is not selected, render list of itineraries */}
       {selectedItinerary ? (
-        <ActivityList itineraryActivities={itineraryActivities} />
+        <ActivityList
+          selectedItinerary={selectedItinerary}
+          setSelectedItinerary={setSelectedItinerary}
+          itineraryActivities={itineraryActivities}
+        />
       ) : (
         <div>
           <RightContainerFilterButton />
-          <ItineraryList itineraryActivities={itineraryActivities} />
+          <ItineraryList
+            selectedItinerary={selectedItinerary}
+            setSelectedItinerary={setSelectedItinerary}
+            itineraryActivities={itineraryActivities}
+          />
         </div>
       )}
     </div>

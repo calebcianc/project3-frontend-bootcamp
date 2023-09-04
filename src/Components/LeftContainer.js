@@ -5,7 +5,7 @@ export default function LeftContainer({
   itineraryActivities,
 }) {
   return (
-    <div>
+    <div style={{ minWidth: "100%" }}>
       {/* Left Container */}
       {/* if itinerary is selected, render map */}
       {/* if itnerary is not selected, render picture of next itinerary */}
