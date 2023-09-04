@@ -17,6 +17,7 @@ export default function ItineraryCard({
   itinerary,
   selectedItinerary,
   setSelectedItinerary,
+  setItineraryPhoto,
 }) {
   const [users, setUsers] = useState([]);
 
@@ -34,6 +35,7 @@ export default function ItineraryCard({
 
   const handleSelectItinerary = () => {
     setSelectedItinerary(itinerary.id);
+    setItineraryPhoto(itinerary.photoUrl);
   };
 
   return (
@@ -44,9 +46,7 @@ export default function ItineraryCard({
         borderRadius: "4px",
         boxShadow:
           "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-        cursor: "pointer",
       }}
-      onClick={handleSelectItinerary}
     >
       <Box position="relative">
         <CardMedia
@@ -54,9 +54,11 @@ export default function ItineraryCard({
           sx={{
             height: 140,
             objectFit: "cover",
+            cursor: "pointer",
           }}
           image={itinerary.photoUrl ? itinerary.photoUrl : null}
           title={itinerary.name}
+          onClick={handleSelectItinerary}
         />
         <Box
           position="absolute"
