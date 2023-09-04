@@ -13,7 +13,11 @@ import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
 import { convertToDDMMYYYY } from "../utils/utils";
 
-export default function ItineraryCard({ itinerary }) {
+export default function ItineraryCard({
+  itinerary,
+  selectedItinerary,
+  setSelectedItinerary,
+}) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -28,6 +32,10 @@ export default function ItineraryCard({ itinerary }) {
   console.log("itinerary", itinerary);
   console.log("users number", users.length);
 
+  const handleSelectItinerary = () => {
+    setSelectedItinerary(itinerary.id);
+  };
+
   return (
     <Card
       sx={{
@@ -36,7 +44,9 @@ export default function ItineraryCard({ itinerary }) {
         borderRadius: "4px",
         boxShadow:
           "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        cursor: "pointer",
       }}
+      onClick={handleSelectItinerary}
     >
       <Box position="relative">
         <CardMedia

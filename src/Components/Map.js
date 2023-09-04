@@ -10,7 +10,7 @@ const Map = ({ itineraryActivities }) => {
   const center = useMemo(() => ({ lat: 34.2681, lng: 108.9547 }), []); // to replace with coordinates from itineraryActivities
 
   return (
-    <div className="App">
+    <div className="App" style={{ minWidth: "50%" }}>
       {!isLoaded ? (
         <h1>Loading...</h1>
       ) : (

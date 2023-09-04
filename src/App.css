@@ -22,5 +22,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   /* background-color: aqua; */
-  overflow: auto;
+  /* overflow: auto;
+  overflow-wrap: break-word; */
 }
