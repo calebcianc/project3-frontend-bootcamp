@@ -2,26 +2,12 @@
   text-align: center;
 }
 
-/* .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
-
 .BelowNavBar-Container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* background-color: aqua; */
-  /* overflow: auto;
-  overflow-wrap: break-word; */
+}
+
+.scrollable-right-container {
+  height: 100vh; /* or whatever height you prefer */
+  overflow-y: auto;
 }
