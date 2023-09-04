@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ActivityList from "./ActivityList";
 import ItineraryList from "./ItineraryList";
 import RightContainerFilterButton from "./RightContainerFilterButton";
@@ -7,6 +8,8 @@ export default function RightContainer({
   setSelectedItinerary,
   itineraryActivities,
 }) {
+  const [itineraryPhoto, setItineraryPhoto] = useState(null);
+
   return (
     <div style={{ maxWidth: "100%" }}>
       {/* if itinerary is selected, render list of activities */}
@@ -16,6 +19,7 @@ export default function RightContainer({
           selectedItinerary={selectedItinerary}
           setSelectedItinerary={setSelectedItinerary}
           itineraryActivities={itineraryActivities}
+          itineraryPhoto={itineraryPhoto}
         />
       ) : (
         <div>
@@ -24,6 +28,7 @@ export default function RightContainer({
             selectedItinerary={selectedItinerary}
             setSelectedItinerary={setSelectedItinerary}
             itineraryActivities={itineraryActivities}
+            setItineraryPhoto={setItineraryPhoto}
           />
         </div>
       )}

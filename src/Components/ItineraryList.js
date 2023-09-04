@@ -4,6 +4,7 @@ export default function ItineraryList({
   itineraryActivities,
   selectedItinerary,
   setSelectedItinerary,
+  setItineraryPhoto,
 }) {
   return (
     <div>
@@ -11,6 +12,7 @@ export default function ItineraryList({
         <ItineraryCard
           key={itinerary.id}
           itinerary={itinerary}
+          setItineraryPhoto={setItineraryPhoto}
           selectedItinerary={selectedItinerary}
           setSelectedItinerary={setSelectedItinerary}
         />
