@@ -37,7 +37,7 @@ export default function BelowNavbar({ type }) {
               itineraryActivities={itineraryActivities}
             />
           </div>
-          <div>
+          <div className="scrollable-right-container ">
             <RightContainer
               selectedItinerary={selectedItinerary}
               setSelectedItinerary={setSelectedItinerary}

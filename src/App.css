@@ -8,6 +8,6 @@
 }
 
 .scrollable-right-container {
-  height: 100vh; /* or whatever height you prefer */
+  height: 85vh;
   overflow-y: auto;
 }
