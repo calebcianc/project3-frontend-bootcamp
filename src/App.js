@@ -6,6 +6,7 @@ import BelowNavbar from "./Components/BelowNavbar";
 import BottomNavbar from "./Components/BottomNavbar";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Credits from "./Credits/Credits";
 class App extends React.Component {
   render() {
     return (
@@ -22,6 +23,7 @@ class App extends React.Component {
                 element={<BelowNavbar type="upcoming" />}
               />
               <Route path="/past" element={<BelowNavbar type="past" />} />
+              <Route path="/credits" element={<Credits />} />
             </Routes>
 
             <BottomNavbar />
