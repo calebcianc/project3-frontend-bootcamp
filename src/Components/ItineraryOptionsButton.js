@@ -23,7 +23,7 @@ export default function ItineraryOptionsButton({
       {option === "add" ? (
         <div
           style={{
-            width: "95%",
+            width: "100%",
             textAlign: "right",
             justifyContent: "space-around",
             padding: "0 ",
@@ -32,7 +32,12 @@ export default function ItineraryOptionsButton({
           }}
         >
           {" "}
-          <Fab color="primary" size="medium" aria-label="add">
+          <Fab
+            color="primary"
+            size="medium"
+            aria-label="add"
+            style={{ marginRight: "25px" }}
+          >
             <AddIcon onClick={handleOpen} />
           </Fab>
         </div>

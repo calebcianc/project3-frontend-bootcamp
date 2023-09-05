@@ -15,34 +15,41 @@ export default function BottomNavbar() {
   };
 
   return (
-    <BottomNavigation
+    <div
       style={{
         position: "fixed",
         bottom: 0,
-        width: "100%",
-        justifyContent: "space-around",
         zIndex: 2,
-        // backgroundColor: "white",
+        width: "100%",
       }}
-      showLabels
-      value={value}
-      onChange={handleChange}
     >
-      <BottomNavigationAction
-        label="Explore"
-        value="explore"
-        icon={<ExploreIcon />}
-      />
-      <BottomNavigationAction
-        label="Upcoming"
-        value="upcoming"
-        icon={<UpcomingIcon />}
-      />
-      <BottomNavigationAction
-        label="Past"
-        value="past"
-        icon={<ArchiveIcon />}
-      />
-    </BottomNavigation>
+      <BottomNavigation
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          justifyContent: "space-around",
+          // backgroundColor: "gray",
+        }}
+        showLabels
+        value={value}
+        onChange={handleChange}
+      >
+        <BottomNavigationAction
+          label="Explore"
+          value="explore"
+          icon={<ExploreIcon />}
+        />
+        <BottomNavigationAction
+          label="Upcoming"
+          value="upcoming"
+          icon={<UpcomingIcon />}
+        />
+        <BottomNavigationAction
+          label="Past"
+          value="past"
+          icon={<ArchiveIcon />}
+        />
+      </BottomNavigation>
+    </div>
   );
 }

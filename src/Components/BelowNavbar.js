@@ -64,7 +64,12 @@ export default function BelowNavbar({ type }) {
   // console.log("itineraryActivities_origin", itineraryActivities[0].photoUrl);
 
   return (
-    <div>
+    <div
+      style={{
+        maxWidth: "1280px",
+        margin: "0 auto",
+      }}
+    >
       {/* if there are itineraries, render 2 components: left container to display picture, right container to display list of itineraries */}
       {/* if no itinerary, render button for user to add itinerary  */}
       {type === "explore" ? (
