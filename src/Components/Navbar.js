@@ -17,7 +17,13 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      style={{
+        maxWidth: "1280px",
+        margin: "0 auto",
+      }}
+    >
       <Toolbar
         style={{
           display: "flex",
