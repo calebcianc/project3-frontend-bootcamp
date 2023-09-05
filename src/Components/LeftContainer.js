@@ -8,7 +8,10 @@ export default function LeftContainer({
     <div style={{ minWidth: "100%" }}>
       {/* Left Container */}
 
-      <Map itineraryActivities={itineraryActivities} />
+      <Map
+        selectedItinerary={selectedItinerary}
+        itineraryActivities={itineraryActivities}
+      />
       {/* {selectedItinerary ? (
       ) : (
         <Map itineraryActivities={itineraryActivities} />
