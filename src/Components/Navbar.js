@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { useNavigate, Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar({ value, setValue }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClose = () => {
     setAnchorEl(null);
@@ -21,6 +21,7 @@ export default function Navbar() {
 
   const handleClick = () => {
     navigate(`/credits`);
+    setValue(null);
   };
 
   return (
@@ -39,7 +40,12 @@ export default function Navbar() {
         }}
       >
         <div
-          style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+            color: value ? null : "yellow",
+          }}
           onClick={handleClick}
         >
           <div style={{ marginRight: "10px" }}>TravelGPT</div>
