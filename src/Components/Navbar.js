@@ -39,7 +39,7 @@ export default function Navbar() {
         }}
       >
         <div
-          style={{ display: "flex", alignItems: "center" }}
+          style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
           onClick={handleClick}
         >
           <div style={{ marginRight: "10px" }}>TravelGPT</div>
