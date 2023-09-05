@@ -7,13 +7,12 @@ export default function LeftContainer({
   return (
     <div style={{ minWidth: "100%" }}>
       {/* Left Container */}
-      {/* if itinerary is selected, render map */}
-      {/* if itnerary is not selected, render picture of next itinerary */}
-      {selectedItinerary ? (
-        <Map itineraryActivities={itineraryActivities} />
+
+      <Map itineraryActivities={itineraryActivities} />
+      {/* {selectedItinerary ? (
       ) : (
-        <Map />
-      )}
+        <Map itineraryActivities={itineraryActivities} />
+      )} */}
       {/* <div>nothing</div> */}
     </div>
   );
