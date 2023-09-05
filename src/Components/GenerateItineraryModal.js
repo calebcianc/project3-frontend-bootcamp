@@ -246,7 +246,7 @@ export default function GenerateItineraryModal({
                 )}
               />
             </FormControl>
-
+            <br />
             <FormControl style={{ marginBottom: "15px" }}>
               <FormLabel style={{ marginBottom: "5px" }}>
                 What'd you like to do?
@@ -304,21 +304,10 @@ export default function GenerateItineraryModal({
                 />
               </RadioGroup>
             </FormControl>
+            <br />
+
             {isPublic === false ? null : (
               <>
-                {/* <>
-                  <label htmlFor="max-pax">
-                    How many people do you want in your group?
-                  </label>
-                  <input
-                    type="number"
-                    id="max-pax"
-                    placeholder="Type a number..."
-                    value={maxPax}
-                    onChange={(event, val) => setMaxPax(val)}
-                    min="1"
-                  />
-                </> */}
                 <FormControl
                   style={{
                     // display: "flex",
@@ -351,7 +340,7 @@ export default function GenerateItineraryModal({
                     onChange={(event) => setMaxPax(event.target.value)} // You can directly access the event object
                   />
                 </FormControl>
-
+                <br />
                 <FormControl>
                   <FormLabel id="gender-preference">
                     Gender Preference
