@@ -9,11 +9,18 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/credits`);
   };
 
   return (
@@ -31,7 +38,10 @@ export default function Navbar() {
           backgroundColor: "black",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+          onClick={handleClick}
+        >
           <div style={{ marginRight: "10px" }}>TravelGPT</div>
           <FlightIcon />
         </div>
