@@ -107,7 +107,7 @@ export default function GenerateItineraryModal({
     };
 
     // prints out contents of itineraryInputs - ok so far (Caleb, 2 Sep)
-    console.log("Itinerary inputs: ", JSON.stringify(itineraryInputs));
+    // console.log("Itinerary inputs: ", JSON.stringify(itineraryInputs));
 
     try {
       setIsLoading(true);

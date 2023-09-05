@@ -1,4 +1,4 @@
-import ItineraryBubble from "./ItineraryBubble";
+import ItineraryIcon from "./ItineraryIcon";
 
 export default function PastPage({
   itineraryActivities,
@@ -8,7 +8,7 @@ export default function PastPage({
   return (
     <div>
       Past page
-      <ItineraryBubble
+      <ItineraryIcon
         selectedItinerary={selectedItinerary}
         setSelectedItinerary={setSelectedItinerary}
         itineraryActivities={itineraryActivities}
