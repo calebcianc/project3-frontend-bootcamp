@@ -1,6 +1,6 @@
 /* global google */
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import "./Map.css";
 
 const Map = ({ selectedItinerary, itineraryActivities }) => {
@@ -8,8 +8,10 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
 
-  const [arrayOfCoordinates, setArrayOfCoordinates] = useState(null);
+  const mapRef = useRef(null);
 
+  // useState & useEffect to get marker coordinates
+  const [arrayOfCoordinates, setArrayOfCoordinates] = useState(null);
   useEffect(() => {
     if (selectedItinerary) {
       // console.log("itineraryActivities: ", JSON.stringify(itineraryActivities));
@@ -60,10 +62,7 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
     }
   }, [itineraryActivities, selectedItinerary]);
 
-  // useEffect(() => {
-  //   console.log("arrayOfCoordinates: ", JSON.stringify(arrayOfCoordinates));
-  // }, [arrayOfCoordinates]);
-
+  // coordinates to center the map on; to be changed to bounds instead
   const center = useMemo(() => {
     if (arrayOfCoordinates && arrayOfCoordinates.length > 0) {
       return {
@@ -75,6 +74,45 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
     }
   }, [arrayOfCoordinates]);
 
+  const onLoad = (map) => {
+    mapRef.current = map;
+
+    if (arrayOfCoordinates && arrayOfCoordinates.length > 0) {
+      const bounds = new google.maps.LatLngBounds();
+      arrayOfCoordinates.forEach((coordinate) => {
+        if (coordinate.latitude && coordinate.longitude) {
+          bounds.extend(
+            new google.maps.LatLng(coordinate.latitude, coordinate.longitude)
+          );
+        }
+      });
+      map.fitBounds(bounds);
+
+      const listener = google.maps.event.addListener(map, "idle", function () {
+        if (map.getZoom() > 10) map.setZoom(10);
+        google.maps.event.removeListener(listener);
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (mapRef.current && arrayOfCoordinates && arrayOfCoordinates.length > 0) {
+      const bounds = new google.maps.LatLngBounds();
+      arrayOfCoordinates.forEach((coordinate) => {
+        if (coordinate.latitude && coordinate.longitude) {
+          bounds.extend(
+            new google.maps.LatLng(coordinate.latitude, coordinate.longitude)
+          );
+        }
+      });
+      mapRef.current.fitBounds(bounds);
+
+      // Set zoom level after fitting bounds
+      const zoomLevelToSet = 10; // Set your desired zoom level here
+      mapRef.current.setZoom(zoomLevelToSet);
+    }
+  }, [arrayOfCoordinates]);
+
   return (
     <div className="App" style={{ minWidth: "50%" }}>
       {!isLoaded ? (
@@ -82,8 +120,9 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
       ) : (
         <GoogleMap
           mapContainerClassName="map-container"
-          center={center}
-          zoom={10}
+          onLoad={onLoad}
+          // zoom={10}
+          // center={center}
         >
           {arrayOfCoordinates
             ? arrayOfCoordinates.map((itineraryFirstActivity) => (
