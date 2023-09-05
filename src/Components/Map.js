@@ -3,59 +3,77 @@ import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useState, useEffect, useMemo } from "react";
 import "./Map.css";
 
-const Map = ({ itineraryActivities, value }) => {
+const Map = ({ selectedItinerary, itineraryActivities }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
 
-  const [
-    arrayOfCoordinatesOfEachItinerary,
-    setArrayOfCoordinatesOfEachItinerary,
-  ] = useState(null);
+  const [arrayOfCoordinates, setArrayOfCoordinates] = useState(null);
 
   useEffect(() => {
-    const arrayOfCoordinatesOfEachItinerary = itineraryActivities.map(
-      (itinerary) => {
-        const firstActivity = itinerary.activities.reduce(
-          (minActivity, currentActivity) => {
-            if (currentActivity.activityOrder < minActivity.activityOrder) {
-              return currentActivity;
-            }
-            return minActivity;
-          },
-          itinerary.activities[0]
-        );
-        return {
-          id: itinerary.id,
-          latitude: firstActivity.latitude,
-          longitude: firstActivity.longitude,
-        };
-      }
-    );
+    if (selectedItinerary) {
+      // console.log("itineraryActivities: ", JSON.stringify(itineraryActivities));
 
-    setArrayOfCoordinatesOfEachItinerary(arrayOfCoordinatesOfEachItinerary);
-  }, [itineraryActivities]);
+      const arrayOfCoordinatesOfEveryActivity = () => {
+        const finditineraryById = itineraryActivities.find(
+          (itinerary) => itinerary.id === selectedItinerary
+        );
+
+        const sortedActivities = finditineraryById.activities.sort((a, b) => {
+          const dateA = new Date(a["date"]);
+          const dateB = new Date(b["date"]);
+          if (dateA < dateB) return -1;
+          if (dateA > dateB) return 1;
+          return a["activityOrder"] - b["activityOrder"];
+        });
+        const coordinates = sortedActivities.map((activity) => {
+          return {
+            id: activity.id,
+            latitude: activity.latitude,
+            longitude: activity.longitude,
+          };
+        });
+        // console.log("coordinates: ", JSON.stringify(coordinates));
+        return coordinates;
+      };
+      setArrayOfCoordinates(arrayOfCoordinatesOfEveryActivity);
+    } else {
+      const arrayOfCoordinatesOfEachItinerary = itineraryActivities.map(
+        (itinerary) => {
+          const firstActivity = itinerary.activities.reduce(
+            (minActivity, currentActivity) => {
+              if (currentActivity.activityOrder < minActivity.activityOrder) {
+                return currentActivity;
+              }
+              return minActivity;
+            },
+            itinerary.activities[0]
+          );
+          return {
+            id: itinerary.id,
+            latitude: firstActivity.latitude,
+            longitude: firstActivity.longitude,
+          };
+        }
+      );
+      setArrayOfCoordinates(arrayOfCoordinatesOfEachItinerary);
+    }
+  }, [itineraryActivities, selectedItinerary]);
+
+  // useEffect(() => {
+  //   console.log("arrayOfCoordinates: ", JSON.stringify(arrayOfCoordinates));
+  // }, [arrayOfCoordinates]);
 
   const center = useMemo(() => {
-    if (
-      arrayOfCoordinatesOfEachItinerary &&
-      arrayOfCoordinatesOfEachItinerary.length > 0
-    ) {
+    if (arrayOfCoordinates && arrayOfCoordinates.length > 0) {
       return {
-        lat: arrayOfCoordinatesOfEachItinerary[0]["latitude"],
-        lng: arrayOfCoordinatesOfEachItinerary[0]["longitude"],
+        lat: arrayOfCoordinates[0]["latitude"],
+        lng: arrayOfCoordinates[0]["longitude"],
       };
     } else {
       return { lat: 1.3521, lng: 103.8198 }; // Latitude and Longitude of Singapore
     }
-  }, [arrayOfCoordinatesOfEachItinerary]);
-
-  useEffect(() => {
-    console.log(
-      "arrayOfCoordinatesOfEachItinerary: ",
-      JSON.stringify(arrayOfCoordinatesOfEachItinerary)
-    );
-  }, []);
+  }, [arrayOfCoordinates]);
 
   return (
     <div className="App" style={{ minWidth: "50%" }}>
@@ -67,17 +85,15 @@ const Map = ({ itineraryActivities, value }) => {
           center={center}
           zoom={10}
         >
-          {arrayOfCoordinatesOfEachItinerary
-            ? arrayOfCoordinatesOfEachItinerary.map(
-                (itineraryFirstActivity) => (
-                  <Marker
-                    position={{
-                      lat: itineraryFirstActivity["latitude"],
-                      lng: itineraryFirstActivity["longitude"],
-                    }}
-                  />
-                )
-              )
+          {arrayOfCoordinates
+            ? arrayOfCoordinates.map((itineraryFirstActivity) => (
+                <Marker
+                  position={{
+                    lat: itineraryFirstActivity["latitude"],
+                    lng: itineraryFirstActivity["longitude"],
+                  }}
+                />
+              ))
             : null}
         </GoogleMap>
       )}

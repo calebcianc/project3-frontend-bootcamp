@@ -14,7 +14,7 @@ import UserIcon from "./UserIcon.js";
 import { convertToDDMMYYYY } from "../utils/utils";
 
 export default function ActivityCard({ key, activity }) {
-  console.log("activity: ", JSON.stringify(activity));
+  // console.log("activity: ", JSON.stringify(activity));
 
   const date = new Date(activity["date"]);
   // Extract the various parts of the date
