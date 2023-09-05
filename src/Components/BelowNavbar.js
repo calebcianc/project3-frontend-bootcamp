@@ -59,13 +59,6 @@ export default function BelowNavbar({
     }
   }, [type]);
 
-  // useEffect(() => {
-  //   axios.get(`${BACKEND_URL}/itinerary/${userId}`).then((response) => {
-  //     setItineraryActivities(response.data); //JSON.stringify
-  //   });
-  // }, []);
-  // console.log("itineraryActivities_origin", itineraryActivities[0].photoUrl);
-
   return (
     <div
       style={{

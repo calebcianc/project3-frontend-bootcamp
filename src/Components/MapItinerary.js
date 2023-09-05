@@ -1,11 +1,13 @@
 import LeftContainer from "./LeftContainer";
 import RightContainer from "./RightContainer";
+import { useState } from "react";
 
 export default function MapItinerary({
   selectedItinerary,
   setSelectedItinerary,
   itineraryActivities,
 }) {
+  const [itineraryPhoto, setItineraryPhoto] = useState(null);
   return (
     <div>
       {itineraryActivities.length > 0 ? (
@@ -22,6 +24,8 @@ export default function MapItinerary({
               selectedItinerary={selectedItinerary}
               setSelectedItinerary={setSelectedItinerary}
               itineraryActivities={itineraryActivities}
+              setItineraryPhoto={setItineraryPhoto}
+              itineraryPhoto={itineraryPhoto}
             />
           </div>
         </div>
