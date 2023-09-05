@@ -5,13 +5,18 @@ import ExploreIcon from "@mui/icons-material/Explore";
 import UpcomingIcon from "@mui/icons-material/Upcoming";
 import ArchiveIcon from "@mui/icons-material/Archive";
 
-export default function BottomNavbar() {
-  const [value, setValue] = useState("upcoming");
+export default function BottomNavbar({
+  setSelectedItinerary,
+  value,
+  setValue,
+}) {
+  // const [value, setValue] = useState("upcoming");
   const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
     navigate(`/${newValue}`);
+    setSelectedItinerary(null);
   };
 
   return (

@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./Components/Navbar";
@@ -7,31 +8,70 @@ import BottomNavbar from "./Components/BottomNavbar";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Credits from "./Credits/Credits";
-class App extends React.Component {
-  render() {
-    return (
-      <Router>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div>
-            <Navbar />
 
-            <Routes>
-              <Route path="/" element={<BelowNavbar type="upcoming" />} />
-              <Route path="/explore" element={<BelowNavbar type="explore" />} />
-              <Route
-                path="/upcoming"
-                element={<BelowNavbar type="upcoming" />}
-              />
-              <Route path="/past" element={<BelowNavbar type="past" />} />
-              <Route path="/credits" element={<Credits />} />
-            </Routes>
+const App = () => {
+  const [selectedItinerary, setSelectedItinerary] = useState(null);
+  const [value, setValue] = useState("upcoming");
 
-            <BottomNavbar />
-          </div>
-        </LocalizationProvider>
-      </Router>
-    );
-  }
-}
+  return (
+    <Router>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <div>
+          <Navbar value={value} setValue={setValue} />
+
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <BelowNavbar
+                  type="upcoming"
+                  selectedItinerary={selectedItinerary}
+                  setSelectedItinerary={setSelectedItinerary}
+                />
+              }
+            />
+            <Route
+              path="/explore"
+              element={
+                <BelowNavbar
+                  type="explore"
+                  selectedItinerary={selectedItinerary}
+                  setSelectedItinerary={setSelectedItinerary}
+                />
+              }
+            />
+            <Route
+              path="/upcoming"
+              element={
+                <BelowNavbar
+                  type="upcoming"
+                  selectedItinerary={selectedItinerary}
+                  setSelectedItinerary={setSelectedItinerary}
+                />
+              }
+            />
+            <Route
+              path="/past"
+              element={
+                <BelowNavbar
+                  type="past"
+                  selectedItinerary={selectedItinerary}
+                  setSelectedItinerary={setSelectedItinerary}
+                />
+              }
+            />
+            <Route path="/credits" element={<Credits />} />
+          </Routes>
+
+          <BottomNavbar
+            setSelectedItinerary={setSelectedItinerary}
+            value={value}
+            setValue={setValue}
+          />
+        </div>
+      </LocalizationProvider>
+    </Router>
+  );
+};
 
 export default App;

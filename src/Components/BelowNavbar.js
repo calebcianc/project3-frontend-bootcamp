@@ -7,8 +7,11 @@ import ExplorePage from "./ExplorePage.js";
 import UpcomingPage from "./UpcomingPage.js";
 import PastPage from "./PastPage.js";
 
-export default function BelowNavbar({ type }) {
-  const [selectedItinerary, setSelectedItinerary] = useState(null);
+export default function BelowNavbar({
+  type,
+  selectedItinerary,
+  setSelectedItinerary,
+}) {
   const [itineraryActivities, setItineraryActivities] = useState([]);
 
   // Caleb: introduced a type prop to tweak the itineraries shown based on the selected tab.
