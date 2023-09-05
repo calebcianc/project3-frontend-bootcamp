@@ -31,15 +31,28 @@ export default function ActivityList({
         <Button onClick={handleGoBack}>Go back</Button>
       </div>
 
-      <CardMedia
-        component="img"
-        sx={{
-          height: "140px",
-          objectFit: "cover",
-        }}
-        image={itineraryPhoto ? itineraryPhoto : null}
-        // title={itineraryPhoto.name}
-      />
+      <Box position="relative">
+        <CardMedia
+          component="img"
+          sx={{
+            height: "140px",
+            objectFit: "cover",
+          }}
+          image={itineraryPhoto.photo ? itineraryPhoto.photo : null}
+          title={itineraryPhoto.name}
+        />
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          zIndex={1}
+          color="white"
+          bgcolor="rgba(0, 0, 0, 0.6)"
+          p={1}
+        >
+          <Typography variant="h6">{itineraryPhoto.name}</Typography>
+        </Box>
+      </Box>
 
       <div style={{ overflow: "auto" }}>
         {itineraryActivities.map((element, index) => {

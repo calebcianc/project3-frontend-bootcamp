@@ -35,7 +35,7 @@ export default function ItineraryCard({
 
   const handleSelectItinerary = () => {
     setSelectedItinerary(itinerary.id);
-    setItineraryPhoto(itinerary.photoUrl);
+    setItineraryPhoto({ photo: itinerary.photoUrl, name: itinerary.name });
   };
 
   return (
