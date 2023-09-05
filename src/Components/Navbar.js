@@ -25,11 +25,14 @@ export default function Navbar() {
           backgroundColor: "black",
         }}
       >
-        <div>
-          TravelGPT <FlightIcon />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ marginRight: "10px" }}>TravelGPT</div>
+          <FlightIcon />
         </div>
-        <div>
-          <AccountCircle />
+        <div style={{ display: "flex" }}>
+          <div style={{ marginRight: "10px" }}>
+            <AccountCircle />
+          </div>
           <MenuIcon />
         </div>
       </Toolbar>
