@@ -4,6 +4,7 @@ import {
   MarkerF,
   useLoadScript,
   InfoWindowF,
+  PolylineF,
 } from "@react-google-maps/api";
 import { useState, useEffect, useMemo, useRef } from "react";
 import "./Map.css";
@@ -21,8 +22,9 @@ const Map = ({
 
   const mapRef = useRef(null);
 
-  // useState & useEffect to get marker coordinates
+  // useState & useEffect to get marker & polyline coordinates
   const [arrayOfCoordinates, setArrayOfCoordinates] = useState(null);
+  // const [pathCoordinates, setPathCoordinates] = useState(null);
   useEffect(() => {
     if (selectedItinerary) {
       // console.log("itineraryActivities: ", JSON.stringify(itineraryActivities));
@@ -73,7 +75,24 @@ const Map = ({
       );
       setArrayOfCoordinates(arrayOfCoordinatesOfEachItinerary);
     }
+
+    //   if (arrayOfCoordinates) {
+    //     const pathCoordinates = arrayOfCoordinates.map(
+    //       (itineraryFirstActivity) => ({
+    //         lat: itineraryFirstActivity.latitude,
+    //         lng: itineraryFirstActivity.longitude,
+    //       })
+    //     );
+    //     setPathCoordinates(pathCoordinates);
+    //   }
   }, [itineraryActivities, selectedItinerary]);
+
+  // empty pathCoordinates once selectedItinerary changes
+  // useEffect(() => {
+  //   if (pathCoordinates) {
+  //     setPathCoordinates(null);
+  //   }
+  // }, [selectedItinerary]);
 
   // coordinates to center the map on; to be changed to bounds instead
   const center = useMemo(() => {
@@ -114,6 +133,7 @@ const Map = ({
     }
   };
 
+  // useEffect to change bounds depending on the coordinates (used when switching between itinerary and activity view)
   useEffect(() => {
     if (mapRef.current && arrayOfCoordinates && arrayOfCoordinates.length > 0) {
       const bounds = new google.maps.LatLngBounds();
@@ -236,6 +256,31 @@ const Map = ({
                 </>
               ))
             : null}
+
+          {selectedItinerary ? (
+            <PolylineF
+              path={arrayOfCoordinates.map((activity) => ({
+                lat: activity["latitude"],
+                lng: activity["longitude"],
+              }))}
+              options={{
+                strokeColor: "black",
+                strokeOpacity: 0,
+                strokeWeight: 2,
+                icons: [
+                  {
+                    icon: {
+                      path: "M 0,-1 0,1",
+                      strokeOpacity: 1,
+                      scale: 4,
+                    },
+                    offset: "0",
+                    repeat: "20px",
+                  },
+                ],
+              }}
+            />
+          ) : null}
         </GoogleMap>
       )}
     </div>

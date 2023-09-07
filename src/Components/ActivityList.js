@@ -11,7 +11,6 @@ import {
 import { useEffect, useRef } from "react";
 
 export default function ActivityList({
-  itinerary,
   selectedItinerary,
   setSelectedItinerary,
   itineraryActivities,
@@ -35,6 +34,11 @@ export default function ActivityList({
     }
   });
 
+  // extract itinerary from list based on itineraryId
+  const itinerary = itineraryActivities.find(
+    (item) => item.id === selectedItinerary
+  );
+
   return (
     <div
       style={{
@@ -53,8 +57,8 @@ export default function ActivityList({
             height: "140px",
             objectFit: "cover",
           }}
-          image={itineraryPhoto.photo ? itineraryPhoto.photo : null}
-          title={itineraryPhoto.name}
+          image={itinerary.photoUrl ? itinerary.photoUrl : null}
+          title={itinerary.name}
         />
         <Box
           position="absolute"
