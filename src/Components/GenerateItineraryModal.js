@@ -22,12 +22,14 @@ import "./LoadingSpinner.css";
 import { Button } from "@mui/material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { spacing } from "@mui/system";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function GenerateItineraryModal({
   modalView,
   handleClose,
   itineraryActivities,
   setItineraryActivities,
+  setSelectedItinerary,
 }) {
   // const [errorMessage, setErrorMessage] = useState("");
   const [userId, setUserId] = useState(1); // to write code to get the userId when logged in
@@ -40,6 +42,7 @@ export default function GenerateItineraryModal({
   const [maxPax, setMaxPax] = useState(1);
   const [genderPreference, setGenderPreference] = useState("any");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Validation function to be called before submitting form
   const isFormValid = () => {
@@ -124,9 +127,12 @@ export default function GenerateItineraryModal({
         // Set some state to indicate an error in the UI
       } else {
         setItineraryActivities(newItineraryDetails);
+        const newItineraryId =
+          newItineraryDetails[newItineraryDetails.length - 1].id;
+        setSelectedItinerary(newItineraryId);
         console.log("Data received: ", JSON.stringify(itineraryActivities));
       }
-
+      navigate(`/upcoming`);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -165,7 +171,7 @@ export default function GenerateItineraryModal({
             /> */}
             <FormControl style={{ display: "flex" }}>
               <FormLabel style={{ marginBottom: "5px" }}>
-                Name your itinerary:
+                Describe your itinerary:
               </FormLabel>
               <TextField
                 id="itinerary-name"

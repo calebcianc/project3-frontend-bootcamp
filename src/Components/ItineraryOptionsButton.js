@@ -12,6 +12,7 @@ export default function ItineraryOptionsButton({
   option,
   itineraryActivities,
   setItineraryActivities,
+  setSelectedItinerary,
 }) {
   const [modalView, setModalView] = useState(false);
   const handleOpen = () => setModalView(true);
@@ -23,11 +24,10 @@ export default function ItineraryOptionsButton({
       {option === "add" ? (
         <div
           style={{
-            width: "100%",
             textAlign: "right",
             justifyContent: "space-around",
             padding: "0 ",
-            position: "fixed",
+            position: "relative",
             bottom: "80px",
           }}
         >
@@ -50,6 +50,7 @@ export default function ItineraryOptionsButton({
         handleClose={handleClose}
         itineraryActivities={itineraryActivities}
         setItineraryActivities={setItineraryActivities}
+        setSelectedItinerary={setSelectedItinerary}
       />
     </div>
   );
