@@ -13,7 +13,7 @@ import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
 import { convertToDDMMYYYY } from "../utils/utils";
 
-export default function ActivityCard({ key, activity }) {
+export default function ActivityCard({ key, activity, isHighlighted }) {
   // console.log("activity: ", JSON.stringify(activity));
 
   const date = new Date(activity["date"]);
@@ -57,6 +57,7 @@ export default function ActivityCard({ key, activity }) {
         boxShadow:
           "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
         cursor: "pointer",
+        border: isHighlighted === activity.id ? "2px solid black" : "",
       }}
     >
       <CardContent>

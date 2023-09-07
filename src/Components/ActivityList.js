@@ -8,6 +8,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+import { useEffect, useRef } from "react";
 
 export default function ActivityList({
   itinerary,
@@ -15,10 +16,24 @@ export default function ActivityList({
   setSelectedItinerary,
   itineraryActivities,
   itineraryPhoto,
+  isHighlighted,
+  setHighlighted,
+  handleOnCardClick,
 }) {
   const handleGoBack = () => {
     setSelectedItinerary(null);
   };
+
+  const highlightedActivityCardRef = useRef(null); // Create reference for highlighted card
+  // useEffect to cause highlighted card to scroll into view
+  useEffect(() => {
+    if (highlightedActivityCardRef.current) {
+      highlightedActivityCardRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  });
 
   return (
     <div
@@ -70,8 +85,19 @@ export default function ActivityList({
           return (
             <div key={index}>
               {sortedActivities.map((activity, index) => (
-                <div key={index}>
-                  <ActivityCard activity={activity} />
+                <div
+                  key={index}
+                  ref={
+                    activity.id === isHighlighted
+                      ? highlightedActivityCardRef
+                      : null
+                  }
+                  onClick={() => handleOnCardClick(activity)}
+                >
+                  <ActivityCard
+                    activity={activity}
+                    isHighlighted={isHighlighted}
+                  />
                 </div>
               ))}
             </div>

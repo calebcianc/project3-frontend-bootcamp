@@ -3,6 +3,9 @@ import Map from "./Map";
 export default function LeftContainer({
   selectedItinerary,
   itineraryActivities,
+  isHighlighted,
+  setHighlighted,
+  handleOnCardClick,
 }) {
   return (
     <div style={{ minWidth: "100%" }}>
@@ -11,6 +14,9 @@ export default function LeftContainer({
       <Map
         selectedItinerary={selectedItinerary}
         itineraryActivities={itineraryActivities}
+        isHighlighted={isHighlighted}
+        setHighlighted={setHighlighted}
+        handleOnCardClick={handleOnCardClick}
       />
       {/* {selectedItinerary ? (
       ) : (

@@ -5,6 +5,9 @@ export default function ExplorePage({
   itineraryActivities,
   selectedItinerary,
   setSelectedItinerary,
+  isHighlighted,
+  setHighlighted,
+  handleOnCardClick,
 }) {
   return (
     <div className="icon-container">
@@ -14,6 +17,9 @@ export default function ExplorePage({
           selectedItinerary={selectedItinerary}
           setSelectedItinerary={setSelectedItinerary}
           itineraryActivities={itineraryActivities}
+          isHighlighted={isHighlighted}
+          setHighlighted={setHighlighted}
+          handleOnCardClick={handleOnCardClick}
         />
       ) : (
         itineraryActivities.map((itinerary, index) => (

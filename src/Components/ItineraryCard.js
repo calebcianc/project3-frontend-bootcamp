@@ -18,6 +18,8 @@ export default function ItineraryCard({
   selectedItinerary,
   setSelectedItinerary,
   setItineraryPhoto,
+  isHighlighted,
+  handleOnCardClick,
 }) {
   const [users, setUsers] = useState([]);
 
@@ -40,12 +42,14 @@ export default function ItineraryCard({
 
   return (
     <Card
+      className={`${itinerary.id === isHighlighted ? "highlighted-card" : ""}`}
       sx={{
         width: "calc(100% - 8mm)",
         m: "4mm",
         borderRadius: "4px",
         boxShadow:
           "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        border: itinerary.id === isHighlighted ? "2px solid black" : "",
       }}
     >
       <Box position="relative">
@@ -72,7 +76,7 @@ export default function ItineraryCard({
           <Typography variant="h6">{itinerary.name}</Typography>
         </Box>
       </Box>
-      <CardContent>
+      <CardContent onClick={() => handleOnCardClick(itinerary)}>
         <Typography variant="body2" color="text.secondary">
           {itinerary.prompts.country} | {itinerary.prompts.category}
           <br />

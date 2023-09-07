@@ -6,6 +6,9 @@ export default function MapItinerary({
   selectedItinerary,
   setSelectedItinerary,
   itineraryActivities,
+  isHighlighted,
+  setHighlighted,
+  handleOnCardClick,
 }) {
   const [itineraryPhoto, setItineraryPhoto] = useState(null);
   return (
@@ -17,6 +20,9 @@ export default function MapItinerary({
             <LeftContainer
               selectedItinerary={selectedItinerary}
               itineraryActivities={itineraryActivities}
+              isHighlighted={isHighlighted}
+              setHighlighted={setHighlighted}
+              handleOnCardClick={handleOnCardClick}
             />
           </div>
           <div className="scrollable-right-container ">
@@ -26,6 +32,9 @@ export default function MapItinerary({
               itineraryActivities={itineraryActivities}
               setItineraryPhoto={setItineraryPhoto}
               itineraryPhoto={itineraryPhoto}
+              isHighlighted={isHighlighted}
+              setHighlighted={setHighlighted}
+              handleOnCardClick={handleOnCardClick}
             />
           </div>
         </div>
