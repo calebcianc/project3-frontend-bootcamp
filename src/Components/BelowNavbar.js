@@ -14,6 +14,15 @@ export default function BelowNavbar({
 }) {
   const [itineraryActivities, setItineraryActivities] = useState([]);
 
+  const [isHighlighted, setHighlighted] = useState(null);
+  const handleOnCardClick = (card) => {
+    if (isHighlighted === card.id) {
+      setHighlighted(null);
+    } else {
+      setHighlighted(card.id);
+    }
+  };
+
   // Caleb: introduced a type prop to tweak the itineraries shown based on the selected tab.
   // e.g., if type="explore", to only show itineraries which user is not a part of
 
@@ -73,18 +82,27 @@ export default function BelowNavbar({
           selectedItinerary={selectedItinerary}
           setSelectedItinerary={setSelectedItinerary}
           itineraryActivities={itineraryActivities}
+          isHighlighted={isHighlighted}
+          setHighlighted={setHighlighted}
+          handleOnCardClick={handleOnCardClick}
         />
       ) : type === "upcoming" ? (
         <UpcomingPage
           selectedItinerary={selectedItinerary}
           setSelectedItinerary={setSelectedItinerary}
           itineraryActivities={itineraryActivities}
+          isHighlighted={isHighlighted}
+          setHighlighted={setHighlighted}
+          handleOnCardClick={handleOnCardClick}
         />
       ) : (
         <PastPage
           selectedItinerary={selectedItinerary}
           setSelectedItinerary={setSelectedItinerary}
           itineraryActivities={itineraryActivities}
+          isHighlighted={isHighlighted}
+          setHighlighted={setHighlighted}
+          handleOnCardClick={handleOnCardClick}
         />
       )}
 

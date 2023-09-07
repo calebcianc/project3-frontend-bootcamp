@@ -1,9 +1,20 @@
 /* global google */
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  MarkerF,
+  useLoadScript,
+  InfoWindowF,
+} from "@react-google-maps/api";
 import { useState, useEffect, useMemo, useRef } from "react";
 import "./Map.css";
 
-const Map = ({ selectedItinerary, itineraryActivities }) => {
+const Map = ({
+  selectedItinerary,
+  itineraryActivities,
+  isHighlighted,
+  setHighlighted,
+  handleOnCardClick,
+}) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
@@ -31,6 +42,7 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
         const coordinates = sortedActivities.map((activity) => {
           return {
             id: activity.id,
+            name: activity.name,
             latitude: activity.latitude,
             longitude: activity.longitude,
           };
@@ -53,6 +65,7 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
           );
           return {
             id: itinerary.id,
+            name: itinerary.name,
             latitude: firstActivity.latitude,
             longitude: firstActivity.longitude,
           };
@@ -88,10 +101,16 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
       });
       map.fitBounds(bounds);
 
-      // const listener = google.maps.event.addListener(map, "idle", function () {
-      //   if (map.getZoom() > 10) map.setZoom(10);
-      //   google.maps.event.removeListener(listener);
-      // });
+      if (!itineraryActivities || itineraryActivities.length <= 1) {
+        const listener = google.maps.event.addListener(
+          map,
+          "idle",
+          function () {
+            if (map.getZoom() > 10) map.setZoom(10);
+            google.maps.event.removeListener(listener);
+          }
+        );
+      }
     }
   };
 
@@ -115,6 +134,71 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
     }
   }, [arrayOfCoordinates]);
 
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [infoWindowData, setInfoWindowData] = useState();
+  // const handleMarkerClick = (
+  //   id,
+  //   lat,
+  //   lng,
+  //   amount,
+  //   currency,
+  //   category,
+  //   description,
+  //   date,
+  //   displayAmount,
+  //   displayCurrency
+  // ) => {
+  //   setIsOpen(false);
+  //   mapRef?.panTo({ lat, lng });
+  //   setInfoWindowData({
+  //     id,
+  //     amount,
+  //     currency,
+  //     category,
+  //     description,
+  //     date,
+  //     displayAmount,
+  //     displayCurrency,
+  //   });
+  //   setIsOpen(true);
+  // };
+  // listens for changes to the highlighted state and triggers the handleMarkerClick function to open the infoWindow of highlighted expense
+  // useEffect(() => {
+  //   if (expensesCategory) {
+  //     const highlightedExpense = expensesCategory.find(
+  //       (expense) => expense.id === isHighlighted
+  //     );
+  //     if (highlightedExpense) {
+  //       const {
+  //         id,
+  //         lat,
+  //         lng,
+  //         amount,
+  //         currency,
+  //         category,
+  //         description,
+  //         date,
+  //         displayAmount,
+  //         displayCurrency,
+  //       } = highlightedExpense;
+  //       handleMarkerClick(
+  //         id,
+  //         lat,
+  //         lng,
+  //         amount,
+  //         currency,
+  //         category,
+  //         description,
+  //         date,
+  //         displayAmount,
+  //         displayCurrency
+  //       );
+  //     } else {
+  //       setIsOpen(false);
+  //     }
+  //   }
+  // }, [isHighlighted]);
+
   return (
     <div className="App" style={{ minWidth: "50%" }}>
       {!isLoaded ? (
@@ -128,12 +212,28 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
         >
           {arrayOfCoordinates
             ? arrayOfCoordinates.map((itineraryFirstActivity) => (
-                <Marker
-                  position={{
-                    lat: itineraryFirstActivity["latitude"],
-                    lng: itineraryFirstActivity["longitude"],
-                  }}
-                />
+                <>
+                  <MarkerF
+                    position={{
+                      lat: itineraryFirstActivity["latitude"],
+                      lng: itineraryFirstActivity["longitude"],
+                    }}
+                    onClick={() => {
+                      handleOnCardClick(itineraryFirstActivity);
+                      // handleMarkerClick(itineraryFirstActivity);
+                    }}
+                  />
+                  {isHighlighted === itineraryFirstActivity.id ? (
+                    <InfoWindowF
+                      position={{
+                        lat: itineraryFirstActivity["latitude"],
+                        lng: itineraryFirstActivity["longitude"],
+                      }}
+                    >
+                      <p>{itineraryFirstActivity.name}</p>
+                    </InfoWindowF>
+                  ) : null}
+                </>
               ))
             : null}
         </GoogleMap>
