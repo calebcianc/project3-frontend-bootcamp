@@ -88,13 +88,13 @@ export default function BelowNavbar({
         />
       )}
 
-      {selectedItinerary ? null : (
-        <ItineraryOptionsButton
-          option="add"
-          itineraryActivities={itineraryActivities}
-          setItineraryActivities={setItineraryActivities}
-        />
-      )}
+      <ItineraryOptionsButton
+        option="add"
+        itineraryActivities={itineraryActivities}
+        setItineraryActivities={setItineraryActivities}
+      />
+      {/* {selectedItinerary ? null : (
+      )} */}
     </div>
   );
 }
