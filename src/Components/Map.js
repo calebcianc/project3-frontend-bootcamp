@@ -107,9 +107,11 @@ const Map = ({ selectedItinerary, itineraryActivities }) => {
       });
       mapRef.current.fitBounds(bounds);
 
-      // Set zoom level after fitting bounds
-      // const zoomLevelToSet = 10; // Set your desired zoom level here
-      // mapRef.current.setZoom(zoomLevelToSet);
+      if (!itineraryActivities || itineraryActivities.length <= 1) {
+        // Set zoom level after fitting bounds
+        const zoomLevelToSet = 10; // Set your desired zoom level here
+        mapRef.current.setZoom(zoomLevelToSet);
+      }
     }
   }, [arrayOfCoordinates]);
 
