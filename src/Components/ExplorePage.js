@@ -10,11 +10,10 @@ export default function ExplorePage({
   handleOnCardClick,
 }) {
   if (itineraryActivities && itineraryActivities.length === 0) {
-    return "No Public Itineraries";
+    return <div style={{ textAlign: "center" }}>No Public Itineraries</div>;
   }
   return (
     <div className="icon-container">
-      {/*add in condition for no itineraries*/}
       {selectedItinerary ? (
         <MapItinerary
           selectedItinerary={selectedItinerary}

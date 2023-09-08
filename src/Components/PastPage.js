@@ -10,7 +10,7 @@ export default function PastPage({
   handleOnCardClick,
 }) {
   if (itineraryActivities && itineraryActivities.length === 0) {
-    return "No Public Itineraries";
+    return <div style={{ textAlign: "center" }}>No Past Itineraries</div>;
   }
   return (
     <div className="icon-container">
