@@ -9,6 +9,9 @@ export default function ExplorePage({
   setHighlighted,
   handleOnCardClick,
 }) {
+  if (itineraryActivities && itineraryActivities.length === 0) {
+    return "No Public Itineraries";
+  }
   return (
     <div className="icon-container">
       {/*add in condition for no itineraries*/}
