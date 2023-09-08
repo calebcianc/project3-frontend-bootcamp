@@ -1,13 +1,8 @@
-import MapItinerary from "./MapItinerary";
 import { Box, Typography, Tooltip } from "@mui/material";
 
-export default function ItineraryBubble({
+export default function ItineraryIcon({
   itineraryId,
-  photoUrl,
-  name,
-  country,
-  itineraryActivities,
-  selectedItinerary,
+  itinerary,
   setSelectedItinerary,
 }) {
   const handleSelectItinerary = () => {
@@ -15,7 +10,10 @@ export default function ItineraryBubble({
   };
   return (
     <div onClick={handleSelectItinerary}>
-      <Tooltip title={`${name}`} arrow>
+      <Tooltip
+        title={`${itinerary.name} | Max Pax: ${itinerary.maxPax} | Gender Preference: ${itinerary.genderPreference}`}
+        arrow
+      >
         <Box
           sx={{
             width: 150,
@@ -24,7 +22,7 @@ export default function ItineraryBubble({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundImage: `url(${photoUrl})`,
+            backgroundImage: `url(${itinerary.photoUrl})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             position: "relative",
@@ -42,7 +40,7 @@ export default function ItineraryBubble({
               boxSizing: "border-box",
             }}
           >
-            {country}
+            {itinerary.prompts.country}
           </Typography>
         </Box>
       </Tooltip>

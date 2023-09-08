@@ -28,12 +28,8 @@ export default function ExplorePage({
           <ItineraryIcon
             key={itinerary.id}
             itineraryId={itinerary.id}
-            photoUrl={itinerary.photoUrl}
-            name={itinerary.name}
-            country={itinerary.prompts.country}
-            selectedItinerary={selectedItinerary}
+            itinerary={itinerary}
             setSelectedItinerary={setSelectedItinerary}
-            itineraryActivities={itineraryActivities}
           />
         ))
       )}
