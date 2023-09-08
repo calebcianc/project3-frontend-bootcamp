@@ -10,13 +10,12 @@ export default function BottomNavbar({
   value,
   setValue,
 }) {
-  // const [value, setValue] = useState("upcoming");
   const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
+    setSelectedItinerary(null);
     setValue(newValue);
     navigate(`/${newValue}`);
-    setSelectedItinerary(null);
   };
 
   return (

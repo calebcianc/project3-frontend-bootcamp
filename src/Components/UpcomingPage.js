@@ -8,9 +8,12 @@ export default function UpcomingPage({
   setHighlighted,
   handleOnCardClick,
 }) {
+  if (itineraryActivities && itineraryActivities.length === 0) {
+    return <div style={{ textAlign: "center" }}>No upcoming Itineraries</div>;
+  }
+
   return (
     <div>
-      Upcoming page
       <MapItinerary
         selectedItinerary={selectedItinerary}
         setSelectedItinerary={setSelectedItinerary}

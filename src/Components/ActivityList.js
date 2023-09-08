@@ -14,7 +14,6 @@ export default function ActivityList({
   selectedItinerary,
   setSelectedItinerary,
   itineraryActivities,
-  itineraryPhoto,
   isHighlighted,
   setHighlighted,
   handleOnCardClick,
@@ -69,7 +68,7 @@ export default function ActivityList({
           bgcolor="rgba(0, 0, 0, 0.6)"
           p={1}
         >
-          <Typography variant="h6">{itineraryPhoto.name}</Typography>
+          <Typography variant="h6">{itinerary.name}</Typography>
         </Box>
       </Box>
 

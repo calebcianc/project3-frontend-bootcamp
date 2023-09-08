@@ -32,9 +32,6 @@ export default function ItineraryCard({
   const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
   const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
 
-  console.log("itinerary", itinerary);
-  console.log("users number", users.length);
-
   const handleSelectItinerary = () => {
     setSelectedItinerary(itinerary.id);
     setItineraryPhoto({ photo: itinerary.photoUrl, name: itinerary.name });

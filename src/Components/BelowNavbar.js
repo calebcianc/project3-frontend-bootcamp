@@ -13,7 +13,6 @@ export default function BelowNavbar({
   setSelectedItinerary,
 }) {
   const [itineraryActivities, setItineraryActivities] = useState([]);
-
   const [isHighlighted, setHighlighted] = useState(null);
   const handleOnCardClick = (card) => {
     if (isHighlighted === card.id) {
@@ -23,10 +22,7 @@ export default function BelowNavbar({
     }
   };
 
-  // Caleb: introduced a type prop to tweak the itineraries shown based on the selected tab.
-  // e.g., if type="explore", to only show itineraries which user is not a part of
-
-  const userId = 2; // to remove
+  const userId = 5; // to remove
 
   useEffect(() => {
     let apiEndpoint;
@@ -46,14 +42,16 @@ export default function BelowNavbar({
       case "past":
         apiEndpoint = `${BACKEND_URL}/itinerary/${userId}`;
         axios.get(apiEndpoint).then((response) => {
-          // setItineraryActivities(response.data);
+          if (response.data.length === 0) {
+            setItineraryActivities([]); // Set to empty array
+            return;
+          }
           console.log(response.data[0].prompts.startDate);
           const today = new Date();
           const filteredData = response.data.filter((activity) => {
             const endDate = new Date(activity.prompts.endDate);
             return type === "upcoming" ? endDate >= today : endDate < today;
           });
-          console.log("today", today);
           console.log("filteredData", filteredData);
           setItineraryActivities(filteredData);
         });
@@ -75,8 +73,6 @@ export default function BelowNavbar({
         margin: "0 auto",
       }}
     >
-      {/* if there are itineraries, render 2 components: left container to display picture, right container to display list of itineraries */}
-      {/* if no itinerary, render button for user to add itinerary  */}
       {type === "explore" ? (
         <ExplorePage
           selectedItinerary={selectedItinerary}

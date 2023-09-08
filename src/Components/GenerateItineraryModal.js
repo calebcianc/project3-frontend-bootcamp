@@ -32,7 +32,7 @@ export default function GenerateItineraryModal({
   setSelectedItinerary,
 }) {
   // const [errorMessage, setErrorMessage] = useState("");
-  const [userId, setUserId] = useState(1); // to write code to get the userId when logged in
+  const [userId, setUserId] = useState(2); // to write code to get the userId when logged in
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -114,6 +114,7 @@ export default function GenerateItineraryModal({
 
     try {
       setIsLoading(true);
+      console.log("userId_chloe", userId);
       const response = await fetch("http://localhost:3000/itinerary/new", {
         method: "POST",
         headers: { "Content-type": "application/json" },
