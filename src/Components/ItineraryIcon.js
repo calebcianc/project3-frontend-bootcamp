@@ -15,7 +15,6 @@ export default function ItineraryIcon({
 
   const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
   const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
-  console.log("startDate", startDate);
 
   const [open, setOpen] = useState(false);
   const handleSelectItinerary = () => {
@@ -86,53 +85,40 @@ export default function ItineraryIcon({
       >
         <ModalDialog size="lg" variant="outlined">
           <ModalClose onClick={handleClose} />
+          <Typography variant="h5" component="h2">
+            {itinerary.name}
+          </Typography>
+          <Typography>
+            {" "}
+            {itinerary.prompts.country} | {itinerary.prompts.category}
+            <br />
+            {startDate} - {endDate}
+            <br />
+            {itinerary.users.length}/{itinerary.maxPax} participants (
+            {itinerary.genderPreference})
+          </Typography>
+
           <Box
             sx={{
-              // position: "absolute",
-              // top: "50%",
-              // left: "50%",
-              // transform: "translate(-50%, -50%)",
-              width: 400,
-              bgcolor: "background.paper",
-              border: "2px solid #000",
-              boxShadow: 24,
-              p: 4,
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
             }}
           >
-            <Typography variant="h5" component="h2">
-              {itinerary.name}
-            </Typography>
-            <Typography>
-              {" "}
-              {itinerary.prompts.country} | {itinerary.prompts.category}
-              <br />
-              {startDate} - {endDate}
-              <br />
-              {itinerary.users.length}/{itinerary.maxPax} participants (
-              {itinerary.genderPreference})
-            </Typography>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                alignItems: "center",
-              }}
-            >
-              {itinerary.users.map((user, index) => (
-                <Box sx={{ marginRight: 1, marginBottom: 1 }} key={index}>
-                  <UserIcon
-                    user={user}
-                    isCreator={user.user_itineraries.isCreator}
-                  />
-                </Box>
-              ))}
-            </Box>
-
-            <Button onClick={handleSelectItinerary}>view itinerary</Button>
-            <Button onClick={handleJoinItinerary}>join itinerary</Button>
-            <Button onClick={handleClose}>Close</Button>
+            {itinerary.users.map((user, index) => (
+              <Box sx={{ marginRight: 1, marginBottom: 1 }} key={index}>
+                <UserIcon
+                  user={user}
+                  isCreator={user.user_itineraries.isCreator}
+                />
+              </Box>
+            ))}
+            <div>
+              <Button onClick={handleSelectItinerary}>view itinerary</Button>
+              <Button onClick={handleJoinItinerary}>join itinerary</Button>
+              <Button onClick={handleClose}>Close</Button>
+            </div>
           </Box>
         </ModalDialog>
       </Modal>
