@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
 import ModalClose from "@mui/joy/ModalClose";
@@ -15,14 +15,19 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import "dayjs/locale/en-gb";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
 import { CircularProgress } from "@mui/joy";
 import "./LoadingSpinner.css";
 import { Button } from "@mui/material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import { spacing } from "@mui/system";
 import { useNavigate, Link } from "react-router-dom";
+var utc = require("dayjs/plugin/utc");
+var timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Singapore");
 
 export default function GenerateItineraryModal({
   modalView,
@@ -82,6 +87,15 @@ export default function GenerateItineraryModal({
     return date <= startDate;
   };
 
+  // When startDate changes, update endDate to point to the same month
+  useEffect(() => {
+    if (startDate) {
+      // Clone the Day.js object to avoid mutations and add 1 day
+      const nextDay = dayjs(startDate).add(1, "day");
+      setEndDate(nextDay);
+    }
+  }, [startDate]);
+
   const handlePublicChange = (event) => {
     const value = event.target.value;
     setIsPublic(value === "true");
@@ -108,9 +122,6 @@ export default function GenerateItineraryModal({
       genderPreference,
       userId,
     };
-
-    // prints out contents of itineraryInputs - ok so far (Caleb, 2 Sep)
-    // console.log("Itinerary inputs: ", JSON.stringify(itineraryInputs));
 
     try {
       setIsLoading(true);
@@ -145,7 +156,12 @@ export default function GenerateItineraryModal({
 
   return (
     <div>
-      <Modal open={modalView} onClose={handleClose}>
+      <Modal
+        open={modalView}
+        onClose={(event, reason) => handleClose(event, reason)}
+        disableBackdropClick={true} // add this line
+        disableEscapeKeyDown={true} // add this line if you also want to disable close on Escape key press
+      >
         <ModalDialog
           size="lg"
           variant="outlined"
@@ -183,7 +199,10 @@ export default function GenerateItineraryModal({
                 marginBottom: "15px",
               }}
             >
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="en-gb"
+              >
                 <DatePicker
                   label="Start date"
                   value={startDate}
@@ -194,11 +213,14 @@ export default function GenerateItineraryModal({
                   shouldDisableDate={disableDatesBeforeToday}
                 />
               </LocalizationProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="en-gb"
+              >
                 <DatePicker
                   disabled={!startDate}
                   label="End date"
-                  value={endDate}
+                  value={endDate || startDate}
                   onChange={(newValue) => {
                     setEndDate(newValue);
                   }}
@@ -311,17 +333,12 @@ export default function GenerateItineraryModal({
               <>
                 <FormControl
                   style={{
-                    // display: "flex",
-                    // flexDirection: "row",
-                    // justifyContent: "space-between",
-                    // height: "30px",
                     marginBottom: "15px",
                   }}
                 >
                   <FormLabel
                     style={{
                       marginBottom: "5px",
-                      // height: "60%",
                     }}
                   >
                     How many people do you want in your group?
