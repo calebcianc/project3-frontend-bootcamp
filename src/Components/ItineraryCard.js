@@ -35,8 +35,14 @@ export default function ItineraryCard({
     });
   }, []);
 
-  const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
-  const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
+  const convertToFormattedDate = (dateString) => {
+    const date = new Date(dateString.split("/").reverse().join("-"));
+    const options = { day: "2-digit", month: "short", year: "numeric" };
+    return date.toLocaleDateString("en-GB", options);
+  };
+
+  const startDate = convertToFormattedDate(itinerary.prompts.startDate);
+  const endDate = convertToFormattedDate(itinerary.prompts.endDate);
 
   const handleSelectItinerary = () => {
     setSelectedItinerary(itinerary.id);
@@ -48,11 +54,13 @@ export default function ItineraryCard({
       className={`${itinerary.id === isHighlighted ? "highlighted-card" : ""}`}
       sx={{
         width: "calc(100% - 8mm)",
-        m: "4mm",
+        m: "0 4mm 4mm 4mm",
         borderRadius: "4px",
-        boxShadow:
-          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
         border: itinerary.id === isHighlighted ? "2px solid black" : "",
+        ":hover": {
+          boxShadow:
+            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        },
       }}
     >
       <Box position="relative">
@@ -64,7 +72,7 @@ export default function ItineraryCard({
             cursor: "pointer",
           }}
           image={itinerary.photoUrl ? itinerary.photoUrl : null}
-          title={itinerary.name}
+          title={`Click to view ${itinerary.name}`}
           onClick={handleSelectItinerary}
         />
         <Box
@@ -79,7 +87,10 @@ export default function ItineraryCard({
           <Typography variant="h6">{itinerary.name}</Typography>
         </Box>
       </Box>
-      <CardContent onClick={() => handleOnCardClick(itinerary)}>
+      <CardContent
+        onClick={() => handleOnCardClick(itinerary)}
+        style={{ paddingBottom: "0px" }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={3}>
             <Grid container alignItems="center">
@@ -93,7 +104,7 @@ export default function ItineraryCard({
             <Grid container alignItems="center">
               <EventIcon color="action" style={{ marginRight: "5px" }} />
               <Typography variant="body2">
-                {startDate} - {endDate}
+                {startDate} to {endDate}
               </Typography>
             </Grid>
           </Grid>
@@ -125,13 +136,7 @@ export default function ItineraryCard({
                 }}
               >
                 {users.map((user, index) => (
-                  <Box
-                    sx={{
-                      marginRight: 1,
-                      marginBottom: 1,
-                    }}
-                    key={index}
-                  >
+                  <Box key={index}>
                     <UserIcon user={user.user} isCreator={user.isCreator} />
                   </Box>
                 ))}

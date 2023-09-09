@@ -49,16 +49,18 @@ export default function ActivityCard({ key, activity, isHighlighted }) {
     <Card
       sx={{
         position: "relative",
-        width: "calc(100% - 8mm)",
-        m: "4mm",
-        borderRadius: "4px",
-        boxShadow:
-          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        // width: "calc(100% - 8mm)",
+        // m: "4mm",
+        borderRadius: "10px",
         cursor: "pointer",
         border: isHighlighted === activity.id ? "2px solid black" : "",
+        ":hover": {
+          boxShadow:
+            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        },
       }}
     >
-      <CardContent>
+      <CardContent style={{ padding: "15px" }}>
         <Grid
           container
           spacing={2}
@@ -73,7 +75,8 @@ export default function ActivityCard({ key, activity, isHighlighted }) {
               variant="body2"
               color={isPastDate ? "text.secondary" : "text.primary"}
             >
-              {formattedDate} ({capitalizedTimeOfDay})
+              {/* {formattedDate}  */}
+              {capitalizedTimeOfDay}
             </Typography>
           </Grid>
         </Grid>
@@ -91,17 +94,6 @@ export default function ActivityCard({ key, activity, isHighlighted }) {
             <Typography variant="body2">{activity["location"]}</Typography>
           </Grid>
         </Grid>
-
-        {/* <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <AccessTimeIcon color="action" />
-          </Grid>
-          <Grid item>
-            <Typography variant="body2">
-              {activity["suggestedDuration"]}
-            </Typography>
-          </Grid>
-        </Grid> */}
 
         <div
           style={{

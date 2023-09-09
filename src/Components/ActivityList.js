@@ -1,13 +1,5 @@
 import ActivityCard from "./ActivityCard";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography,
-  Box,
-} from "@mui/material";
+import { CardMedia, Button, Typography, Box } from "@mui/material";
 import { useEffect, useRef } from "react";
 
 export default function ActivityList({
@@ -39,6 +31,22 @@ export default function ActivityList({
     (item) => item.id === selectedItinerary
   );
 
+  const groupByDate = (activities) => {
+    return activities.reduce((acc, activity) => {
+      const date = new Date(activity["date"]).toLocaleDateString("en-GB", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }); // Convert to string for easier comparison
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(activity);
+      return acc;
+    }, {});
+  };
+
   return (
     <div
       style={{
@@ -46,7 +54,7 @@ export default function ActivityList({
         // overflow: "auto",
       }}
     >
-      <div style={{ display: "flex", marginLeft: "3mm" }}>
+      <div style={{ display: "flex", marginLeft: "4mm" }}>
         <Button onClick={handleGoBack}>Go back</Button>
       </div>
 
@@ -62,6 +70,7 @@ export default function ActivityList({
           sx={{
             height: "140px",
             objectFit: "cover",
+            borderRadius: "5px",
           }}
           image={itinerary.photoUrl ? itinerary.photoUrl : null}
           title={itinerary.name}
@@ -74,6 +83,7 @@ export default function ActivityList({
           color="white"
           bgcolor="rgba(0, 0, 0, 0.6)"
           p={1}
+          sx={{ borderRadius: "5px" }}
         >
           <Typography variant="h6">{itinerary.name}</Typography>
         </Box>
@@ -97,22 +107,48 @@ export default function ActivityList({
             if (dateA > dateB) return 1;
             return a["activityOrder"] - b["activityOrder"];
           });
+
+          const groupedActivities = groupByDate(sortedActivities);
+
           return (
             <div key={index}>
-              {sortedActivities.map((activity, index) => (
+              {Object.keys(groupedActivities).map((date, dateIndex) => (
                 <div
-                  key={index}
-                  ref={
-                    activity.id === isHighlighted
-                      ? highlightedActivityCardRef
-                      : null
-                  }
-                  onClick={() => handleOnCardClick(activity)}
+                  key={dateIndex}
+                  style={{
+                    margin: "4mm 4mm 6mm 4mm",
+                  }}
                 >
-                  <ActivityCard
-                    activity={activity}
-                    isHighlighted={isHighlighted}
-                  />
+                  <div style={{ marginBottom: "10px", marginLeft: "5px" }}>
+                    <b>{date}</b>
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor: "whitesmoke",
+                      padding: "1px 10px",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    {groupedActivities[date].map((activity, activityIndex) => (
+                      <div
+                        key={activityIndex}
+                        ref={
+                          activity.id === isHighlighted
+                            ? highlightedActivityCardRef
+                            : null
+                        }
+                        onClick={() => handleOnCardClick(activity)}
+                        style={{
+                          margin: "10px 0px",
+                        }}
+                      >
+                        <ActivityCard
+                          activity={activity}
+                          isHighlighted={isHighlighted}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
