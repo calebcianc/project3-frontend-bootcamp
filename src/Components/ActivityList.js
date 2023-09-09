@@ -1,6 +1,9 @@
 import ActivityCard from "./ActivityCard";
 import { CardMedia, Button, Typography, Box } from "@mui/material";
 import { useEffect, useRef } from "react";
+import DownloadItineraryButton from "./DownloadItineraryButton";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function ActivityList({
   selectedItinerary,
@@ -54,8 +57,20 @@ export default function ActivityList({
         // overflow: "auto",
       }}
     >
-      <div style={{ display: "flex", marginLeft: "4mm" }}>
-        <Button onClick={handleGoBack}>Go back</Button>
+      <div style={{ display: "flex" }}>
+        <div style={{ marginLeft: "4mm" }}>
+          <Button startIcon={<ArrowBackIcon />} onClick={handleGoBack}>
+            Go back
+          </Button>
+        </div>
+        <div style={{ marginLeft: "auto", marginRight: "4mm" }}>
+          <Button
+            endIcon={<FileDownloadIcon />}
+            // onClick={handleDownloadItinerary}
+          >
+            Download
+          </Button>
+        </div>
       </div>
 
       <Box

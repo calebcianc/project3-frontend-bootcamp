@@ -154,84 +154,14 @@ const Map = ({
     }
   }, [arrayOfCoordinates]);
 
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [infoWindowData, setInfoWindowData] = useState();
-  // const handleMarkerClick = (
-  //   id,
-  //   lat,
-  //   lng,
-  //   amount,
-  //   currency,
-  //   category,
-  //   description,
-  //   date,
-  //   displayAmount,
-  //   displayCurrency
-  // ) => {
-  //   setIsOpen(false);
-  //   mapRef?.panTo({ lat, lng });
-  //   setInfoWindowData({
-  //     id,
-  //     amount,
-  //     currency,
-  //     category,
-  //     description,
-  //     date,
-  //     displayAmount,
-  //     displayCurrency,
-  //   });
-  //   setIsOpen(true);
-  // };
-  // listens for changes to the highlighted state and triggers the handleMarkerClick function to open the infoWindow of highlighted expense
-  // useEffect(() => {
-  //   if (expensesCategory) {
-  //     const highlightedExpense = expensesCategory.find(
-  //       (expense) => expense.id === isHighlighted
-  //     );
-  //     if (highlightedExpense) {
-  //       const {
-  //         id,
-  //         lat,
-  //         lng,
-  //         amount,
-  //         currency,
-  //         category,
-  //         description,
-  //         date,
-  //         displayAmount,
-  //         displayCurrency,
-  //       } = highlightedExpense;
-  //       handleMarkerClick(
-  //         id,
-  //         lat,
-  //         lng,
-  //         amount,
-  //         currency,
-  //         category,
-  //         description,
-  //         date,
-  //         displayAmount,
-  //         displayCurrency
-  //       );
-  //     } else {
-  //       setIsOpen(false);
-  //     }
-  //   }
-  // }, [isHighlighted]);
-
   return (
     <div className="App" style={{ minWidth: "50%" }}>
       {!isLoaded ? (
         <h1>Loading...</h1>
       ) : (
-        <GoogleMap
-          mapContainerClassName="map-container"
-          onLoad={onLoad}
-          // zoom={10}
-          // center={center}
-        >
+        <GoogleMap mapContainerClassName="map-container" onLoad={onLoad}>
           {arrayOfCoordinates
-            ? arrayOfCoordinates.map((itineraryFirstActivity) => (
+            ? arrayOfCoordinates.map((itineraryFirstActivity, index) => (
                 <>
                   <MarkerF
                     position={{
@@ -240,8 +170,14 @@ const Map = ({
                     }}
                     onClick={() => {
                       handleOnCardClick(itineraryFirstActivity);
-                      // handleMarkerClick(itineraryFirstActivity);
                     }}
+                    icon={
+                      selectedItinerary
+                        ? index === 0 || index === arrayOfCoordinates.length - 1
+                          ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                          : undefined
+                        : undefined
+                    }
                   />
                   {isHighlighted === itineraryFirstActivity.id ? (
                     <InfoWindowF
@@ -288,6 +224,3 @@ const Map = ({
 };
 
 export default Map;
-
-// at the itineraryList view page, render bounds and markers based on the first activity in the itinerary
-// at the activityList view page, render bounds and markers based on all the activities in the itinerary
