@@ -27,7 +27,8 @@ export default function ItineraryOptionsButton({
             textAlign: "right",
             justifyContent: "space-around",
             padding: "0 ",
-            position: "relative",
+            position: "fixed",
+            right: "10px",
             bottom: "80px",
           }}
         >
