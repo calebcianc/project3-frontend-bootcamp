@@ -46,7 +46,7 @@ export default function ItineraryCard({
 
   const handleSelectItinerary = () => {
     setSelectedItinerary(itinerary.id);
-    setItineraryPhoto({ photo: itinerary.photoUrl, name: itinerary.name });
+    // setItineraryPhoto({ photo: itinerary.photoUrl, name: itinerary.name });
   };
 
   return (
@@ -93,7 +93,7 @@ export default function ItineraryCard({
       >
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <Grid container alignItems="center">
+            <Grid container alignItems="center" justifyContent="flex-start">
               <RoomIcon color="action" style={{ marginRight: "5px" }} />
               <Typography variant="body2">
                 {itinerary.prompts.country}
@@ -101,7 +101,7 @@ export default function ItineraryCard({
             </Grid>
           </Grid>
           <Grid item xs={6}>
-            <Grid container alignItems="center">
+            <Grid container alignItems="center" justifyContent="center">
               <EventIcon color="action" style={{ marginRight: "5px" }} />
               <Typography variant="body2">
                 {startDate} to {endDate}
@@ -110,7 +110,7 @@ export default function ItineraryCard({
           </Grid>
 
           <Grid item xs={3}>
-            <Grid container alignItems="center">
+            <Grid container alignItems="center" justifyContent="flex-end">
               {itinerary.isPublic ? (
                 <PublicIcon color="action" style={{ marginRight: "5px" }} />
               ) : (
