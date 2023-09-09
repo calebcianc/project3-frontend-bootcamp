@@ -90,7 +90,8 @@ export default function ItineraryIcon({
   );
 
   return (
-    <div onClick={handleOpen}>
+    <div onClick={handleOpen} style={{ cursor: "pointer" }}>
+
       <Tooltip
         title={`${itinerary.name} | Max Pax: ${itinerary.maxPax} | Gender Preference: ${itinerary.genderPreference}`}
         arrow

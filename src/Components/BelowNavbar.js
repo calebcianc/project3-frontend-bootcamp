@@ -70,7 +70,9 @@ export default function BelowNavbar({
     <div
       style={{
         maxWidth: "1280px",
+        height: "calc(100vh - 64px - 56px )",
         margin: "0 auto",
+        position: "relative",
       }}
     >
       {type === "explore" ? (
