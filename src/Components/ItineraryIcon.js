@@ -41,57 +41,8 @@ export default function ItineraryIcon({
     handleClose();
   };
 
-  const body = (
-    <Box
-      sx={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 400,
-        bgcolor: "background.paper",
-        border: "2px solid #000",
-        boxShadow: 24,
-        p: 4,
-      }}
-    >
-      <Typography variant="h5" component="h2">
-        {itinerary.name}
-      </Typography>
-      <Typography>
-        {" "}
-        {itinerary.prompts.country} | {itinerary.prompts.category}
-        <br />
-        {startDate} - {endDate}
-        <br />
-        {itinerary.users.length}/{itinerary.maxPax} participants (
-        {itinerary.genderPreference})
-      </Typography>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          alignItems: "center",
-        }}
-      >
-        {itinerary.users.map((user, index) => (
-          <Box sx={{ marginRight: 1, marginBottom: 1 }} key={index}>
-            <UserIcon user={user} isCreator={user.user_itineraries.isCreator} />
-          </Box>
-        ))}
-      </Box>
-
-      <Button onClick={handleSelectItinerary}>view itinerary</Button>
-      <Button onClick={handleJoinItinerary}>join itinerary</Button>
-      <Button onClick={handleClose}>Close</Button>
-    </Box>
-  );
-
   return (
     <div onClick={handleOpen} style={{ cursor: "pointer" }}>
-
       <Tooltip
         title={`${itinerary.name} | Max Pax: ${itinerary.maxPax} | Gender Preference: ${itinerary.genderPreference}`}
         arrow
@@ -135,7 +86,54 @@ export default function ItineraryIcon({
       >
         <ModalDialog size="lg" variant="outlined">
           <ModalClose onClick={handleClose} />
-          {body}
+          <Box
+            sx={{
+              // position: "absolute",
+              // top: "50%",
+              // left: "50%",
+              // transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <Typography variant="h5" component="h2">
+              {itinerary.name}
+            </Typography>
+            <Typography>
+              {" "}
+              {itinerary.prompts.country} | {itinerary.prompts.category}
+              <br />
+              {startDate} - {endDate}
+              <br />
+              {itinerary.users.length}/{itinerary.maxPax} participants (
+              {itinerary.genderPreference})
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                alignItems: "center",
+              }}
+            >
+              {itinerary.users.map((user, index) => (
+                <Box sx={{ marginRight: 1, marginBottom: 1 }} key={index}>
+                  <UserIcon
+                    user={user}
+                    isCreator={user.user_itineraries.isCreator}
+                  />
+                </Box>
+              ))}
+            </Box>
+
+            <Button onClick={handleSelectItinerary}>view itinerary</Button>
+            <Button onClick={handleJoinItinerary}>join itinerary</Button>
+            <Button onClick={handleClose}>Close</Button>
+          </Box>
         </ModalDialog>
       </Modal>
     </div>

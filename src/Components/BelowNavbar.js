@@ -22,7 +22,7 @@ export default function BelowNavbar({
     }
   };
 
-  const userId = 1; // to remove
+  const userId = 2; // to remove
 
   useEffect(() => {
     let apiEndpoint;

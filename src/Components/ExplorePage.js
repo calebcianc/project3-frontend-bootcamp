@@ -9,11 +9,11 @@ export default function ExplorePage({
   setHighlighted,
   handleOnCardClick,
 }) {
-  if (itineraryActivities && itineraryActivities.length === 0) {
-    return <div style={{ textAlign: "center" }}>No Public Itineraries</div>;
-  }
+  // if (itineraryActivities && itineraryActivities.length === 0) {
+  //   return <div style={{ textAlign: "center" }}>No Public Itineraries</div>;
+  // }
   return (
-    <div className="icon-container">
+    <div>
       {selectedItinerary ? (
         <MapItinerary
           selectedItinerary={selectedItinerary}
@@ -24,16 +24,18 @@ export default function ExplorePage({
           handleOnCardClick={handleOnCardClick}
         />
       ) : (
-        itineraryActivities.map((itinerary, index) =>
-          itinerary.users.length < itinerary.maxPax ? (
-            <ItineraryIcon
-              key={itinerary.id}
-              itineraryId={itinerary.id}
-              itinerary={itinerary}
-              setSelectedItinerary={setSelectedItinerary}
-            />
-          ) : null
-        )
+        <div className="icon-container">
+          {itineraryActivities.map((itinerary, index) =>
+            itinerary.users.length < itinerary.maxPax ? (
+              <ItineraryIcon
+                key={itinerary.id}
+                itineraryId={itinerary.id}
+                itinerary={itinerary}
+                setSelectedItinerary={setSelectedItinerary}
+              />
+            ) : null
+          )}
+        </div>
       )}
     </div>
   );
