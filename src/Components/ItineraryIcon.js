@@ -9,7 +9,7 @@ export default function ItineraryIcon({
     setSelectedItinerary(itineraryId);
   };
   return (
-    <div onClick={handleSelectItinerary}>
+    <div onClick={handleSelectItinerary} style={{ cursor: "pointer" }}>
       <Tooltip
         title={`${itinerary.name} | Max Pax: ${itinerary.maxPax} | Gender Preference: ${itinerary.genderPreference}`}
         arrow
