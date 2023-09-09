@@ -49,7 +49,13 @@ export default function ActivityList({
         <Button onClick={handleGoBack}>Go back</Button>
       </div>
 
-      <Box position="relative">
+      <Box
+        position="relative"
+        sx={{
+          width: "calc(100% - 8mm)",
+          margin: "auto",
+        }}
+      >
         <CardMedia
           component="img"
           sx={{
