@@ -20,6 +20,7 @@ export default function ActivityList({
 }) {
   const handleGoBack = () => {
     setSelectedItinerary(null);
+    setHighlighted(null);
   };
 
   const highlightedActivityCardRef = useRef(null); // Create reference for highlighted card
@@ -42,10 +43,10 @@ export default function ActivityList({
     <div
       style={{
         maxHeight: "calc(100vh - 64px - 56px )",
-        overflow: "auto",
+        // overflow: "auto",
       }}
     >
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", marginLeft: "3mm" }}>
         <Button onClick={handleGoBack}>Go back</Button>
       </div>
 
@@ -78,7 +79,12 @@ export default function ActivityList({
         </Box>
       </Box>
 
-      <div style={{ overflow: "auto" }}>
+      <div
+        style={{
+          maxHeight: "calc(100vh - 64px - 56px - 36.5px - 140px)",
+          overflow: "auto",
+        }}
+      >
         {itineraryActivities.map((element, index) => {
           const activities = element.activities;
           const filteredActivities = activities.filter(
