@@ -1,17 +1,5 @@
-import { useEffect, useState } from "react";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography,
-  Box,
-} from "@mui/material";
-import axios from "axios";
-import { BACKEND_URL } from "../constants.js";
-import UserIcon from "./UserIcon.js";
-import { convertToDDMMYYYY } from "../utils/utils";
+import { Card, CardContent, Typography } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function ActivityCard({ key, activity, isHighlighted }) {
   // console.log("activity: ", JSON.stringify(activity));
@@ -48,9 +36,14 @@ export default function ActivityCard({ key, activity, isHighlighted }) {
   const today = new Date();
   const isPastDate = activity["date"] < today;
 
+  const handleEditIconClick = () => {
+    return alert("test");
+  };
+
   return (
     <Card
       sx={{
+        position: "relative",
         width: "calc(100% - 8mm)",
         m: "4mm",
         borderRadius: "4px",
@@ -73,6 +66,23 @@ export default function ActivityCard({ key, activity, isHighlighted }) {
           <em>{activity["description"]}</em>
         </Typography>
       </CardContent>
+      {isHighlighted === activity.id ? (
+        <EditIcon
+          onClick={(e) => {
+            e.stopPropagation();
+            handleEditIconClick();
+          }}
+          sx={{
+            position: "absolute", // Positioned absolutely within the card
+            top: "15px", // Adjust as needed
+            right: "15px", // Adjust as needed
+            cursor: "pointer",
+            "&:hover": {
+              color: "#4285F4", // Google-blue when hovered
+            },
+          }}
+        />
+      ) : null}
     </Card>
   );
 }
