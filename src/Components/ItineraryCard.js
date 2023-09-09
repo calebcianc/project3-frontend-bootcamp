@@ -92,7 +92,7 @@ export default function ItineraryCard({
           >
             {users.map((user, index) => (
               <Box sx={{ marginRight: 1, marginBottom: 1 }} key={index}>
-                <UserIcon user={user} />
+                <UserIcon user={user.user} isCreator={user.isCreator} />
               </Box>
             ))}
           </Box>
