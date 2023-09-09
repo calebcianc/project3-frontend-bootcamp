@@ -12,6 +12,12 @@ import axios from "axios";
 import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
 import { convertToDDMMYYYY } from "../utils/utils";
+import GroupIcon from "@mui/icons-material/Group";
+import RoomIcon from "@mui/icons-material/Room";
+import EventIcon from "@mui/icons-material/Event";
+import PublicIcon from "@mui/icons-material/Public";
+import LockIcon from "@mui/icons-material/Lock";
+import Grid from "@mui/material/Grid";
 
 export default function ItineraryCard({
   itinerary,
@@ -74,29 +80,65 @@ export default function ItineraryCard({
         </Box>
       </Box>
       <CardContent onClick={() => handleOnCardClick(itinerary)}>
-        <Typography variant="body2" color="text.secondary">
-          {itinerary.prompts.country} | {itinerary.prompts.category}
-          <br />
-          {startDate} - {endDate}
-          <br />
-          {itinerary.isPublic ? "Public" : "Private"} - {users.length}/
-          {itinerary.maxPax} participants{" "}
-          {users.length === itinerary.maxPax ? "(Full)" : null}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            {users.map((user, index) => (
-              <Box sx={{ marginRight: 1, marginBottom: 1 }} key={index}>
-                <UserIcon user={user.user} isCreator={user.isCreator} />
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <Grid container alignItems="center">
+              <RoomIcon color="action" style={{ marginRight: "5px" }} />
+              <Typography variant="body2">
+                {itinerary.prompts.country}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={6}>
+            <Grid container alignItems="center">
+              <EventIcon color="action" style={{ marginRight: "5px" }} />
+              <Typography variant="body2">
+                {startDate} - {endDate}
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={3}>
+            <Grid container alignItems="center">
+              {itinerary.isPublic ? (
+                <PublicIcon color="action" style={{ marginRight: "5px" }} />
+              ) : (
+                <LockIcon color="action" style={{ marginRight: "5px" }} />
+              )}
+              <Typography variant="body2">
+                {itinerary.isPublic ? "Public" : "Private"}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container alignItems="center">
+              <GroupIcon color="action" style={{ marginRight: "5px" }} />
+              <Typography variant="body2" style={{ marginRight: "5px" }}>
+                {users.length === itinerary.maxPax ? "(Full)" : null}
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}
+              >
+                {users.map((user, index) => (
+                  <Box
+                    sx={{
+                      marginRight: 1,
+                      marginBottom: 1,
+                    }}
+                    key={index}
+                  >
+                    <UserIcon user={user.user} isCreator={user.isCreator} />
+                  </Box>
+                ))}
               </Box>
-            ))}
-          </Box>
-        </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
       </CardContent>
       <CardActions>
         <Button size="small">Edit</Button>

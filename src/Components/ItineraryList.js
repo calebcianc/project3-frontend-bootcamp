@@ -1,6 +1,7 @@
 import ItineraryCard from "./ItineraryCard";
 import { useEffect, useState, useRef } from "react";
 import "../App.css";
+import { Box } from "@mui/material";
 
 export default function ItineraryList({
   itineraryActivities,
@@ -23,7 +24,7 @@ export default function ItineraryList({
   });
 
   return (
-    <div>
+    <Box>
       {itineraryActivities.map((itinerary, index) => (
         <div
           key={itinerary.id}
@@ -42,6 +43,6 @@ export default function ItineraryList({
           />
         </div>
       ))}
-    </div>
+    </Box>
   );
 }

@@ -15,6 +15,9 @@ export default function BelowNavbar({
   const [itineraryActivities, setItineraryActivities] = useState([]);
   const [isHighlighted, setHighlighted] = useState(null);
   const handleOnCardClick = (card) => {
+    if (card === null) {
+      setHighlighted(null);
+    }
     if (isHighlighted === card.id) {
       setHighlighted(null);
     } else {

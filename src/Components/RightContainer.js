@@ -27,7 +27,12 @@ export default function RightContainer({
           handleOnCardClick={handleOnCardClick}
         />
       ) : (
-        <div>
+        <div
+          style={{
+            maxHeight: "calc(100vh - 64px - 56px )",
+            overflow: "auto",
+          }}
+        >
           <RightContainerFilterButton />
           <ItineraryList
             selectedItinerary={selectedItinerary}
