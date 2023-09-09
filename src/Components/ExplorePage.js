@@ -24,14 +24,16 @@ export default function ExplorePage({
           handleOnCardClick={handleOnCardClick}
         />
       ) : (
-        itineraryActivities.map((itinerary, index) => (
-          <ItineraryIcon
-            key={itinerary.id}
-            itineraryId={itinerary.id}
-            itinerary={itinerary}
-            setSelectedItinerary={setSelectedItinerary}
-          />
-        ))
+        itineraryActivities.map((itinerary, index) =>
+          itinerary.users.length < itinerary.maxPax ? (
+            <ItineraryIcon
+              key={itinerary.id}
+              itineraryId={itinerary.id}
+              itinerary={itinerary}
+              setSelectedItinerary={setSelectedItinerary}
+            />
+          ) : null
+        )
       )}
     </div>
   );
