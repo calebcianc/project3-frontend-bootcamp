@@ -163,13 +163,7 @@ export default function GenerateItineraryModal({
             >
               Generate your ideal itinerary!
             </Typography>
-            {/* <label htmlFor="name">Name your itinerary: </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={handleNameChange}
-            /> */}
+
             <FormControl style={{ display: "flex" }}>
               <FormLabel style={{ marginBottom: "5px" }}>
                 Describe your itinerary:
