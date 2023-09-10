@@ -4,16 +4,15 @@ import Toolbar from "@mui/material/Toolbar";
 import FlightIcon from "@mui/icons-material/Flight";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
-import IconButton from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Navbar({ value, setValue }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClose = () => {
+  const handleClose = (event, reason) => {
+    if (reason === "backdropClick") {
+      return;
+    }
+
     setAnchorEl(null);
   };
 
@@ -44,7 +43,7 @@ export default function Navbar({ value, setValue }) {
             display: "flex",
             alignItems: "center",
             cursor: "pointer",
-            color: value ? null : "yellow",
+            color: value ? null : "whitesmoke",
           }}
           onClick={handleClick}
         >

@@ -1,17 +1,23 @@
 import ActivityCard from "./ActivityCard";
 import { CardMedia, Button, Typography, Box } from "@mui/material";
 import { useEffect, useRef } from "react";
+import DownloadItineraryButton from "./DownloadItineraryButton";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function ActivityList({
   selectedItinerary,
   setSelectedItinerary,
   itineraryActivities,
+  setItineraryActivities,
   isHighlighted,
   setHighlighted,
   handleOnCardClick,
+  userId,
 }) {
   const handleGoBack = () => {
     setSelectedItinerary(null);
+    setHighlighted(null);
   };
 
   const highlightedActivityCardRef = useRef(null); // Create reference for highlighted card
@@ -30,23 +36,58 @@ export default function ActivityList({
     (item) => item.id === selectedItinerary
   );
 
+  const groupByDate = (activities) => {
+    return activities.reduce((acc, activity) => {
+      const date = new Date(activity["date"]).toLocaleDateString("en-GB", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }); // Convert to string for easier comparison
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(activity);
+      return acc;
+    }, {});
+  };
+
   return (
     <div
       style={{
         maxHeight: "calc(100vh - 64px - 56px )",
-        overflow: "auto",
+        // overflow: "auto",
       }}
     >
       <div style={{ display: "flex" }}>
-        <Button onClick={handleGoBack}>Go back</Button>
+        <div style={{ marginLeft: "4mm" }}>
+          <Button startIcon={<ArrowBackIcon />} onClick={handleGoBack}>
+            Go back
+          </Button>
+        </div>
+        <div style={{ marginLeft: "auto", marginRight: "4mm" }}>
+          <Button
+            endIcon={<FileDownloadIcon />}
+            // onClick={handleDownloadItinerary}
+          >
+            Download
+          </Button>
+        </div>
       </div>
 
-      <Box position="relative">
+      <Box
+        position="relative"
+        sx={{
+          width: "calc(100% - 8mm)",
+          margin: "auto",
+        }}
+      >
         <CardMedia
           component="img"
           sx={{
             height: "140px",
             objectFit: "cover",
+            borderRadius: "5px",
           }}
           image={itinerary.photoUrl ? itinerary.photoUrl : null}
           title={itinerary.name}
@@ -59,12 +100,18 @@ export default function ActivityList({
           color="white"
           bgcolor="rgba(0, 0, 0, 0.6)"
           p={1}
+          sx={{ borderRadius: "5px" }}
         >
           <Typography variant="h6">{itinerary.name}</Typography>
         </Box>
       </Box>
 
-      <div style={{ overflow: "auto" }}>
+      <div
+        style={{
+          maxHeight: "calc(100vh - 64px - 56px - 36.5px - 140px)",
+          overflow: "auto",
+        }}
+      >
         {itineraryActivities.map((element, index) => {
           const activities = element.activities;
           const filteredActivities = activities.filter(
@@ -77,22 +124,51 @@ export default function ActivityList({
             if (dateA > dateB) return 1;
             return a["activityOrder"] - b["activityOrder"];
           });
+
+          const groupedActivities = groupByDate(sortedActivities);
+
           return (
             <div key={index}>
-              {sortedActivities.map((activity, index) => (
+              {Object.keys(groupedActivities).map((date, dateIndex) => (
                 <div
-                  key={index}
-                  ref={
-                    activity.id === isHighlighted
-                      ? highlightedActivityCardRef
-                      : null
-                  }
-                  onClick={() => handleOnCardClick(activity)}
+                  key={dateIndex}
+                  style={{
+                    margin: "4mm 4mm 6mm 4mm",
+                  }}
                 >
-                  <ActivityCard
-                    activity={activity}
-                    isHighlighted={isHighlighted}
-                  />
+                  <div style={{ marginBottom: "10px", marginLeft: "5px" }}>
+                    <b>{date}</b>
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor: "whitesmoke",
+                      padding: "1px 10px",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    {groupedActivities[date].map((activity, activityIndex) => (
+                      <div
+                        key={activityIndex}
+                        ref={
+                          activity.id === isHighlighted
+                            ? highlightedActivityCardRef
+                            : null
+                        }
+                        onClick={() => handleOnCardClick(activity)}
+                        style={{
+                          margin: "10px 0px",
+                        }}
+                      >
+                        <ActivityCard
+                          activity={activity}
+                          isHighlighted={isHighlighted}
+                          userId={userId}
+                          itineraryActivities={itineraryActivities}
+                          setItineraryActivities={setItineraryActivities}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>

@@ -9,7 +9,7 @@
 
 .scrollable-right-container {
   height: 85vh;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .icon-container {

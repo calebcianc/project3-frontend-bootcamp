@@ -12,6 +12,12 @@ import axios from "axios";
 import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
 import { convertToDDMMYYYY } from "../utils/utils";
+import GroupIcon from "@mui/icons-material/Group";
+import RoomIcon from "@mui/icons-material/Room";
+import EventIcon from "@mui/icons-material/Event";
+import PublicIcon from "@mui/icons-material/Public";
+import LockIcon from "@mui/icons-material/Lock";
+import Grid from "@mui/material/Grid";
 
 export default function ItineraryCard({
   itinerary,
@@ -29,12 +35,18 @@ export default function ItineraryCard({
     });
   }, []);
 
-  const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
-  const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
+  const convertToFormattedDate = (dateString) => {
+    const date = new Date(dateString.split("/").reverse().join("-"));
+    const options = { day: "2-digit", month: "short", year: "numeric" };
+    return date.toLocaleDateString("en-GB", options);
+  };
+
+  const startDate = convertToFormattedDate(itinerary.prompts.startDate);
+  const endDate = convertToFormattedDate(itinerary.prompts.endDate);
 
   const handleSelectItinerary = () => {
     setSelectedItinerary(itinerary.id);
-    setItineraryPhoto({ photo: itinerary.photoUrl, name: itinerary.name });
+    // setItineraryPhoto({ photo: itinerary.photoUrl, name: itinerary.name });
   };
 
   return (
@@ -42,11 +54,13 @@ export default function ItineraryCard({
       className={`${itinerary.id === isHighlighted ? "highlighted-card" : ""}`}
       sx={{
         width: "calc(100% - 8mm)",
-        m: "4mm",
+        m: "0 4mm 4mm 4mm",
         borderRadius: "4px",
-        boxShadow:
-          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
         border: itinerary.id === isHighlighted ? "2px solid black" : "",
+        ":hover": {
+          boxShadow:
+            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        },
       }}
     >
       <Box position="relative">
@@ -58,7 +72,7 @@ export default function ItineraryCard({
             cursor: "pointer",
           }}
           image={itinerary.photoUrl ? itinerary.photoUrl : null}
-          title={itinerary.name}
+          title={`Click to view ${itinerary.name}`}
           onClick={handleSelectItinerary}
         />
         <Box
@@ -73,30 +87,63 @@ export default function ItineraryCard({
           <Typography variant="h6">{itinerary.name}</Typography>
         </Box>
       </Box>
-      <CardContent onClick={() => handleOnCardClick(itinerary)}>
-        <Typography variant="body2" color="text.secondary">
-          {itinerary.prompts.country} | {itinerary.prompts.category}
-          <br />
-          {startDate} - {endDate}
-          <br />
-          {itinerary.isPublic ? "Public" : "Private"} - {users.length}/
-          {itinerary.maxPax} participants{" "}
-          {users.length === itinerary.maxPax ? "(Full)" : null}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            {users.map((user, index) => (
-              <Box sx={{ marginRight: 1, marginBottom: 1 }} key={index}>
-                <UserIcon user={user.user} isCreator={user.isCreator} />
+      <CardContent
+        onClick={() => handleOnCardClick(itinerary)}
+        style={{ paddingBottom: "0px" }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <Grid container alignItems="center" justifyContent="flex-start">
+              <RoomIcon color="action" style={{ marginRight: "5px" }} />
+              <Typography variant="body2">
+                {itinerary.prompts.country}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={6}>
+            <Grid container alignItems="center" justifyContent="center">
+              <EventIcon color="action" style={{ marginRight: "5px" }} />
+              <Typography variant="body2">
+                {startDate} to {endDate}
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={3}>
+            <Grid container alignItems="center" justifyContent="flex-end">
+              {itinerary.isPublic ? (
+                <PublicIcon color="action" style={{ marginRight: "5px" }} />
+              ) : (
+                <LockIcon color="action" style={{ marginRight: "5px" }} />
+              )}
+              <Typography variant="body2">
+                {itinerary.isPublic ? "Public" : "Private"}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container alignItems="center">
+              <GroupIcon color="action" style={{ marginRight: "5px" }} />
+              <Typography variant="body2" style={{ marginRight: "5px" }}>
+                {users.length === itinerary.maxPax ? "(Full)" : null}
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}
+              >
+                {users.map((user, index) => (
+                  <Box key={index}>
+                    <UserIcon user={user.user} isCreator={user.isCreator} />
+                  </Box>
+                ))}
               </Box>
-            ))}
-          </Box>
-        </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
       </CardContent>
       <CardActions>
         <Button size="small">Edit</Button>

@@ -1,8 +1,8 @@
 import { Button } from "@mui/material";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
-export default function RightContainerFilterButton() {
-  const handleFilterItinerary = () => {
+export default function DownloadItineraryButton() {
+  const handleDownloadItinerary = () => {
     return alert("test");
   };
   return (
@@ -14,8 +14,11 @@ export default function RightContainerFilterButton() {
           marginRight: "4mm",
         }}
       >
-        <Button endIcon={<FilterAltIcon />} onClick={handleFilterItinerary}>
-          Filter
+        <Button
+          endIcon={<FileDownloadIcon />}
+          onClick={handleDownloadItinerary}
+        >
+          Download
         </Button>
       </div>
     </div>

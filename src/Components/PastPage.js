@@ -9,6 +9,8 @@ export default function PastPage({
   setHighlighted,
   handleOnCardClick,
 }) {
+  console.log("itineraryActivities: ", { itineraryActivities });
+
   if (itineraryActivities && itineraryActivities.length === 0) {
     return <div style={{ textAlign: "center" }}>No Past Itineraries</div>;
   }
@@ -30,13 +32,15 @@ export default function PastPage({
             itineraryId={itinerary.id}
             photoUrl={itinerary.photoUrl}
             name={itinerary.name}
+        
             country={itinerary.prompts.country}
             selectedItinerary={selectedItinerary}
             setSelectedItinerary={setSelectedItinerary}
             itineraryActivities={itineraryActivities}
-          />
-        ))
-      )}
-    </div>
-  );
+            />
+          ))
+        )}
+      </div>
+    );
+  }
 }
