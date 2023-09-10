@@ -92,9 +92,11 @@ export default function BelowNavbar({
           selectedItinerary={selectedItinerary}
           setSelectedItinerary={setSelectedItinerary}
           itineraryActivities={itineraryActivities}
+          setItineraryActivities={setItineraryActivities}
           isHighlighted={isHighlighted}
           setHighlighted={setHighlighted}
           handleOnCardClick={handleOnCardClick}
+          userId={userId}
         />
       ) : (
         <PastPage
@@ -104,6 +106,7 @@ export default function BelowNavbar({
           isHighlighted={isHighlighted}
           setHighlighted={setHighlighted}
           handleOnCardClick={handleOnCardClick}
+          userId={userId}
         />
       )}
 
