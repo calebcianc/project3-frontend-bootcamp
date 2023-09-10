@@ -36,7 +36,6 @@ export default function GenerateItineraryModal({
   setItineraryActivities,
   setSelectedItinerary,
 }) {
-  // const [errorMessage, setErrorMessage] = useState("");
   const [userId, setUserId] = useState(2); // to write code to get the userId when logged in
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState(null);
@@ -159,8 +158,6 @@ export default function GenerateItineraryModal({
       <Modal
         open={modalView}
         onClose={(event, reason) => handleClose(event, reason)}
-        disableBackdropClick={true} // add this line
-        disableEscapeKeyDown={true} // add this line if you also want to disable close on Escape key press
       >
         <ModalDialog
           size="lg"
