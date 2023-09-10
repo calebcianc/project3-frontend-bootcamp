@@ -1,13 +1,5 @@
 import ActivityCard from "./ActivityCard";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography,
-  Box,
-} from "@mui/material";
+import { CardMedia, Button, Typography, Box } from "@mui/material";
 import { useEffect, useRef } from "react";
 
 export default function ActivityList({

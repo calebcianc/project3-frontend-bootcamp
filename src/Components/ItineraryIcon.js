@@ -11,8 +11,6 @@ export default function ItineraryIcon({
   itinerary,
   setSelectedItinerary,
 }) {
-  console.log("itinerary", itinerary);
-
   const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
   const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
 
@@ -36,7 +34,7 @@ export default function ItineraryIcon({
     // to retrieve curr user gender to check if user is able to join
     console.log("join itinerary");
     // console.log("userId", userId);
-    console.log("itinerary.genderPreference", itinerary.genderPreference);
+    // console.log("itinerary.genderPreference", itinerary.genderPreference);
     handleClose();
   };
 

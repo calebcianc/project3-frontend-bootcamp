@@ -14,7 +14,6 @@ export default function PastPage({
   }
   return (
     <div className="icon-container">
-      {/*add in condition for no itineraries*/}
       {selectedItinerary ? (
         <MapItinerary
           selectedItinerary={selectedItinerary}

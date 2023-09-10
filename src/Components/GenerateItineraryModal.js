@@ -1,28 +1,31 @@
+// React imports
 import { useState } from "react";
-import Modal from "@mui/joy/Modal";
-import ModalDialog from "@mui/joy/ModalDialog";
-import ModalClose from "@mui/joy/ModalClose";
-import Typography from "@mui/joy/Typography";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import Autocomplete from "@mui/material/Autocomplete";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
+import { useNavigate } from "react-router-dom";
+import {
+  Modal,
+  ModalDialog,
+  ModalClose,
+  Typography,
+  CircularProgress,
+} from "@mui/joy";
+import {
+  Box,
+  TextField,
+  Radio,
+  RadioGroup,
+  Autocomplete,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Button,
+} from "@mui/material";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { FlightTakeoff as FlightTakeoffIcon } from "@mui/icons-material";
 import dayjs from "dayjs";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
-import { CircularProgress } from "@mui/joy";
 import "./LoadingSpinner.css";
-import { Button } from "@mui/material";
-import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import { spacing } from "@mui/system";
-import { useNavigate, Link } from "react-router-dom";
 
 export default function GenerateItineraryModal({
   modalView,
@@ -67,7 +70,6 @@ export default function GenerateItineraryModal({
 
   const handleNameChange = (event) => {
     setName(event.target.value);
-    // console.log("Name: ", name);
   };
 
   const disableDatesBeforeToday = (date) => {
@@ -114,7 +116,6 @@ export default function GenerateItineraryModal({
 
     try {
       setIsLoading(true);
-      console.log("userId_chloe", userId);
       const response = await fetch("http://localhost:3000/itinerary/new", {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -123,21 +124,21 @@ export default function GenerateItineraryModal({
       const newItineraryDetails = await response.json();
 
       if (newItineraryDetails && newItineraryDetails.error) {
-        console.error("Backend Error:", newItineraryDetails.error);
-        console.error("Backend Error:", newItineraryDetails.msg);
+        // console.error("Backend Error:", newItineraryDetails.error);
+        // console.error("Backend Error:", newItineraryDetails.msg);
         // Set some state to indicate an error in the UI
       } else {
         setItineraryActivities(newItineraryDetails);
         const newItineraryId =
           newItineraryDetails[newItineraryDetails.length - 1].id;
         setSelectedItinerary(newItineraryId);
-        console.log("Data received: ", JSON.stringify(itineraryActivities));
+        // console.log("Data received: ", JSON.stringify(itineraryActivities));
       }
       navigate(`/upcoming`);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.error("Error: ", error);
+      // console.error("Error: ", error);
     }
 
     handleClose();
@@ -189,7 +190,7 @@ export default function GenerateItineraryModal({
                   value={startDate}
                   onChange={(newValue) => {
                     setStartDate(newValue);
-                    console.log(newValue);
+                    // console.log(newValue);
                   }}
                   shouldDisableDate={disableDatesBeforeToday}
                 />

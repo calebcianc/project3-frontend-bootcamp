@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../constants.js";
 import "../App.css";
@@ -6,6 +6,7 @@ import ItineraryOptionsButton from "./ItineraryOptionsButton";
 import ExplorePage from "./ExplorePage.js";
 import UpcomingPage from "./UpcomingPage.js";
 import PastPage from "./PastPage.js";
+import { CurrUserContext } from "../App.js";
 
 export default function BelowNavbar({
   type,
@@ -14,6 +15,9 @@ export default function BelowNavbar({
 }) {
   const [itineraryActivities, setItineraryActivities] = useState([]);
   const [isHighlighted, setHighlighted] = useState(null);
+  const currUser = useContext(CurrUserContext);
+  const userId = currUser.id;
+
   const handleOnCardClick = (card) => {
     if (isHighlighted === card.id) {
       setHighlighted(null);
@@ -22,9 +26,10 @@ export default function BelowNavbar({
     }
   };
 
-  const userId = 2; // to remove
+  // const userId = 2; // to remove
 
   useEffect(() => {
+    console.log("app userid", userId);
     let apiEndpoint;
 
     switch (type) {
@@ -46,13 +51,11 @@ export default function BelowNavbar({
             setItineraryActivities([]); // Set to empty array
             return;
           }
-          console.log(response.data[0].prompts.startDate);
           const today = new Date();
           const filteredData = response.data.filter((activity) => {
             const endDate = new Date(activity.prompts.endDate);
             return type === "upcoming" ? endDate >= today : endDate < today;
           });
-          console.log("filteredData", filteredData);
           setItineraryActivities(filteredData);
         });
         break;
@@ -64,7 +67,7 @@ export default function BelowNavbar({
         });
         break;
     }
-  }, [type]);
+  }, [type, userId]);
 
   return (
     <div
