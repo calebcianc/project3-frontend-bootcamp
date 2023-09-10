@@ -1,5 +1,5 @@
 // React imports
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Modal,
@@ -26,6 +26,7 @@ import dayjs from "dayjs";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
 import "./LoadingSpinner.css";
+import { CurrUserContext } from "../App.js";
 
 export default function GenerateItineraryModal({
   modalView,
@@ -35,7 +36,7 @@ export default function GenerateItineraryModal({
   setSelectedItinerary,
 }) {
   // const [errorMessage, setErrorMessage] = useState("");
-  const [userId, setUserId] = useState(2); // to write code to get the userId when logged in
+
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -46,6 +47,8 @@ export default function GenerateItineraryModal({
   const [genderPreference, setGenderPreference] = useState("any");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const currUser = useContext(CurrUserContext);
+  const userId = currUser.id;
 
   // Validation function to be called before submitting form
   const isFormValid = () => {
@@ -94,6 +97,7 @@ export default function GenerateItineraryModal({
   };
 
   async function handleGenerateItinerary(event) {
+    console.log("generate userid", userId);
     event.preventDefault();
     const prompts = {
       startDate,

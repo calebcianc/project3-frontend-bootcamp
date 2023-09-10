@@ -26,10 +26,8 @@ export default function BelowNavbar({
     }
   };
 
-  // const userId = 2; // to remove
-
   useEffect(() => {
-    console.log("app userid", userId);
+    console.log("belownavbar userid", userId);
     let apiEndpoint;
 
     switch (type) {
