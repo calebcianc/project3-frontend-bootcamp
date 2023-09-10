@@ -32,15 +32,13 @@ export default function PastPage({
             itineraryId={itinerary.id}
             photoUrl={itinerary.photoUrl}
             name={itinerary.name}
-        
             country={itinerary.prompts.country}
             selectedItinerary={selectedItinerary}
             setSelectedItinerary={setSelectedItinerary}
             itineraryActivities={itineraryActivities}
-            />
-          ))
-        )}
-      </div>
-    );
-  }
+          />
+        ))
+      )}
+    </div>
+  );
 }
