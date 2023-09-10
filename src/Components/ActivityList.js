@@ -9,9 +9,11 @@ export default function ActivityList({
   selectedItinerary,
   setSelectedItinerary,
   itineraryActivities,
+  setItineraryActivities,
   isHighlighted,
   setHighlighted,
   handleOnCardClick,
+  userId,
 }) {
   const handleGoBack = () => {
     setSelectedItinerary(null);
@@ -160,6 +162,9 @@ export default function ActivityList({
                         <ActivityCard
                           activity={activity}
                           isHighlighted={isHighlighted}
+                          userId={userId}
+                          itineraryActivities={itineraryActivities}
+                          setItineraryActivities={setItineraryActivities}
                         />
                       </div>
                     ))}

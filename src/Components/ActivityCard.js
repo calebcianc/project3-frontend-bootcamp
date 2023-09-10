@@ -8,7 +8,14 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import ActivityModal from "./ActivityModal";
 import { useState } from "react";
 
-export default function ActivityCard({ key, activity, isHighlighted }) {
+export default function ActivityCard({
+  key,
+  activity,
+  isHighlighted,
+  userId,
+  itineraryActivities,
+  setItineraryActivities,
+}) {
   // console.log("activity: ", JSON.stringify(activity));
 
   const date = new Date(activity["date"]);
@@ -147,6 +154,9 @@ export default function ActivityCard({ key, activity, isHighlighted }) {
         setModalShow={setModalShow}
         type={"edit"}
         activity={activity}
+        userId={userId}
+        itineraryActivities={itineraryActivities}
+        setItineraryActivities={setItineraryActivities}
       />
     </div>
   );
