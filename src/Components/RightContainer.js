@@ -16,8 +16,6 @@ export default function RightContainer({
 }) {
   return (
     <div style={{ maxWidth: "100%" }}>
-      {/* if itinerary is selected, render list of activities */}
-      {/* if itnerary is not selected, render list of itineraries */}
       {selectedItinerary ? (
         <ActivityList
           selectedItinerary={selectedItinerary}

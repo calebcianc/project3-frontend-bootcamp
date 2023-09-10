@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { Box, Typography, Tooltip, Modal, Button } from "@mui/material";
 import ModalDialog from "@mui/joy/ModalDialog";
 import ModalClose from "@mui/joy/ModalClose";
 import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
 import { convertToDDMMYYYY } from "../utils/utils";
+import { CurrUserContext } from "../App.js";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ItineraryIcon({
   itineraryId,
   itinerary,
   setSelectedItinerary,
 }) {
-  console.log("itinerary", itinerary);
-
   const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
   const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
-
   const [open, setOpen] = useState(false);
+  const currUser = useContext(CurrUserContext);
+  const userId = currUser.id;
+  const navigate = useNavigate();
+
   const handleSelectItinerary = () => {
     setSelectedItinerary(itineraryId);
     handleClose();
@@ -33,10 +37,24 @@ export default function ItineraryIcon({
   };
 
   const handleJoinItinerary = () => {
-    // to retrieve curr user gender to check if user is able to join
-    console.log("join itinerary");
-    // console.log("userId", userId);
-    console.log("itinerary.genderPreference", itinerary.genderPreference);
+    if (
+      (currUser.gender === itinerary.genderPreference) |
+      (itinerary.genderPreference === "Any")
+    ) {
+      axios
+        .post(`${BACKEND_URL}/itinerary/${userId}/${itineraryId}`)
+        .then((res) => {
+          console.log(res.data);
+          navigate(`/upcoming`);
+        });
+    } else {
+      alert(
+        "Unable to join itinerary due to gender preference indicated! Please select another itinerary to join."
+      );
+      console.log(
+        "Unable to join itinerary due to gender preference indicated!"
+      );
+    }
     handleClose();
   };
 

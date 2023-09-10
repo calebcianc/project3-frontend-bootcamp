@@ -13,30 +13,30 @@ export default function PastPage({
 
   if (itineraryActivities && itineraryActivities.length === 0) {
     return <div style={{ textAlign: "center" }}>No Past Itineraries</div>;
-  } else {
-    return (
-      <div className="icon-container">
-        {/*add in condition for no itineraries*/}
-        {selectedItinerary ? (
-          <MapItinerary
+  }
+  return (
+    <div className="icon-container">
+      {selectedItinerary ? (
+        <MapItinerary
+          selectedItinerary={selectedItinerary}
+          setSelectedItinerary={setSelectedItinerary}
+          itineraryActivities={itineraryActivities}
+          isHighlighted={isHighlighted}
+          setHighlighted={setHighlighted}
+          handleOnCardClick={handleOnCardClick}
+        />
+      ) : (
+        itineraryActivities.map((itinerary, index) => (
+          <ItineraryIcon
+            key={itinerary.id}
+            itineraryId={itinerary.id}
+            photoUrl={itinerary.photoUrl}
+            name={itinerary.name}
+        
+            country={itinerary.prompts.country}
             selectedItinerary={selectedItinerary}
             setSelectedItinerary={setSelectedItinerary}
             itineraryActivities={itineraryActivities}
-            isHighlighted={isHighlighted}
-            setHighlighted={setHighlighted}
-            handleOnCardClick={handleOnCardClick}
-          />
-        ) : (
-          itineraryActivities.map((itinerary, index) => (
-            <ItineraryIcon
-              key={itinerary.id}
-              itineraryId={itinerary.id}
-              photoUrl={itinerary.photoUrl}
-              name={itinerary.name}
-              country={itinerary.prompts.country}
-              selectedItinerary={selectedItinerary}
-              setSelectedItinerary={setSelectedItinerary}
-              itineraryActivities={itineraryActivities}
             />
           ))
         )}
