@@ -13,6 +13,7 @@ export default function RightContainer({
   setHighlighted,
   handleOnCardClick,
   userId,
+  setValue,
 }) {
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -45,6 +46,7 @@ export default function RightContainer({
             setHighlighted={setHighlighted}
             handleOnCardClick={handleOnCardClick}
             userId={userId}
+            setValue={setValue}
           />
         </div>
       )}

@@ -9,6 +9,7 @@ export default function UpcomingPage({
   setHighlighted,
   handleOnCardClick,
   userId,
+  setValue,
 }) {
   if (itineraryActivities && itineraryActivities.length === 0) {
     return <div style={{ textAlign: "center" }}>No upcoming Itineraries</div>;
@@ -25,6 +26,7 @@ export default function UpcomingPage({
         setHighlighted={setHighlighted}
         handleOnCardClick={handleOnCardClick}
         userId={userId}
+        setValue={setValue}
       />
     </div>
   );

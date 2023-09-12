@@ -12,6 +12,7 @@ export default function BelowNavbar({
   type,
   selectedItinerary,
   setSelectedItinerary,
+  setValue,
 }) {
   const [itineraryActivities, setItineraryActivities] = useState([]);
   const [isHighlighted, setHighlighted] = useState(null);
@@ -87,6 +88,7 @@ export default function BelowNavbar({
           isHighlighted={isHighlighted}
           setHighlighted={setHighlighted}
           handleOnCardClick={handleOnCardClick}
+          setValue={setValue}
         />
       ) : type === "upcoming" ? (
         <UpcomingPage
@@ -98,6 +100,7 @@ export default function BelowNavbar({
           setHighlighted={setHighlighted}
           handleOnCardClick={handleOnCardClick}
           userId={userId}
+          setValue={setValue}
         />
       ) : (
         <PastPage

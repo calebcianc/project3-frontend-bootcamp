@@ -28,6 +28,7 @@ export default function ItineraryCard({
   setItineraryPhoto,
   isHighlighted,
   handleOnCardClick,
+  setValue,
 }) {
   const [users, setUsers] = useState([]);
   const currUser = useContext(CurrUserContext);
@@ -71,9 +72,10 @@ export default function ItineraryCard({
       .delete(`${BACKEND_URL}/itinerary/${currUser.id}/${id}`)
       .then((res) => {
         console.log(res.data);
-        navigate(`/explore`);
       });
     // Add your leave logic here
+    navigate(`/explore`);
+    setValue("explore");
   };
 
   return (
