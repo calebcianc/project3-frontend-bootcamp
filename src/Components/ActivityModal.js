@@ -55,7 +55,6 @@ export default function ActivityModal({
   const [longitude, setLng] = useState(activity.longitude);
   const [showButton, setShowButton] = useState(false);
 
-  console.log("activityDate: ", activity.date);
   const disableDatesBeforeToday = (date) => {
     // Get yesterday's date
     const yesterday = dayjs().subtract(1, "day");

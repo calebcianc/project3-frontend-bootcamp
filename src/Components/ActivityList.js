@@ -1,9 +1,22 @@
 import ActivityCard from "./ActivityCard";
-import { CardMedia, Button, Typography, Box } from "@mui/material";
-import { useEffect, useRef } from "react";
-import DownloadItineraryButton from "./DownloadItineraryButton";
+import {
+  CardMedia,
+  Button,
+  Typography,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
+import { useState, useEffect, useRef } from "react";
+// import DownloadItineraryButton from "./DownloadItineraryButton";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import GoogleIcon from "@mui/icons-material/Google";
+import MicrosoftIcon from "@mui/icons-material/Microsoft";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { BACKEND_URL } from "../constants.js";
 
 export default function ActivityList({
   selectedItinerary,
@@ -36,6 +49,7 @@ export default function ActivityList({
     (item) => item.id === selectedItinerary
   );
 
+  // code to group activities by date
   const groupByDate = (activities) => {
     return activities.reduce((acc, activity) => {
       const date = new Date(activity["date"]).toLocaleDateString("en-GB", {
@@ -50,6 +64,32 @@ export default function ActivityList({
       acc[date].push(activity);
       return acc;
     }, {});
+  };
+
+  // code to handle download of itinerary into excel or google sheet
+  const [showDownloadDialog, setShowDownloadDialog] = useState(false);
+  const handleCloseDialog = () => {
+    setShowDownloadDialog(false);
+  };
+  const downloadExcel = () => {
+    window.open(`${BACKEND_URL}/download/excel/${itinerary.id}`);
+  };
+  const downloadGoogleSheet = () => {
+    fetch(`${BACKEND_URL}/download/googleSheet/${itinerary.id}`).then(
+      (response) =>
+        response.json().then((data) => {
+          window.open(data.url, "_blank");
+        })
+    );
+  };
+  const handleDownload = (type) => {
+    setShowDownloadDialog(false);
+
+    if (type === "excel") {
+      downloadExcel();
+    } else if (type === "googleSheet") {
+      downloadGoogleSheet();
+    }
   };
 
   return (
@@ -68,7 +108,7 @@ export default function ActivityList({
         <div style={{ marginLeft: "auto", marginRight: "4mm" }}>
           <Button
             endIcon={<FileDownloadIcon />}
-            // onClick={handleDownloadItinerary}
+            onClick={() => setShowDownloadDialog(true)}
           >
             Download
           </Button>
@@ -175,6 +215,50 @@ export default function ActivityList({
           );
         })}
       </div>
+
+      {showDownloadDialog && (
+        <Dialog open={showDownloadDialog} close={handleCloseDialog}>
+          <DialogTitle>Select Download Type</DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseDialog}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent style={{ padding: "16px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                gap: "20px", // Adding gap between buttons
+              }}
+            >
+              <Button
+                onClick={() => handleDownload("excel")}
+                startIcon={<MicrosoftIcon />}
+                style={{ margin: "8px" }} // Adding margin around buttons
+                variant="outlined"
+              >
+                Excel
+              </Button>
+              <Button
+                onClick={() => handleDownload("googleSheet")}
+                startIcon={<GoogleIcon />}
+                style={{ margin: "8px" }} // Adding margin around buttons
+                variant="outlined"
+              >
+                Google Sheet
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
