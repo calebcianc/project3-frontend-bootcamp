@@ -28,7 +28,10 @@ export default function ItineraryCard({
   setItineraryPhoto,
   isHighlighted,
   handleOnCardClick,
+  setDataChanged,
+  dataChanged,
   setValue,
+
 }) {
   const [users, setUsers] = useState([]);
   const currUser = useContext(CurrUserContext);
@@ -58,24 +61,26 @@ export default function ItineraryCard({
 
   const handleEdit = (id) => {
     console.log(`Editing itinerary with id ${id}`);
-    // Add your edit logic here
   };
 
   const handleDelete = (id) => {
-    console.log(`Deleting itinerary with id ${id}`);
-    // Add your delete logic here
+    axios
+      .delete(`${BACKEND_URL}/itinerary/${currUser.id}/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        setDataChanged(!dataChanged);
+        navigate(`/upcoming`);
+      });
   };
 
   const handleLeave = (id) => {
-    console.log(`Leaving itinerary with id ${id}`);
     axios
       .delete(`${BACKEND_URL}/itinerary/${currUser.id}/${id}`)
-      .then((res) => {
-        console.log(res.data);
+      .then((response) => {
+        console.log(response.data);
+        setDataChanged(!dataChanged);
+        navigate(`/upcoming`);
       });
-    // Add your leave logic here
-    // navigate(`/explore`);
-    // setValue("explore");
   };
 
   return (

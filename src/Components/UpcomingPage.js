@@ -9,6 +9,8 @@ export default function UpcomingPage({
   setHighlighted,
   handleOnCardClick,
   userId,
+  setDataChanged,
+  dataChanged,
   setValue,
 }) {
   if (itineraryActivities && itineraryActivities.length === 0) {
@@ -26,6 +28,8 @@ export default function UpcomingPage({
         setHighlighted={setHighlighted}
         handleOnCardClick={handleOnCardClick}
         userId={userId}
+        setDataChanged={setDataChanged}
+        dataChanged={dataChanged}
         setValue={setValue}
       />
     </div>

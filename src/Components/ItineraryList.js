@@ -11,6 +11,8 @@ export default function ItineraryList({
   isHighlighted,
   setHighlighted,
   handleOnCardClick,
+  setDataChanged,
+  dataChanged,
   setValue,
 }) {
   const highlightedItineraryCardRef = useRef(null); // Create reference for highlighted card
@@ -41,6 +43,8 @@ export default function ItineraryList({
             setSelectedItinerary={setSelectedItinerary}
             isHighlighted={isHighlighted}
             handleOnCardClick={handleOnCardClick}
+            setDataChanged={setDataChanged}
+            dataChanged={dataChanged}
             setValue={setValue}
           />
         </div>
