@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Card,
   CardActions,
@@ -11,13 +11,14 @@ import {
 import axios from "axios";
 import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
-import { convertToDDMMYYYY } from "../utils/utils";
+import { convertToFormattedDate } from "../utils/utils";
 import GroupIcon from "@mui/icons-material/Group";
 import RoomIcon from "@mui/icons-material/Room";
 import EventIcon from "@mui/icons-material/Event";
 import PublicIcon from "@mui/icons-material/Public";
 import LockIcon from "@mui/icons-material/Lock";
 import Grid from "@mui/material/Grid";
+import { CurrUserContext } from "../App.js";
 
 export default function ItineraryCard({
   itinerary,
@@ -28,25 +29,43 @@ export default function ItineraryCard({
   handleOnCardClick,
 }) {
   const [users, setUsers] = useState([]);
+  const currUser = useContext(CurrUserContext);
+  const [currUserCreator, setCurrUserCreator] = useState(false);
 
+  // get all users for this itinerary and set it as user
+  // check if curr user is creator and set it as currUserCreator
   useEffect(() => {
     axios.get(`${BACKEND_URL}/user/${itinerary.id}`).then((response) => {
       setUsers(response.data); //JSON.stringify
+      const foundUser = response.data.find(
+        (user) => user.userId === currUser.id
+      );
+      if (foundUser) {
+        setCurrUserCreator(foundUser.isCreator);
+      }
     });
   }, []);
-
-  const convertToFormattedDate = (dateString) => {
-    const date = new Date(dateString.split("/").reverse().join("-"));
-    const options = { day: "2-digit", month: "short", year: "numeric" };
-    return date.toLocaleDateString("en-GB", options);
-  };
 
   const startDate = convertToFormattedDate(itinerary.prompts.startDate);
   const endDate = convertToFormattedDate(itinerary.prompts.endDate);
 
   const handleSelectItinerary = () => {
     setSelectedItinerary(itinerary.id);
-    // setItineraryPhoto({ photo: itinerary.photoUrl, name: itinerary.name });
+  };
+
+  const handleEdit = (id) => {
+    console.log(`Editing itinerary with id ${id}`);
+    // Add your edit logic here
+  };
+
+  const handleDelete = (id) => {
+    console.log(`Deleting itinerary with id ${id}`);
+    // Add your delete logic here
+  };
+
+  const handleLeave = (id) => {
+    console.log(`Leaving itinerary with id ${id}`);
+    // Add your leave logic here
   };
 
   return (
@@ -146,8 +165,20 @@ export default function ItineraryCard({
         </Grid>
       </CardContent>
       <CardActions>
-        <Button size="small">Edit</Button>
-        <Button size="small">Delete</Button>
+        {currUserCreator ? (
+          <>
+            <Button size="small" onClick={() => handleEdit(itinerary.id)}>
+              Edit
+            </Button>
+            <Button size="small" onClick={() => handleDelete(itinerary.id)}>
+              Delete
+            </Button>
+          </>
+        ) : (
+          <Button size="small" onClick={() => handleLeave(itinerary.id)}>
+            Leave Itinerary
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

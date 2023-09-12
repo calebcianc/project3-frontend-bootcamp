@@ -8,3 +8,9 @@ export const convertToDDMMYYYY = (isoDate) => {
   const year = date.getUTCFullYear();
   return `${day}/${month}/${year}`;
 };
+
+export const convertToFormattedDate = (dateString) => {
+  const date = new Date(dateString.split("/").reverse().join("-"));
+  const options = { day: "2-digit", month: "short", year: "numeric" };
+  return date.toLocaleDateString("en-GB", options);
+};

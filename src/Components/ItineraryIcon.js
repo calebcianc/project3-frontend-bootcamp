@@ -132,12 +132,12 @@ export default function ItineraryIcon({
                 />
               </Box>
             ))}
-            <div>
-              <Button onClick={handleSelectItinerary}>view itinerary</Button>
-              <Button onClick={handleJoinItinerary}>join itinerary</Button>
-              <Button onClick={handleClose}>Close</Button>
-            </div>
           </Box>
+          <div>
+            <Button onClick={handleSelectItinerary}>view itinerary</Button>
+            <Button onClick={handleJoinItinerary}>join itinerary</Button>
+            <Button onClick={handleClose}>Close</Button>
+          </div>
         </ModalDialog>
       </Modal>
     </div>
