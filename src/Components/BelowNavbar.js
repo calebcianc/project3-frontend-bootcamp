@@ -17,6 +17,7 @@ export default function BelowNavbar({
   const [isHighlighted, setHighlighted] = useState(null);
   const currUser = useContext(CurrUserContext);
   const userId = currUser.id;
+  const [dataChanged, setDataChanged] = useState(false);
 
   const handleOnCardClick = (card) => {
     if (card === null) {
@@ -68,7 +69,7 @@ export default function BelowNavbar({
         });
         break;
     }
-  }, [type, userId]);
+  }, [type, userId, dataChanged]);
 
   return (
     <div
@@ -98,6 +99,8 @@ export default function BelowNavbar({
           setHighlighted={setHighlighted}
           handleOnCardClick={handleOnCardClick}
           userId={userId}
+          setDataChanged={setDataChanged}
+          dataChanged={dataChanged}
         />
       ) : (
         <PastPage

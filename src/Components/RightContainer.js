@@ -13,6 +13,8 @@ export default function RightContainer({
   setHighlighted,
   handleOnCardClick,
   userId,
+  setDataChanged,
+  dataChanged,
 }) {
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -40,11 +42,14 @@ export default function RightContainer({
             selectedItinerary={selectedItinerary}
             setSelectedItinerary={setSelectedItinerary}
             itineraryActivities={itineraryActivities}
+            setItineraryActivities={setItineraryActivities}
             setItineraryPhoto={setItineraryPhoto}
             isHighlighted={isHighlighted}
             setHighlighted={setHighlighted}
             handleOnCardClick={handleOnCardClick}
             userId={userId}
+            setDataChanged={setDataChanged}
+            dataChanged={dataChanged}
           />
         </div>
       )}
