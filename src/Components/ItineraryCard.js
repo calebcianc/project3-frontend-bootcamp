@@ -31,7 +31,6 @@ export default function ItineraryCard({
   setDataChanged,
   dataChanged,
   setValue,
-
 }) {
   const [users, setUsers] = useState([]);
   const currUser = useContext(CurrUserContext);
@@ -95,7 +94,9 @@ export default function ItineraryCard({
           boxShadow:
             "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
         },
+        cursor: "pointer",
       }}
+      onClick={() => handleOnCardClick(itinerary)}
     >
       <Box position="relative">
         <CardMedia
@@ -103,11 +104,10 @@ export default function ItineraryCard({
           sx={{
             height: 140,
             objectFit: "cover",
-            cursor: "pointer",
           }}
           image={itinerary.photoUrl ? itinerary.photoUrl : null}
           title={`Click to view ${itinerary.name}`}
-          onClick={handleSelectItinerary}
+          // onClick={handleSelectItinerary}
         />
         <Box
           position="absolute"
@@ -121,10 +121,7 @@ export default function ItineraryCard({
           <Typography variant="h6">{itinerary.name}</Typography>
         </Box>
       </Box>
-      <CardContent
-        onClick={() => handleOnCardClick(itinerary)}
-        style={{ paddingBottom: "0px" }}
-      >
+      <CardContent style={{ paddingBottom: "0px" }}>
         <Grid container spacing={2}>
           <Grid item xs={3}>
             <Grid container alignItems="center" justifyContent="flex-start">
@@ -180,20 +177,30 @@ export default function ItineraryCard({
         </Grid>
       </CardContent>
       <CardActions>
-        {currUserCreator ? (
-          <>
-            <Button size="small" onClick={() => handleEdit(itinerary.id)}>
-              Edit
-            </Button>
-            <Button size="small" onClick={() => handleDelete(itinerary.id)}>
-              Delete
-            </Button>
-          </>
-        ) : (
-          <Button size="small" onClick={() => handleLeave(itinerary.id)}>
-            Leave Itinerary
-          </Button>
-        )}
+        {isHighlighted === itinerary.id ? (
+          currUserCreator ? (
+            <>
+              <Button size="small" onClick={handleSelectItinerary}>
+                View
+              </Button>
+              <Button size="small" onClick={() => handleEdit(itinerary.id)}>
+                Edit
+              </Button>
+              <Button size="small" onClick={() => handleDelete(itinerary.id)}>
+                Delete
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button size="small" onClick={handleSelectItinerary}>
+                View
+              </Button>
+              <Button size="small" onClick={() => handleLeave(itinerary.id)}>
+                Leave Itinerary
+              </Button>
+            </>
+          )
+        ) : null}
       </CardActions>
     </Card>
   );
