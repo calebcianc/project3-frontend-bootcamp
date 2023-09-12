@@ -11,6 +11,7 @@ export default function UpcomingPage({
   userId,
   setDataChanged,
   dataChanged,
+  setValue,
 }) {
   if (itineraryActivities && itineraryActivities.length === 0) {
     return <div style={{ textAlign: "center" }}>No upcoming Itineraries</div>;
@@ -29,6 +30,7 @@ export default function UpcomingPage({
         userId={userId}
         setDataChanged={setDataChanged}
         dataChanged={dataChanged}
+        setValue={setValue}
       />
     </div>
   );

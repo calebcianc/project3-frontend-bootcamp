@@ -30,6 +30,8 @@ export default function ItineraryCard({
   handleOnCardClick,
   setDataChanged,
   dataChanged,
+  setValue,
+
 }) {
   const [users, setUsers] = useState([]);
   const currUser = useContext(CurrUserContext);

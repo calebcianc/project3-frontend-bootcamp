@@ -15,6 +15,7 @@ export default function RightContainer({
   userId,
   setDataChanged,
   dataChanged,
+  setValue,
 }) {
   return (
     <div style={{ maxWidth: "100%" }}>
@@ -50,6 +51,7 @@ export default function RightContainer({
             userId={userId}
             setDataChanged={setDataChanged}
             dataChanged={dataChanged}
+            setValue={setValue}
           />
         </div>
       )}

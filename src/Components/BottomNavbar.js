@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ExploreIcon from "@mui/icons-material/Explore";
 import UpcomingIcon from "@mui/icons-material/Upcoming";
 import ArchiveIcon from "@mui/icons-material/Archive";

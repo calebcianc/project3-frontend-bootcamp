@@ -13,6 +13,7 @@ export default function ItineraryList({
   handleOnCardClick,
   setDataChanged,
   dataChanged,
+  setValue,
 }) {
   const highlightedItineraryCardRef = useRef(null); // Create reference for highlighted card
   // useEffect to cause highlighted card to scroll into view
@@ -44,6 +45,7 @@ export default function ItineraryList({
             handleOnCardClick={handleOnCardClick}
             setDataChanged={setDataChanged}
             dataChanged={dataChanged}
+            setValue={setValue}
           />
         </div>
       ))}

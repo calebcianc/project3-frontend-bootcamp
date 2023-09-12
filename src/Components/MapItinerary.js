@@ -12,6 +12,7 @@ export default function MapItinerary({
   userId,
   setDataChanged,
   dataChanged,
+  setValue,
 }) {
   return (
     <div>
@@ -39,6 +40,7 @@ export default function MapItinerary({
               userId={userId}
               setDataChanged={setDataChanged}
               dataChanged={dataChanged}
+              setValue={setValue}
             />
           </div>
         </div>
