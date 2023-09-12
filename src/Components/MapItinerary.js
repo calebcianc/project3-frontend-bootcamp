@@ -10,6 +10,7 @@ export default function MapItinerary({
   setHighlighted,
   handleOnCardClick,
   userId,
+  setValue,
 }) {
   return (
     <div>
@@ -35,6 +36,7 @@ export default function MapItinerary({
               setHighlighted={setHighlighted}
               handleOnCardClick={handleOnCardClick}
               userId={userId}
+              setValue={setValue}
             />
           </div>
         </div>

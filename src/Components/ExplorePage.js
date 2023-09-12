@@ -8,6 +8,7 @@ export default function ExplorePage({
   isHighlighted,
   setHighlighted,
   handleOnCardClick,
+  setValue,
 }) {
   if (itineraryActivities && itineraryActivities.length === 0) {
     return <div style={{ textAlign: "center" }}>No Public Itineraries</div>;
@@ -32,6 +33,7 @@ export default function ExplorePage({
                 itineraryId={itinerary.id}
                 itinerary={itinerary}
                 setSelectedItinerary={setSelectedItinerary}
+                setValue={setValue}
               />
             ) : null
           )}

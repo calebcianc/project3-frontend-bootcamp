@@ -13,6 +13,7 @@ export default function ItineraryIcon({
   itineraryId,
   itinerary,
   setSelectedItinerary,
+  setValue,
 }) {
   const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
   const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
@@ -45,7 +46,6 @@ export default function ItineraryIcon({
         .post(`${BACKEND_URL}/itinerary/${userId}/${itineraryId}`)
         .then((res) => {
           console.log(res.data);
-          navigate(`/upcoming`);
         });
     } else {
       alert(
@@ -55,6 +55,8 @@ export default function ItineraryIcon({
         "Unable to join itinerary due to gender preference indicated!"
       );
     }
+    setValue("upcoming");
+    navigate(`/upcoming`);
     handleClose();
   };
 

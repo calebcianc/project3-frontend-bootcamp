@@ -56,6 +56,8 @@ const App = () => {
                       type="upcoming"
                       selectedItinerary={selectedItinerary}
                       setSelectedItinerary={setSelectedItinerary}
+                      value={value}
+                      setValue={setValue}
                     />
                   }
                 />
@@ -66,6 +68,7 @@ const App = () => {
                       type="explore"
                       selectedItinerary={selectedItinerary}
                       setSelectedItinerary={setSelectedItinerary}
+                      setValue={setValue}
                     />
                   }
                 />
@@ -76,6 +79,7 @@ const App = () => {
                       type="upcoming"
                       selectedItinerary={selectedItinerary}
                       setSelectedItinerary={setSelectedItinerary}
+                      setValue={setValue}
                     />
                   }
                 />
