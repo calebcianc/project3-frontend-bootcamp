@@ -56,6 +56,7 @@ const App = () => {
                       type="upcoming"
                       selectedItinerary={selectedItinerary}
                       setSelectedItinerary={setSelectedItinerary}
+                      value={value}
                       setValue={setValue}
                     />
                   }

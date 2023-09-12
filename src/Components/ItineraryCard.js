@@ -74,8 +74,8 @@ export default function ItineraryCard({
         console.log(res.data);
       });
     // Add your leave logic here
-    navigate(`/explore`);
-    setValue("explore");
+    // navigate(`/explore`);
+    // setValue("explore");
   };
 
   return (

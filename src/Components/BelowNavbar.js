@@ -12,6 +12,7 @@ export default function BelowNavbar({
   type,
   selectedItinerary,
   setSelectedItinerary,
+  value,
   setValue,
 }) {
   const [itineraryActivities, setItineraryActivities] = useState([]);
@@ -69,7 +70,7 @@ export default function BelowNavbar({
         });
         break;
     }
-  }, [type, userId]);
+  }, [type, userId, value]);
 
   return (
     <div
