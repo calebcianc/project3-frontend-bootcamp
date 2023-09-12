@@ -19,6 +19,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import LockIcon from "@mui/icons-material/Lock";
 import Grid from "@mui/material/Grid";
 import { CurrUserContext } from "../App.js";
+import { useNavigate } from "react-router-dom";
 
 export default function ItineraryCard({
   itinerary,
@@ -31,6 +32,7 @@ export default function ItineraryCard({
   const [users, setUsers] = useState([]);
   const currUser = useContext(CurrUserContext);
   const [currUserCreator, setCurrUserCreator] = useState(false);
+  const navigate = useNavigate();
 
   // get all users for this itinerary and set it as user
   // check if curr user is creator and set it as currUserCreator
@@ -65,6 +67,12 @@ export default function ItineraryCard({
 
   const handleLeave = (id) => {
     console.log(`Leaving itinerary with id ${id}`);
+    axios
+      .delete(`${BACKEND_URL}/itinerary/${currUser.id}/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        navigate(`/explore`);
+      });
     // Add your leave logic here
   };
 
