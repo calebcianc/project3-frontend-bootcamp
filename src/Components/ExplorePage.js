@@ -10,6 +10,8 @@ export default function ExplorePage({
   handleOnCardClick,
   setValue,
 }) {
+  console.log("itineraryActivities: ", { itineraryActivities });
+
   if (itineraryActivities && itineraryActivities.length === 0) {
     return (
       <div

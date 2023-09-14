@@ -71,8 +71,7 @@ export default function BelowNavbar({
         });
         break;
     }
-  }, [type, userId, dataChanged,value]);
-
+  }, [type, userId, dataChanged, value]);
 
   return (
     <div
@@ -91,7 +90,9 @@ export default function BelowNavbar({
           isHighlighted={isHighlighted}
           setHighlighted={setHighlighted}
           handleOnCardClick={handleOnCardClick}
+          value={value}
           setValue={setValue}
+          type={type}
         />
       ) : type === "upcoming" ? (
         <UpcomingPage
@@ -106,7 +107,6 @@ export default function BelowNavbar({
           setDataChanged={setDataChanged}
           dataChanged={dataChanged}
           setValue={setValue}
-
         />
       ) : (
         <PastPage
@@ -117,6 +117,8 @@ export default function BelowNavbar({
           setHighlighted={setHighlighted}
           handleOnCardClick={handleOnCardClick}
           userId={userId}
+          value={value}
+          setValue={setValue}
         />
       )}
 
