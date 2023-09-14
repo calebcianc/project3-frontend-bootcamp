@@ -8,14 +8,27 @@ export default function PastPage({
   isHighlighted,
   setHighlighted,
   handleOnCardClick,
+  value,
+  setValue,
 }) {
   console.log("itineraryActivities: ", { itineraryActivities });
 
   if (itineraryActivities && itineraryActivities.length === 0) {
-    return <div style={{ textAlign: "center" }}>No Past Itineraries</div>;
+    return (
+      <div
+        style={{
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <em>There are past itineraries available for you to view</em>
+      </div>
+    );
   }
   return (
-    <div className="icon-container">
+    <div>
       {selectedItinerary ? (
         <MapItinerary
           selectedItinerary={selectedItinerary}
@@ -26,18 +39,26 @@ export default function PastPage({
           handleOnCardClick={handleOnCardClick}
         />
       ) : (
-        itineraryActivities.map((itinerary, index) => (
-          <ItineraryIcon
-            key={itinerary.id}
-            itineraryId={itinerary.id}
-            photoUrl={itinerary.photoUrl}
-            name={itinerary.name}
-            country={itinerary.prompts.country}
-            selectedItinerary={selectedItinerary}
-            setSelectedItinerary={setSelectedItinerary}
-            itineraryActivities={itineraryActivities}
-          />
-        ))
+        <div className="icon-container">
+          {itineraryActivities.map((itinerary, index) => (
+            <ItineraryIcon
+              // key={itinerary.id}
+              // itineraryId={itinerary.id}
+              // photoUrl={itinerary.photoUrl}
+              // name={itinerary.name}
+              // country={itinerary.prompts.country}
+              // selectedItinerary={selectedItinerary}
+              // setSelectedItinerary={setSelectedItinerary}
+              // itineraryActivities={itineraryActivities}
+              key={itinerary.id}
+              itineraryId={itinerary.id}
+              itinerary={itinerary}
+              setSelectedItinerary={setSelectedItinerary}
+              value={value}
+              setValue={setValue}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
