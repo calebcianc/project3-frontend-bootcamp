@@ -11,7 +11,20 @@ export default function ExplorePage({
   setValue,
 }) {
   if (itineraryActivities && itineraryActivities.length === 0) {
-    return <div style={{ textAlign: "center" }}>No Public Itineraries</div>;
+    return (
+      <div
+        style={{
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <em>
+          There are no itineraries available for you to join at the moment
+        </em>
+      </div>
+    );
   }
   return (
     <div>
