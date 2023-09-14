@@ -19,6 +19,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import LockIcon from "@mui/icons-material/Lock";
 import Grid from "@mui/material/Grid";
 import { CurrUserContext } from "../App.js";
+import { countries } from "../Data/Countries";
 import { useNavigate } from "react-router-dom";
 
 export default function ItineraryCard({
@@ -82,6 +83,14 @@ export default function ItineraryCard({
       });
   };
 
+  const countryName = itinerary.prompts.country;
+
+  // render country flag next to country name
+  const countryCode = () => {
+    const country = countries.find((country) => country.label === countryName);
+    return country ? country.code : null;
+  };
+
   return (
     <Card
       className={`${itinerary.id === isHighlighted ? "highlighted-card" : ""}`}
@@ -125,7 +134,16 @@ export default function ItineraryCard({
         <Grid container spacing={2}>
           <Grid item xs={3}>
             <Grid container alignItems="center" justifyContent="flex-start">
-              <RoomIcon color="action" style={{ marginRight: "5px" }} />
+              {/* <RoomIcon color="action" style={{ marginRight: "5px" }} />
+               */}
+              <img
+                loading="lazy"
+                width="24"
+                src={`https://flagcdn.com/w20/${countryCode().toLowerCase()}.png`}
+                srcSet={`https://flagcdn.com/w40/${countryCode().toLowerCase()}.png 2x`}
+                alt=""
+                style={{ marginRight: "5px" }}
+              />
               <Typography variant="body2">
                 {itinerary.prompts.country}
               </Typography>

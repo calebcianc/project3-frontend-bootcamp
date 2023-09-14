@@ -13,6 +13,9 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import DescriptionIcon from "@mui/icons-material/Description";
+import GroupIcon from "@mui/icons-material/Group";
+import Grid from "@mui/material/Grid";
+import { countries } from "../Data/Countries";
 
 export default function ItineraryIcon({
   itineraryId,
@@ -70,8 +73,13 @@ export default function ItineraryIcon({
     handleClose();
   };
 
-  console.log("value: ", JSON.stringify(value));
-  console.log("type: ", JSON.stringify({ type }));
+  const countryName = itinerary.prompts.country;
+
+  // render country flag next to country name
+  const countryCode = () => {
+    const country = countries.find((country) => country.label === countryName);
+    return country ? country.code : null;
+  };
 
   return (
     <div onClick={handleOpen} style={{ cursor: "pointer" }}>
@@ -116,45 +124,108 @@ export default function ItineraryIcon({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <ModalDialog size="lg" variant="outlined">
+        <ModalDialog
+          size="lg"
+          variant="outlined"
+          style={{ width: "80%", maxWidth: "500px" }}
+        >
           <ModalClose onClick={handleClose} />
-          <Typography variant="h5" component="h2">
-            {itinerary.name}
-          </Typography>
-          <Typography>
-            {" "}
-            {itinerary.prompts.country} | {itinerary.prompts.category}
-            <br />
-            {startDate} to {endDate}
-            <br />
-            {itinerary.users.length}/{itinerary.maxPax} participants (
-            {itinerary.genderPreference})
-          </Typography>
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            style={{ marginBottom: "15px" }}
+          >
+            <Grid item>
+              <Typography variant="h5" component="h2">
+                {itinerary.name}
+              </Typography>
+            </Grid>
+          </Grid>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            style={{ marginBottom: "5px" }}
+          >
+            <Grid item>
+              <img
+                loading="lazy"
+                width="24"
+                src={`https://flagcdn.com/w20/${countryCode().toLowerCase()}.png`}
+                srcSet={`https://flagcdn.com/w40/${countryCode().toLowerCase()}.png 2x`}
+                alt=""
+              />
+            </Grid>
+            <Grid item>
+              <Typography>
+                {itinerary.prompts.country} | {itinerary.prompts.category}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            style={{ marginBottom: "5px" }}
+          >
+            <Grid item>
+              <CalendarTodayIcon color="action" />
+            </Grid>
+            <Grid item>
+              <Typography>
+                {startDate} to {endDate}
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            style={{ marginBottom: "5px" }}
+          >
+            <Grid item>
+              <GroupIcon color="action" />
+            </Grid>
+            <Grid item>
+              <Typography>
+                {itinerary.users.length}/{itinerary.maxPax} participants (
+                {itinerary.genderPreference})
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            style={{ marginLeft: "24px", marginBottom: "15px" }}
           >
             {itinerary.users.map((user, index) => (
-              <Box sx={{ marginRight: 1, marginBottom: 1 }} key={index}>
+              <Grid item key={index}>
                 <UserIcon
                   user={user}
                   isCreator={user.user_itineraries.isCreator}
                 />
-              </Box>
+              </Grid>
             ))}
-          </Box>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Button onClick={handleSelectItinerary}>view itinerary</Button>
-            {value !== "past" ? (
-              <Button onClick={handleJoinItinerary}>join itinerary</Button>
-            ) : null}
-            <Button onClick={handleClose}>Close</Button>
-          </div>
+          </Grid>
+
+          <Grid container spacing={2} justify="space-between">
+            <Grid item>
+              <Button onClick={handleSelectItinerary}>view itinerary</Button>
+            </Grid>
+            {value !== "past" && (
+              <Grid item>
+                <Button onClick={handleJoinItinerary}>join itinerary</Button>
+              </Grid>
+            )}
+            <Grid item>
+              <Button onClick={handleClose}>Close</Button>
+            </Grid>
+          </Grid>
         </ModalDialog>
       </Modal>
     </div>

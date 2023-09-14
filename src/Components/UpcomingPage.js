@@ -14,7 +14,21 @@ export default function UpcomingPage({
   setValue,
 }) {
   if (itineraryActivities && itineraryActivities.length === 0) {
-    return <div style={{ textAlign: "center" }}>No upcoming Itineraries</div>;
+    return (
+      <div
+        style={{
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <em>
+          You have no upcoming itineraries to view - Click the button below to
+          generate one!
+        </em>
+      </div>
+    );
   }
 
   return (
