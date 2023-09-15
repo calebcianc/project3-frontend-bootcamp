@@ -16,6 +16,8 @@ import MicrosoftIcon from "@mui/icons-material/Microsoft";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { BACKEND_URL } from "../constants.js";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ActivityList({
   selectedItinerary,
@@ -65,6 +67,28 @@ export default function ActivityList({
     }, {});
   };
 
+  const { user, isAuthenticated, getAccessTokenSilently, loginWithRedirect } =
+    useAuth0();
+
+  const [accessToken, setAccessToken] = useState("");
+
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      let token = await getAccessTokenSilently({
+        audience: "https://travelgpt/api",
+        scope: "read:current_user",
+      });
+      console.log(token);
+      setAccessToken(token);
+    } else {
+      loginWithRedirect();
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
   // code to handle download of itinerary into excel or google sheet
   const [showDownloadDialog, setShowDownloadDialog] = useState(false);
   const handleCloseDialog = () => {
@@ -73,17 +97,26 @@ export default function ActivityList({
   const downloadExcel = () => {
     window.open(`${BACKEND_URL}/download/excel/${itinerary.id}`);
   };
+
   const downloadGoogleSheet = () => {
-    fetch(`${BACKEND_URL}/download/googleSheet/${itinerary.id}`)
+    axios({
+      method: "GET",
+      url: `${BACKEND_URL}/download/googleSheet/${itinerary.id}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
       .then((response) => {
         console.log("Received response:", response);
-        response.json().then((data) => {
-          console.log("Received JSON data:", data);
-          window.open(data.url, "_blank");
-        });
+        // In axios, the JSON response data is accessible through `response.data`
+        console.log("Received JSON data:", response.data);
+        window.open(response.data.url, "_blank");
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+      });
   };
+
   const handleDownload = (type) => {
     setShowDownloadDialog(false);
 
