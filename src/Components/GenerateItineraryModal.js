@@ -215,6 +215,7 @@ export default function GenerateItineraryModal({
                   shouldDisableDate={disableDatesBeforeToday}
                 />
               </LocalizationProvider>
+
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
                 adapterLocale="en-gb"

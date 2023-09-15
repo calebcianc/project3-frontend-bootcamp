@@ -1,5 +1,6 @@
 import LeftContainer from "./LeftContainer";
 import RightContainer from "./RightContainer";
+import { useState } from "react";
 
 export default function MapItinerary({
   selectedItinerary,
@@ -14,6 +15,14 @@ export default function MapItinerary({
   dataChanged,
   setValue,
 }) {
+  const [appliedFilters, setAppliedFilters] = useState({
+    startDate: null,
+    endDate: null,
+    country: null,
+    category: null,
+    people: null,
+  });
+
   return (
     <div>
       {itineraryActivities.length > 0 ? (
@@ -26,6 +35,8 @@ export default function MapItinerary({
               isHighlighted={isHighlighted}
               setHighlighted={setHighlighted}
               handleOnCardClick={handleOnCardClick}
+              appliedFilters={appliedFilters}
+              setAppliedFilters={setAppliedFilters}
             />
           </div>
           <div className="scrollable-right-container ">
@@ -41,6 +52,8 @@ export default function MapItinerary({
               setDataChanged={setDataChanged}
               dataChanged={dataChanged}
               setValue={setValue}
+              appliedFilters={appliedFilters}
+              setAppliedFilters={setAppliedFilters}
             />
           </div>
         </div>
