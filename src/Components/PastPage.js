@@ -1,5 +1,7 @@
 import ItineraryIcon from "./ItineraryIcon";
 import MapItinerary from "./MapItinerary";
+import axios from "axios";
+import { BACKEND_URL } from "../constants.js";
 
 export default function PastPage({
   itineraryActivities,
@@ -11,8 +13,6 @@ export default function PastPage({
   value,
   setValue,
 }) {
-  console.log("itineraryActivities: ", { itineraryActivities });
-
   if (itineraryActivities && itineraryActivities.length === 0) {
     return (
       <div
@@ -23,7 +23,7 @@ export default function PastPage({
           alignItems: "center",
         }}
       >
-        <em>There are past itineraries available for you to view</em>
+        <em>There are no past itineraries available for you to view</em>
       </div>
     );
   }
@@ -42,14 +42,6 @@ export default function PastPage({
         <div className="icon-container">
           {itineraryActivities.map((itinerary, index) => (
             <ItineraryIcon
-              // key={itinerary.id}
-              // itineraryId={itinerary.id}
-              // photoUrl={itinerary.photoUrl}
-              // name={itinerary.name}
-              // country={itinerary.prompts.country}
-              // selectedItinerary={selectedItinerary}
-              // setSelectedItinerary={setSelectedItinerary}
-              // itineraryActivities={itineraryActivities}
               key={itinerary.id}
               itineraryId={itinerary.id}
               itinerary={itinerary}

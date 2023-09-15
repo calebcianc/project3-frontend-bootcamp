@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Box, Typography, Tooltip, Modal, Button } from "@mui/material";
 import ModalDialog from "@mui/joy/ModalDialog";
 import ModalClose from "@mui/joy/ModalClose";
@@ -20,12 +20,11 @@ export default function ItineraryIcon({
   value,
   setValue,
 }) {
-  // const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
-  // const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);
   const [open, setOpen] = useState(false);
   const currUser = useContext(CurrUserContext);
   const userId = currUser.id;
   const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
 
   const startDate = convertToFormattedDate(itinerary.prompts.startDate);
   const endDate = convertToFormattedDate(itinerary.prompts.endDate);
@@ -75,6 +74,18 @@ export default function ItineraryIcon({
     const country = countries.find((country) => country.label === countryName);
     return country ? country.code : null;
   };
+
+  useEffect(() => {
+    axios
+      .get(`${BACKEND_URL}/user/${itineraryId}`)
+      .then((response) => {
+        const usersArray = response.data.map((item) => item.user);
+        setUsers(usersArray);
+      })
+      .catch((error) => {
+        console.log("Error fetching data: ", error);
+      });
+  }, [itineraryId]);
 
   return (
     <div onClick={handleOpen} style={{ cursor: "pointer" }}>
@@ -191,45 +202,42 @@ export default function ItineraryIcon({
               </Typography>
             </Grid>
           </Grid>
-
-          <Grid
-            container
-            spacing={2}
-            alignItems="center"
-            style={{ marginLeft: "24px", marginBottom: "15px" }}
-          >
-            {itinerary.users.map((user, index) => (
-              <Grid item key={index}>
-                <UserIcon
-                  user={user}
-                  isCreator={user.user_itineraries.isCreator}
-                />
+          <div>
+            {value === "explore" ? (
+              <Grid
+                container
+                spacing={2}
+                alignItems="center"
+                style={{ marginLeft: "24px", marginBottom: "15px" }}
+              >
+                {itinerary.users.map((user, index) => (
+                  <Grid item key={index}>
+                    <UserIcon
+                      user={user}
+                      isCreator={user.user_itineraries.isCreator}
+                    />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-
-          {/* <Grid container spacing={2} justify="space-between">
-            <Grid item>
-              <Button onClick={handleSelectItinerary} variant="contained">
-                View
-              </Button>
-            </Grid>
-            {value !== "past" && (
-              <Grid item>
-                <Button onClick={handleJoinItinerary} variant="contained">
-                  Join
-                </Button>
+            ) : (
+              <Grid
+                container
+                spacing={2}
+                alignItems="center"
+                style={{ marginLeft: "24px", marginBottom: "15px" }}
+              >
+                {users.map((user, index) => (
+                  <Grid item key={index}>
+                    <UserIcon user={user} isCreator={user.isCreator} />
+                  </Grid>
+                ))}
               </Grid>
             )}
-            <Grid item>
-              <Button onClick={handleClose}>Close</Button>
-            </Grid>
-          </Grid> */}
+          </div>
 
           <Grid
             container
             spacing={2}
-            // justify="space-between"
             style={{
               width: "100%",
               display: "flex",
