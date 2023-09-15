@@ -20,8 +20,8 @@ export default function RightContainer({
 }) {
   const [filters, setFilters] = useState({
     country: "",
-    startDate: "",
-    endDate: "",
+    startDate: null,
+    endDate: null,
     people: "",
   });
 
