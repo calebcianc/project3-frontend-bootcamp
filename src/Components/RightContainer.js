@@ -17,14 +17,9 @@ export default function RightContainer({
   setDataChanged,
   dataChanged,
   setValue,
+  appliedFilters,
+  setAppliedFilters,
 }) {
-  const [filters, setFilters] = useState({
-    country: "",
-    startDate: null,
-    endDate: null,
-    people: "",
-  });
-
   return (
     <div style={{ maxWidth: "100%" }}>
       {selectedItinerary ? (
@@ -47,8 +42,8 @@ export default function RightContainer({
           }}
         >
           <RightContainerFilterButton
-            filters={filters}
-            setFilters={setFilters}
+            appliedFilters={appliedFilters}
+            setAppliedFilters={setAppliedFilters}
           />
           <ItineraryList
             selectedItinerary={selectedItinerary}
@@ -63,8 +58,8 @@ export default function RightContainer({
             setDataChanged={setDataChanged}
             dataChanged={dataChanged}
             setValue={setValue}
-            filters={filters}
-            setFilters={setFilters}
+            appliedFilters={appliedFilters}
+            setAppliedFilters={setAppliedFilters}
           />
         </div>
       )}

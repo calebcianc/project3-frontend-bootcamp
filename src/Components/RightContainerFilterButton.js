@@ -17,37 +17,45 @@ import dayjs from "dayjs";
 import "dayjs/locale/en-gb";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 var utc = require("dayjs/plugin/utc");
 var timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Singapore");
 
-export default function RightContainerFilterButton({ filters, setFilters }) {
+export default function RightContainerFilterButton({
+  appliedFilters,
+  setAppliedFilters,
+}) {
+  const [filters, setFilters] = useState({
+    startDate: null,
+    endDate: null,
+    country: null,
+    category: null,
+    people: null,
+  });
+
+  const handleReset = () => {
+    const resetFilters = {
+      startDate: null,
+      endDate: null,
+      country: null,
+      category: null,
+      people: null,
+    };
+    setFilters(resetFilters);
+    setAppliedFilters(resetFilters);
+  };
+
   const [openModal, setOpenModal] = useState(false);
-
-  const handleFilterItinerary = () => {
-    setOpenModal(true);
-    // return alert("test");
-  };
-
-  const handleChange = (e) => {
-    setFilters({
-      ...filters,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const disableDatesBeforeToday = (date) => {
     // Get yesterday's date
     const yesterday = dayjs().subtract(1, "day");
     // Disable dates up to and including yesterday
     return date <= yesterday;
-  };
-
-  const disableDatesBeforeStartDate = (date) => {
-    // Disable dates up to and including the start date
-    return date <= filters.startDate;
   };
 
   // When startDate changes, update endDate to point to the same month
@@ -62,16 +70,24 @@ export default function RightContainerFilterButton({ filters, setFilters }) {
     }
   }, [filters.startDate]);
 
+  const handleApply = () => {
+    setAppliedFilters(filters);
+    setOpenModal(false);
+  };
+
+  useEffect(() => {
+    console.log(appliedFilters);
+  }, [appliedFilters]);
+
   return (
     <div style={{ display: "flex" }}>
       <div
         style={{
           marginLeft: "auto",
-          // marginTop: "4mm",
           marginRight: "4mm",
         }}
       >
-        <Button endIcon={<FilterAltIcon />} onClick={handleFilterItinerary}>
+        <Button endIcon={<FilterAltIcon />} onClick={() => setOpenModal(true)}>
           Filter
         </Button>
       </div>
@@ -82,19 +98,36 @@ export default function RightContainerFilterButton({ filters, setFilters }) {
           setOpenModal(false);
         }}
       >
-        <DialogTitle style={{ padding: "24px" }}>
+        <DialogTitle
+          style={{ padding: "24px", position: "relative", width: "460px" }}
+        >
           Filter Itineraries
+          <IconButton
+            style={{
+              position: "absolute",
+              top: 15,
+              right: 24,
+            }}
+            edge="end"
+            color="inherit"
+            onClick={() => {
+              setOpenModal(false);
+            }}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
 
-        <DialogContent>
+        <DialogContent style={{ width: "460px" }}>
           <Grid container spacing={2}>
             <Grid
               item
-              xs={12}
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 marginTop: "5px",
+                width: "fit-content",
               }}
             >
               <Grid item>
@@ -135,23 +168,17 @@ export default function RightContainerFilterButton({ filters, setFilters }) {
               </Grid>
             </Grid>
 
-            <Grid item xs={12}>
-              {/* <TextField
-                fullWidth
-                label="Country"
-                name="country"
-                value={filters.country}
-                onChange={handleChange}
-              /> */}
+            <Grid item>
               <Autocomplete
                 id="country-select"
                 sx={{ width: 300 }}
                 options={countries}
                 autoHighlight
+                value={filters.country}
                 onChange={(event, newCountry) => {
                   setFilters((prevFilters) => ({
                     ...prevFilters,
-                    country: newCountry.labe,
+                    country: newCountry,
                   }));
                 }}
                 getOptionLabel={(option) => option.label}
@@ -184,22 +211,51 @@ export default function RightContainerFilterButton({ filters, setFilters }) {
               />
             </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="People"
-                name="people"
-                value={filters.people}
-                onChange={handleChange}
+            <Grid item>
+              <Autocomplete
+                id="category-select"
+                sx={{ width: 300 }}
+                options={categories}
+                autoHighlight
+                value={filters.category}
+                onChange={(event, newCategory) => {
+                  setFilters((prevFilters) => ({
+                    ...prevFilters,
+                    category: newCategory,
+                  }));
+                }}
+                getOptionLabel={(option) => option}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    {option}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose a category"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password", // disable autocomplete and autofill
+                    }}
+                  />
+                )}
               />
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions style={{ padding: "24px" }}>
           <Button onClick={() => setOpenModal(false)}>Cancel</Button>
+          <Button onClick={() => (handleReset(), setOpenModal(false))}>
+            Reset
+          </Button>
           <Button
             onClick={() => {
-              // handleApply(filters);
+              handleApply(filters);
               setOpenModal(false);
             }}
             variant="contained"

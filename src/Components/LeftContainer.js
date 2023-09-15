@@ -6,6 +6,8 @@ export default function LeftContainer({
   isHighlighted,
   setHighlighted,
   handleOnCardClick,
+  appliedFilters,
+  setAppliedFilters,
 }) {
   return (
     <div style={{ minWidth: "100%" }}>
@@ -17,6 +19,8 @@ export default function LeftContainer({
         isHighlighted={isHighlighted}
         setHighlighted={setHighlighted}
         handleOnCardClick={handleOnCardClick}
+        appliedFilters={appliedFilters}
+        setAppliedFilters={setAppliedFilters}
       />
       {/* {selectedItinerary ? (
       ) : (
