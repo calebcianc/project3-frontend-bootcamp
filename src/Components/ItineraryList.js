@@ -1,7 +1,6 @@
 import ItineraryCard from "./ItineraryCard";
 import { useState, useEffect, useRef } from "react";
 import "../App.css";
-import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/en-gb";
 var utc = require("dayjs/plugin/utc");
