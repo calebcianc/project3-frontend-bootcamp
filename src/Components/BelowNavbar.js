@@ -79,6 +79,13 @@ export default function BelowNavbar({
     }
   }, [type, userId, dataChanged, value]);
 
+  itineraryActivities.sort((a, b) => {
+    const dateA = new Date(a.prompts.startDate);
+    const dateB = new Date(b.prompts.startDate);
+
+    return dateA - dateB; // For ascending order
+  });
+
   return (
     <div
       style={{
