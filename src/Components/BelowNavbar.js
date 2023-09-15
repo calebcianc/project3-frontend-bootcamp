@@ -35,6 +35,7 @@ export default function BelowNavbar({
   useEffect(() => {
     console.log("belownavbar userid", userId);
     let apiEndpoint;
+    const today = new Date();
 
     switch (type) {
       case "explore":
@@ -43,7 +44,13 @@ export default function BelowNavbar({
           : `${BACKEND_URL}/itinerary/explore`;
 
         axios.get(apiEndpoint).then((response) => {
-          setItineraryActivities(response.data);
+          console.log("response.data", response.data);
+          console.log("today", today);
+          const filteredData = response.data.filter((activity) => {
+            const endDate = new Date(activity.prompts.endDate);
+            return endDate >= today;
+          });
+          setItineraryActivities(filteredData);
         });
         break;
 
@@ -55,7 +62,6 @@ export default function BelowNavbar({
             setItineraryActivities([]); // Set to empty array
             return;
           }
-          const today = new Date();
           const filteredData = response.data.filter((activity) => {
             const endDate = new Date(activity.prompts.endDate);
             return type === "upcoming" ? endDate >= today : endDate < today;
