@@ -6,7 +6,7 @@ import {
   InfoWindowF,
   PolylineF,
 } from "@react-google-maps/api";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Map.css";
 import dayjs from "dayjs";
 import "dayjs/locale/en-gb";
@@ -146,16 +146,16 @@ const Map = ({
   }, [itineraryActivities, selectedItinerary, appliedFilters]);
 
   // coordinates to center the map on; to be changed to bounds instead
-  const center = useMemo(() => {
-    if (arrayOfCoordinates && arrayOfCoordinates.length > 0) {
-      return {
-        lat: arrayOfCoordinates[0]["latitude"],
-        lng: arrayOfCoordinates[0]["longitude"],
-      };
-    } else {
-      return { lat: 1.3521, lng: 103.8198 }; // Latitude and Longitude of Singapore
-    }
-  }, [arrayOfCoordinates]);
+  // const center = useMemo(() => {
+  //   if (arrayOfCoordinates && arrayOfCoordinates.length > 0) {
+  //     return {
+  //       lat: arrayOfCoordinates[0]["latitude"],
+  //       lng: arrayOfCoordinates[0]["longitude"],
+  //     };
+  //   } else {
+  //     return { lat: 1.3521, lng: 103.8198 }; // Latitude and Longitude of Singapore
+  //   }
+  // }, [arrayOfCoordinates]);
 
   const onLoad = (map) => {
     mapRef.current = map;

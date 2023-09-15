@@ -9,6 +9,7 @@ import BottomNavbar from "./Components/BottomNavbar";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Credits from "./Credits/Credits";
+import Profile from "./Profile/Profile";
 import { BACKEND_URL } from "./constants.js";
 
 export const CurrUserContext = createContext();
@@ -97,6 +98,7 @@ const App = () => {
                     />
                   }
                 />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/credits" element={<Credits />} />
               </Routes>
 

@@ -4,15 +4,11 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import ModalClose from "@mui/joy/ModalClose";
 import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
-import { convertToDDMMYYYY } from "../utils/utils";
 import { convertToFormattedDate } from "../utils/utils";
 import { CurrUserContext } from "../App.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import DescriptionIcon from "@mui/icons-material/Description";
 import GroupIcon from "@mui/icons-material/Group";
 import Grid from "@mui/material/Grid";
 import { countries } from "../Data/Countries";
@@ -23,7 +19,6 @@ export default function ItineraryIcon({
   setSelectedItinerary,
   value,
   setValue,
-  type,
 }) {
   // const startDate = convertToDDMMYYYY(itinerary.prompts.startDate);
   // const endDate = convertToDDMMYYYY(itinerary.prompts.endDate);

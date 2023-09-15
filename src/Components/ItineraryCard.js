@@ -13,7 +13,6 @@ import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
 import { convertToFormattedDate } from "../utils/utils";
 import GroupIcon from "@mui/icons-material/Group";
-import RoomIcon from "@mui/icons-material/Room";
 import EventIcon from "@mui/icons-material/Event";
 import PublicIcon from "@mui/icons-material/Public";
 import LockIcon from "@mui/icons-material/Lock";

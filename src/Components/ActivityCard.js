@@ -18,31 +18,6 @@ export default function ActivityCard({
 }) {
   // console.log("activity: ", JSON.stringify(activity));
 
-  const date = new Date(activity["date"]);
-  // Extract the various parts of the date
-  const day = date.getUTCDate();
-  const month = date.getUTCMonth(); // Month is 0-indexed
-  const year = date.getUTCFullYear().toString().substr(-2); // Get the last two digits of the year
-
-  // Month array to convert month number to month abbreviation
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  // Construct the formatted string
-  const formattedDate = `${day} ${monthNames[month]} ${year}`;
-
   const timeOfDay = activity["timeOfDay"];
   const capitalizedTimeOfDay =
     timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1).toLowerCase();
