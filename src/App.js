@@ -26,7 +26,7 @@ const App = () => {
     // setAccessToken(token);
 
     // use user.email to find user details
-    const email = "barbie.pink@gmail.com";
+    const email = "john.doe@gmail.com";
     axios
       .post(`${BACKEND_URL}/user`, {
         email: email,
