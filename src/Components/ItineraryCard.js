@@ -171,7 +171,11 @@ export default function ItineraryCard({
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container alignItems="center">
+            <Grid
+              container
+              alignItems="center"
+              style={{ marginBottom: "10px" }}
+            >
               <GroupIcon color="action" style={{ marginRight: "5px" }} />
               <Typography variant="body2" style={{ marginRight: "5px" }}>
                 {users.length === itinerary.maxPax ? "(Full)" : null}
@@ -198,23 +202,45 @@ export default function ItineraryCard({
         {isHighlighted === itinerary.id ? (
           currUserCreator ? (
             <>
-              <Button size="small" onClick={handleSelectItinerary}>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={handleSelectItinerary}
+              >
                 View
               </Button>
-              <Button size="small" onClick={() => handleEdit(itinerary.id)}>
+              <Button
+                size="small"
+                // variant="outlined"
+                onClick={() => handleEdit(itinerary.id)}
+              >
                 Edit
               </Button>
-              <Button size="small" onClick={() => handleDelete(itinerary.id)}>
+              <Button
+                size="small"
+                variant="outlined"
+                color="error"
+                onClick={() => handleDelete(itinerary.id)}
+              >
                 Delete
               </Button>
             </>
           ) : (
             <>
-              <Button size="small" onClick={handleSelectItinerary}>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={handleSelectItinerary}
+              >
                 View
               </Button>
-              <Button size="small" onClick={() => handleLeave(itinerary.id)}>
-                Leave Itinerary
+              <Button
+                size="small"
+                variant="outlined"
+                color="error"
+                onClick={() => handleLeave(itinerary.id)}
+              >
+                Leave
               </Button>
             </>
           )

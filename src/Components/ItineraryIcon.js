@@ -213,15 +213,50 @@ export default function ItineraryIcon({
             ))}
           </Grid>
 
-          <Grid container spacing={2} justify="space-between">
+          {/* <Grid container spacing={2} justify="space-between">
             <Grid item>
-              <Button onClick={handleSelectItinerary}>view itinerary</Button>
+              <Button onClick={handleSelectItinerary} variant="contained">
+                View
+              </Button>
             </Grid>
             {value !== "past" && (
               <Grid item>
-                <Button onClick={handleJoinItinerary}>join itinerary</Button>
+                <Button onClick={handleJoinItinerary} variant="contained">
+                  Join
+                </Button>
               </Grid>
             )}
+            <Grid item>
+              <Button onClick={handleClose}>Close</Button>
+            </Grid>
+          </Grid> */}
+
+          <Grid
+            container
+            spacing={2}
+            // justify="space-between"
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Grid item>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <Button onClick={handleSelectItinerary} variant="contained">
+                    View
+                  </Button>
+                </Grid>
+                {value !== "past" && (
+                  <Grid item>
+                    <Button onClick={handleJoinItinerary} variant="contained">
+                      Join
+                    </Button>
+                  </Grid>
+                )}
+              </Grid>
+            </Grid>
             <Grid item>
               <Button onClick={handleClose}>Close</Button>
             </Grid>
