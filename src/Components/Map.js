@@ -96,8 +96,8 @@ const Map = ({
         .filter((itinerary) => {
           // Filter based on start and end dates if they exist
           if (appliedFilters.startDate && appliedFilters.endDate) {
-            const itineraryStartDate = dayjs(itinerary.startDate);
-            const itineraryEndDate = dayjs(itinerary.endDate);
+            const itineraryStartDate = dayjs(itinerary.prompts.startDate);
+            const itineraryEndDate = dayjs(itinerary.prompts.endDate);
             if (
               itineraryStartDate.isBefore(appliedFilters.startDate) ||
               itineraryEndDate.isAfter(appliedFilters.endDate)
@@ -109,7 +109,7 @@ const Map = ({
           // Filter based on country if it exists
           if (
             appliedFilters.country &&
-            itinerary.country !== appliedFilters.country.label
+            itinerary.prompts.country !== appliedFilters.country.label
           ) {
             return false;
           }
@@ -117,7 +117,7 @@ const Map = ({
           // Filter based on category if it exists
           if (
             appliedFilters.category &&
-            itinerary.category !== appliedFilters.category
+            itinerary.prompts.category !== appliedFilters.category
           ) {
             return false;
           }
@@ -185,28 +185,36 @@ const Map = ({
 
   // useEffect to change bounds depending on the coordinates (used when switching between itinerary and activity view)
   useEffect(() => {
-    if (mapRef.current && arrayOfCoordinates && arrayOfCoordinates.length > 0) {
-      const bounds = new google.maps.LatLngBounds();
-      arrayOfCoordinates.forEach((coordinate) => {
-        if (coordinate.latitude && coordinate.longitude) {
-          bounds.extend(
-            new google.maps.LatLng(coordinate.latitude, coordinate.longitude)
-          );
-        }
-      });
-      mapRef.current.fitBounds(bounds);
+    if (mapRef.current) {
+      // Check if the map is available
+      if (arrayOfCoordinates && arrayOfCoordinates.length > 0) {
+        // Check if there are any coordinates
+        const bounds = new google.maps.LatLngBounds();
 
-      if (!itineraryActivities || itineraryActivities.length <= 1) {
-        // Set zoom level after fitting bounds
-        const zoomLevelToSet = 10; // Set your desired zoom level here
-        mapRef.current.setZoom(zoomLevelToSet);
+        // Extend the map bounds to include all coordinates
+        arrayOfCoordinates.forEach((coordinate) => {
+          if (coordinate.latitude && coordinate.longitude) {
+            bounds.extend(
+              new google.maps.LatLng(coordinate.latitude, coordinate.longitude)
+            );
+          }
+        });
+
+        // If there is only one set of coordinates, set zoom to 10
+        if (arrayOfCoordinates.length === 1) {
+          mapRef.current.fitBounds(bounds);
+          mapRef.current.setZoom(10);
+        } else {
+          // If there is more than one set of coordinates, fit bounds
+          mapRef.current.fitBounds(bounds);
+        }
+      } else {
+        // If there are no coordinates, set zoom to 1 and center to show the world map
+        mapRef.current.setZoom(1);
+        mapRef.current.setCenter(new google.maps.LatLng(0, 0));
       }
-    } else {
-      // Set zoom and center to show the world map
-      mapRef.current.setZoom(1); // Zoom out completely
-      mapRef.current.setCenter(new google.maps.LatLng(0, 0)); // Center at (0,0)
     }
-  }, [arrayOfCoordinates, appliedFilters]);
+  }, [itineraryActivities, arrayOfCoordinates, appliedFilters]);
 
   return (
     <div className="App" style={{ minWidth: "50%" }}>
