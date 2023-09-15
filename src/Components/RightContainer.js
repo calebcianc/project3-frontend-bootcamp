@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ActivityList from "./ActivityList";
 import ItineraryList from "./ItineraryList";
 import RightContainerFilterButton from "./RightContainerFilterButton";
@@ -17,6 +18,13 @@ export default function RightContainer({
   dataChanged,
   setValue,
 }) {
+  const [filters, setFilters] = useState({
+    country: "",
+    startDate: "",
+    endDate: "",
+    people: "",
+  });
+
   return (
     <div style={{ maxWidth: "100%" }}>
       {selectedItinerary ? (
@@ -38,7 +46,10 @@ export default function RightContainer({
             overflow: "auto",
           }}
         >
-          <RightContainerFilterButton />
+          <RightContainerFilterButton
+            filters={filters}
+            setFilters={setFilters}
+          />
           <ItineraryList
             selectedItinerary={selectedItinerary}
             setSelectedItinerary={setSelectedItinerary}
@@ -52,6 +63,8 @@ export default function RightContainer({
             setDataChanged={setDataChanged}
             dataChanged={dataChanged}
             setValue={setValue}
+            filters={filters}
+            setFilters={setFilters}
           />
         </div>
       )}
