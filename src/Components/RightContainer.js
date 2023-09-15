@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ActivityList from "./ActivityList";
 import ItineraryList from "./ItineraryList";
 import RightContainerFilterButton from "./RightContainerFilterButton";

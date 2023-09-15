@@ -4,22 +4,18 @@ import Toolbar from "@mui/material/Toolbar";
 import FlightIcon from "@mui/icons-material/Flight";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({ value, setValue }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClose = (event, reason) => {
-    if (reason === "backdropClick") {
-      return;
-    }
-
-    setAnchorEl(null);
-  };
-
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(`/credits`);
+    setValue(null);
+  };
+
+  const handleProfileClick = () => {
+    navigate(`/profile`);
     setValue(null);
   };
 
@@ -51,7 +47,10 @@ export default function Navbar({ value, setValue }) {
           <FlightIcon />
         </div>
         <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "10px" }}>
+          <div
+            style={{ marginRight: "10px", cursor: "pointer" }}
+            onClick={handleProfileClick}
+          >
             <AccountCircle />
           </div>
           <MenuIcon />

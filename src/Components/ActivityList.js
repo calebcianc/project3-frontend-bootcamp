@@ -74,12 +74,15 @@ export default function ActivityList({
     window.open(`${BACKEND_URL}/download/excel/${itinerary.id}`);
   };
   const downloadGoogleSheet = () => {
-    fetch(`${BACKEND_URL}/download/googleSheet/${itinerary.id}`).then(
-      (response) =>
+    fetch(`${BACKEND_URL}/download/googleSheet/${itinerary.id}`)
+      .then((response) => {
+        console.log("Received response:", response);
         response.json().then((data) => {
+          console.log("Received JSON data:", data);
           window.open(data.url, "_blank");
-        })
-    );
+        });
+      })
+      .catch((err) => console.error(err));
   };
   const handleDownload = (type) => {
     setShowDownloadDialog(false);
@@ -260,8 +263,4 @@ export default function ActivityList({
       )}
     </div>
   );
-}
-
-{
-  /* <ActivityCard activity={activity}></ActivityCard>; */
 }

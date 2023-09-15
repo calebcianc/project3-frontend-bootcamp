@@ -3,9 +3,6 @@ import * as React from "react";
 import { useState } from "react";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import GenerateItineraryModal from "./GenerateItineraryModal";
 
 export default function ItineraryOptionsButton({
