@@ -288,18 +288,17 @@ export default function ItineraryIcon({
                 variant="h6"
                 fontWeight="bold"
               >
-                ERROR!
+                Hey there!
               </Typography>
 
-              <Typography>
-                You need to be authenticated to access this feature.
-              </Typography>
+              <Typography>Sign up / Log in to use this feature!</Typography>
+              <br />
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => navigate("/profile")}
               >
-                Go to Login Page
+                Sign Up / Log In
               </Button>
             </>
           )}
