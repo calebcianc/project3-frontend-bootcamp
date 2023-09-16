@@ -137,8 +137,8 @@ const Map = ({
           return {
             id: itinerary.id,
             name: itinerary.name,
-            latitude: firstActivity.latitude,
-            longitude: firstActivity.longitude,
+            latitude: firstActivity?.latitude || 0,
+            longitude: firstActivity?.longitude || 0,
           };
         });
       setArrayOfCoordinates(arrayOfCoordinatesOfEachItinerary);
