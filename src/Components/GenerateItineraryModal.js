@@ -406,15 +406,15 @@ export default function GenerateItineraryModal({
               <Typography
                 component="h2"
                 id="modal-title"
-                level="h4"
                 textColor="inherit"
-                fontWeight="lg"
                 mb={2}
+                variant="h6"
+                fontWeight="bold"
               >
                 ERROR!
               </Typography>
 
-              <Typography component="h4" variant="h5">
+              <Typography>
                 You need to be authenticated to access this feature.
               </Typography>
               <Button

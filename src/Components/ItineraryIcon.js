@@ -23,6 +23,7 @@ export default function ItineraryIcon({
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const accessToken = useContext(AccessTokenContext);
   const currUser = useContext(CurrUserContext);
@@ -47,30 +48,32 @@ export default function ItineraryIcon({
   };
 
   const handleJoinItinerary = () => {
-    if (accessToken) {
-      if (
-        (currUser.gender === itinerary.genderPreference) |
-        (itinerary.genderPreference === "Any")
-      ) {
-        axios
-          .post(`${BACKEND_URL}/itinerary/${userId}/${itineraryId}`)
-          .then((res) => {
-            console.log(res.data);
-          });
-      } else {
-        alert(
-          "Unable to join itinerary due to gender preference indicated! Please select another itinerary to join."
-        );
-        console.log(
-          "Unable to join itinerary due to gender preference indicated!"
-        );
-      }
-      setValue("upcoming");
-      navigate(`/upcoming`);
-      handleClose();
-    } else {
-      alert("Login to join your desired itinerary!");
+    if (!accessToken) {
+      setModalOpen(true);
+      return;
     }
+    if (
+      (currUser.gender === itinerary.genderPreference) |
+      (itinerary.genderPreference === "Any")
+    ) {
+      axios
+        .post(`${BACKEND_URL}/itinerary/${userId}/${itineraryId}`)
+        .then((res) => {
+          console.log(res.data);
+        });
+    } else {
+      alert(
+        "Unable to join itinerary due to gender preference indicated! Please select another itinerary to join."
+      );
+    }
+    setValue("upcoming");
+    navigate(`/upcoming`);
+    handleClose();
+  };
+
+  const handleCloseLogin = (event) => {
+    if (event) event.stopPropagation();
+    setModalOpen(false);
   };
 
   const countryName = itinerary.prompts.country;
@@ -270,6 +273,36 @@ export default function ItineraryIcon({
               <Button onClick={handleClose}>Close</Button>
             </Grid>
           </Grid>
+        </ModalDialog>
+      </Modal>
+      <Modal open={isModalOpen}>
+        <ModalDialog size="lg" variant="outlined">
+          <ModalClose onClick={handleCloseLogin} />
+          {isModalOpen && (
+            <>
+              <Typography
+                component="h2"
+                id="modal-title"
+                textColor="inherit"
+                mb={2}
+                variant="h6"
+                fontWeight="bold"
+              >
+                ERROR!
+              </Typography>
+
+              <Typography>
+                You need to be authenticated to access this feature.
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate("/profile")}
+              >
+                Go to Login Page
+              </Button>
+            </>
+          )}
         </ModalDialog>
       </Modal>
     </div>
