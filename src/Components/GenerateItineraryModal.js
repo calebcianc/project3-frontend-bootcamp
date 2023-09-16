@@ -27,6 +27,7 @@ import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
 import "./LoadingSpinner.css";
 import { AccessTokenContext, CurrUserContext } from "../App";
+import { BACKEND_URL } from "../constants";
 
 var utc = require("dayjs/plugin/utc");
 var timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
@@ -133,7 +134,7 @@ export default function GenerateItineraryModal({
 
       try {
         setIsLoading(true);
-        const response = await fetch("http://localhost:3000/itinerary/new", {
+        const response = await fetch(`${BACKEND_URL}/itinerary/new`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(itineraryInputs),
