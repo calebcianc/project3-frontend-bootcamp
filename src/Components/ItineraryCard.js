@@ -426,7 +426,6 @@ export default function ItineraryCard({
           </Box>
         </ModalDialog>
       </Modal>
-      ;
     </>
   );
 }

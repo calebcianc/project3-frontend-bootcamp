@@ -9,7 +9,7 @@ export default function Credits() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "whitesmoke",
+        backgroundColor: "white",
       }}
     >
       <div>

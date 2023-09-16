@@ -18,11 +18,11 @@ export const CurrUserContext = createContext();
 
 const App = () => {
   const [selectedItinerary, setSelectedItinerary] = useState(null);
-  const [value, setValue] = useState("upcoming");
   const [currUser, setCurrUser] = useState("");
   const { user, isAuthenticated, getAccessTokenSilently, loginWithRedirect } =
     useAuth0();
   const [accessToken, setAccessToken] = useState("");
+  const [value, setValue] = useState(isAuthenticated ? "upcoming" : "explore");
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -63,7 +63,7 @@ const App = () => {
                     path="/"
                     element={
                       <BelowNavbar
-                        type="upcoming"
+                        type={isAuthenticated ? "upcoming" : "explore"}
                         selectedItinerary={selectedItinerary}
                         setSelectedItinerary={setSelectedItinerary}
                         value={value}
