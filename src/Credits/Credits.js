@@ -13,7 +13,7 @@ export default function Credits() {
       }}
     >
       <div>
-        <b>Proudly developed by</b>
+        <h3>Proudly developed by</h3>
       </div>
       <br />
       <div>
@@ -48,6 +48,15 @@ export default function Credits() {
             Caleb Castro
           </a>
         </div>
+      </div>
+      <br />
+      <br />
+      <div>
+        Click{" "}
+        <a href="https://project2-bootcamp.vercel.app/" target="_blank">
+          here
+        </a>{" "}
+        to use our location-expense tracking app during your travels!
       </div>
     </div>
   );
