@@ -1,7 +1,9 @@
+import { useState, useContext, useEffect } from "react";
 import ItineraryIcon from "./ItineraryIcon";
 import MapItinerary from "./MapItinerary";
 import axios from "axios";
 import { BACKEND_URL } from "../constants.js";
+import { AccessTokenContext, CurrUserContext } from "../App";
 
 export default function PastPage({
   itineraryActivities,
@@ -13,7 +15,12 @@ export default function PastPage({
   value,
   setValue,
 }) {
-  if (itineraryActivities && itineraryActivities.length === 0) {
+  const accessToken = useContext(AccessTokenContext);
+  const currUser = useContext(CurrUserContext);
+  if (
+    (itineraryActivities && itineraryActivities.length === 0) ||
+    !accessToken
+  ) {
     return (
       <div
         style={{

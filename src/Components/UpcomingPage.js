@@ -1,4 +1,6 @@
+import { useState, useContext, useEffect } from "react";
 import MapItinerary from "./MapItinerary";
+import { AccessTokenContext, CurrUserContext } from "../App";
 
 export default function UpcomingPage({
   itineraryActivities,
@@ -13,7 +15,13 @@ export default function UpcomingPage({
   dataChanged,
   setValue,
 }) {
-  if (itineraryActivities && itineraryActivities.length === 0) {
+  const accessToken = useContext(AccessTokenContext);
+  const currUser = useContext(CurrUserContext);
+
+  if (
+    (itineraryActivities && itineraryActivities.length === 0) ||
+    !accessToken
+  ) {
     return (
       <div
         style={{
