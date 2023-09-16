@@ -26,7 +26,7 @@ import "dayjs/locale/en-gb";
 import { countries } from "../Data/Countries";
 import { categories } from "../Data/Categories";
 import "./LoadingSpinner.css";
-import { CurrUserContext } from "../App.js";
+import { AccessTokenContext, CurrUserContext } from "../App";
 
 var utc = require("dayjs/plugin/utc");
 var timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
@@ -51,6 +51,8 @@ export default function GenerateItineraryModal({
   const [genderPreference, setGenderPreference] = useState("any");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const accessToken = useContext(AccessTokenContext);
   const currUser = useContext(CurrUserContext);
   const userId = currUser.id;
 
@@ -110,52 +112,49 @@ export default function GenerateItineraryModal({
   };
 
   async function handleGenerateItinerary(event) {
-    console.log("generate userid", userId);
-    event.preventDefault();
-    const prompts = {
-      startDate,
-      endDate,
-      country,
-      category,
-    };
+    if (accessToken) {
+      console.log("generate for userid", userId);
+      event.preventDefault();
+      const prompts = {
+        startDate,
+        endDate,
+        country,
+        category,
+      };
 
-    const itineraryInputs = {
-      name,
-      prompts,
-      isPublic,
-      maxPax,
-      genderPreference,
-      userId,
-    };
+      const itineraryInputs = {
+        name,
+        prompts,
+        isPublic,
+        maxPax,
+        genderPreference,
+        userId,
+      };
 
-    try {
-      setIsLoading(true);
-      const response = await fetch("http://localhost:3000/itinerary/new", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(itineraryInputs),
-      });
-      const newItineraryDetails = await response.json();
-
-      if (newItineraryDetails && newItineraryDetails.error) {
-        // console.error("Backend Error:", newItineraryDetails.error);
-        // console.error("Backend Error:", newItineraryDetails.msg);
-        // Set some state to indicate an error in the UI
-      } else {
-        setItineraryActivities(newItineraryDetails);
-        const newItineraryId =
-          newItineraryDetails[newItineraryDetails.length - 1].id;
-        setSelectedItinerary(newItineraryId);
-        // console.log("Data received: ", JSON.stringify(itineraryActivities));
+      try {
+        setIsLoading(true);
+        const response = await fetch("http://localhost:3000/itinerary/new", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(itineraryInputs),
+        });
+        const newItineraryDetails = await response.json();
+        if (newItineraryDetails && newItineraryDetails.error) {
+        } else {
+          setItineraryActivities(newItineraryDetails);
+          const newItineraryId =
+            newItineraryDetails[newItineraryDetails.length - 1].id;
+          setSelectedItinerary(newItineraryId);
+        }
+        navigate(`/upcoming`);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
       }
-      navigate(`/upcoming`);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      // console.error("Error: ", error);
+      handleClose();
+    } else {
+      alert("Login to generate your desired itinerary!");
     }
-
-    handleClose();
   }
 
   return (
@@ -164,11 +163,7 @@ export default function GenerateItineraryModal({
         open={modalView}
         onClose={(event, reason) => handleClose(event, reason)}
       >
-        <ModalDialog
-          size="lg"
-          variant="outlined"
-          // layout="fullscreen"
-        >
+        <ModalDialog size="lg" variant="outlined">
           <ModalClose />
           <Box component="form">
             <Typography
@@ -210,7 +205,6 @@ export default function GenerateItineraryModal({
                   value={startDate}
                   onChange={(newValue) => {
                     setStartDate(newValue);
-                    // console.log(newValue);
                   }}
                   shouldDisableDate={disableDatesBeforeToday}
                 />

@@ -5,13 +5,13 @@ import ModalClose from "@mui/joy/ModalClose";
 import { BACKEND_URL } from "../constants.js";
 import UserIcon from "./UserIcon.js";
 import { convertToFormattedDate } from "../utils/utils";
-import { CurrUserContext } from "../App.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import GroupIcon from "@mui/icons-material/Group";
 import Grid from "@mui/material/Grid";
 import { countries } from "../Data/Countries";
+import { AccessTokenContext, CurrUserContext } from "../App";
 
 export default function ItineraryIcon({
   itineraryId,
@@ -21,10 +21,12 @@ export default function ItineraryIcon({
   setValue,
 }) {
   const [open, setOpen] = useState(false);
-  const currUser = useContext(CurrUserContext);
-  const userId = currUser.id;
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+
+  const accessToken = useContext(AccessTokenContext);
+  const currUser = useContext(CurrUserContext);
+  const userId = currUser.id;
 
   const startDate = convertToFormattedDate(itinerary.prompts.startDate);
   const endDate = convertToFormattedDate(itinerary.prompts.endDate);
@@ -45,26 +47,30 @@ export default function ItineraryIcon({
   };
 
   const handleJoinItinerary = () => {
-    if (
-      (currUser.gender === itinerary.genderPreference) |
-      (itinerary.genderPreference === "Any")
-    ) {
-      axios
-        .post(`${BACKEND_URL}/itinerary/${userId}/${itineraryId}`)
-        .then((res) => {
-          console.log(res.data);
-        });
+    if (accessToken) {
+      if (
+        (currUser.gender === itinerary.genderPreference) |
+        (itinerary.genderPreference === "Any")
+      ) {
+        axios
+          .post(`${BACKEND_URL}/itinerary/${userId}/${itineraryId}`)
+          .then((res) => {
+            console.log(res.data);
+          });
+      } else {
+        alert(
+          "Unable to join itinerary due to gender preference indicated! Please select another itinerary to join."
+        );
+        console.log(
+          "Unable to join itinerary due to gender preference indicated!"
+        );
+      }
+      setValue("upcoming");
+      navigate(`/upcoming`);
+      handleClose();
     } else {
-      alert(
-        "Unable to join itinerary due to gender preference indicated! Please select another itinerary to join."
-      );
-      console.log(
-        "Unable to join itinerary due to gender preference indicated!"
-      );
+      alert("Login to join your desired itinerary!");
     }
-    setValue("upcoming");
-    navigate(`/upcoming`);
-    handleClose();
   };
 
   const countryName = itinerary.prompts.country;

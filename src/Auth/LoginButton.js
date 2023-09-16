@@ -6,7 +6,13 @@ const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <Button variant="contained" onClick={() => loginWithRedirect()}>
+    <Button
+      variant="contained"
+      onClick={
+        () => loginWithRedirect()
+        // loginWithRedirect({ redirectUri: "http://localhost:3001/profile" })
+      }
+    >
       Sign Up / Log In
     </Button>
   );

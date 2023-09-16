@@ -11,106 +11,116 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Credits from "./Credits/Credits";
 import Profile from "./Profile/Profile";
 import { BACKEND_URL } from "./constants.js";
+import { useAuth0 } from "@auth0/auth0-react";
 
+export const AccessTokenContext = createContext();
 export const CurrUserContext = createContext();
 
 const App = () => {
   const [selectedItinerary, setSelectedItinerary] = useState(null);
   const [value, setValue] = useState("upcoming");
   const [currUser, setCurrUser] = useState("");
-  // const [accessToken, setAccessToken] = useState("");
-
-  // get user
-  const checkUser = async () => {
-    // let token = await getAccessTokenSilently();
-    // setAccessToken(token);
-
-    // use user.email to find user details
-    const email = "john.doe@gmail.com";
-    axios
-      .post(`${BACKEND_URL}/user`, {
-        email: email,
-      })
-      .then((res) => {
-        console.log(res.data);
-        setCurrUser(res.data);
-      });
-  };
+  const { user, isAuthenticated, getAccessTokenSilently, loginWithRedirect } =
+    useAuth0();
+  const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
-    checkUser();
-  }, []);
+    if (isAuthenticated && user) {
+      getUserApi();
+    }
+  }, [isAuthenticated]);
 
+  // get user
+  const getUserApi = async () => {
+    let token = await getAccessTokenSilently();
+    // check user
+    let request = await axios.post(
+      `${BACKEND_URL}/user`,
+      {
+        email: user.email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(request);
+    setAccessToken(token);
+    setCurrUser(request.data);
+  };
   return (
     <>
-      <CurrUserContext.Provider value={currUser}>
-        <Router>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div>
-              <Navbar value={value} setValue={setValue} />
+      <AccessTokenContext.Provider value={accessToken}>
+        <CurrUserContext.Provider value={currUser}>
+          <Router>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <div>
+                <Navbar value={value} setValue={setValue} />
 
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <BelowNavbar
-                      type="upcoming"
-                      selectedItinerary={selectedItinerary}
-                      setSelectedItinerary={setSelectedItinerary}
-                      value={value}
-                      setValue={setValue}
-                    />
-                  }
-                />
-                <Route
-                  path="/explore"
-                  element={
-                    <BelowNavbar
-                      type="explore"
-                      selectedItinerary={selectedItinerary}
-                      setSelectedItinerary={setSelectedItinerary}
-                      value={value}
-                      setValue={setValue}
-                    />
-                  }
-                />
-                <Route
-                  path="/upcoming"
-                  element={
-                    <BelowNavbar
-                      type="upcoming"
-                      selectedItinerary={selectedItinerary}
-                      setSelectedItinerary={setSelectedItinerary}
-                      value={value}
-                      setValue={setValue}
-                    />
-                  }
-                />
-                <Route
-                  path="/past"
-                  element={
-                    <BelowNavbar
-                      type="past"
-                      selectedItinerary={selectedItinerary}
-                      setSelectedItinerary={setSelectedItinerary}
-                      value={value}
-                      setValue={setValue}
-                    />
-                  }
-                />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/credits" element={<Credits />} />
-              </Routes>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <BelowNavbar
+                        type="upcoming"
+                        selectedItinerary={selectedItinerary}
+                        setSelectedItinerary={setSelectedItinerary}
+                        value={value}
+                        setValue={setValue}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/explore"
+                    element={
+                      <BelowNavbar
+                        type="explore"
+                        selectedItinerary={selectedItinerary}
+                        setSelectedItinerary={setSelectedItinerary}
+                        value={value}
+                        setValue={setValue}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/upcoming"
+                    element={
+                      <BelowNavbar
+                        type="upcoming"
+                        selectedItinerary={selectedItinerary}
+                        setSelectedItinerary={setSelectedItinerary}
+                        value={value}
+                        setValue={setValue}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/past"
+                    element={
+                      <BelowNavbar
+                        type="past"
+                        selectedItinerary={selectedItinerary}
+                        setSelectedItinerary={setSelectedItinerary}
+                        value={value}
+                        setValue={setValue}
+                      />
+                    }
+                  />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/credits" element={<Credits />} />
+                </Routes>
 
-              <BottomNavbar
-                setSelectedItinerary={setSelectedItinerary}
-                value={value}
-                setValue={setValue}
-              />
-            </div>
-          </LocalizationProvider>
-        </Router>
-      </CurrUserContext.Provider>
+                <BottomNavbar
+                  setSelectedItinerary={setSelectedItinerary}
+                  value={value}
+                  setValue={setValue}
+                />
+              </div>
+            </LocalizationProvider>
+          </Router>
+        </CurrUserContext.Provider>
+      </AccessTokenContext.Provider>
     </>
   );
 };
