@@ -165,241 +165,267 @@ export default function GenerateItineraryModal({
       >
         <ModalDialog size="lg" variant="outlined">
           <ModalClose />
-          <Box component="form">
-            <Typography
-              component="h2"
-              id="modal-title"
-              level="h4"
-              textColor="inherit"
-              fontWeight="lg"
-              mb={2}
-            >
-              Generate your ideal itinerary!
-            </Typography>
-
-            <FormControl style={{ display: "flex" }}>
-              <FormLabel style={{ marginBottom: "5px" }}>
-                Describe your itinerary:
-              </FormLabel>
-              <TextField
-                id="itinerary-name"
-                label="Itinerary name"
-                value={name}
-                onChange={handleNameChange}
-              />
-            </FormControl>
-            <br />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "15px",
-              }}
-            >
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale="en-gb"
+          {accessToken ? (
+            <Box component="form">
+              <Typography
+                component="h2"
+                id="modal-title"
+                level="h4"
+                textColor="inherit"
+                fontWeight="lg"
+                mb={2}
               >
-                <DatePicker
-                  label="Start date"
-                  value={startDate}
-                  onChange={(newValue) => {
-                    setStartDate(newValue);
-                  }}
-                  shouldDisableDate={disableDatesBeforeToday}
-                />
-              </LocalizationProvider>
+                Generate your ideal itinerary!
+              </Typography>
 
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale="en-gb"
-              >
-                <DatePicker
-                  disabled={!startDate}
-                  label="End date"
-                  value={endDate || startDate}
-                  onChange={(newValue) => {
-                    setEndDate(newValue);
-                  }}
-                  shouldDisableDate={disableDatesBeforeStartDate}
-                  renderInput={(params) => <TextField {...params} />}
+              <FormControl style={{ display: "flex" }}>
+                <FormLabel style={{ marginBottom: "5px" }}>
+                  Describe your itinerary:
+                </FormLabel>
+                <TextField
+                  id="itinerary-name"
+                  label="Itinerary name"
+                  value={name}
+                  onChange={handleNameChange}
                 />
-              </LocalizationProvider>
-            </div>
-
-            <FormControl style={{ marginBottom: "15px" }}>
-              <FormLabel style={{ marginBottom: "5px" }}>Where to?</FormLabel>
-              <Autocomplete
-                id="country-select"
-                sx={{ width: 300 }}
-                options={countries}
-                autoHighlight
-                onChange={(event, newValue) => {
-                  setCountry(newValue.label);
+              </FormControl>
+              <br />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "15px",
                 }}
-                getOptionLabel={(option) => option.label}
-                renderOption={(props, option) => (
-                  <Box
-                    component="li"
-                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                    {...props}
-                  >
-                    <img
-                      loading="lazy"
-                      width="20"
-                      src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                      srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                      alt=""
-                    />
-                    {option.label}
-                  </Box>
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Choose a country"
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "new-password", // disable autocomplete and autofill
-                    }}
-                  />
-                )}
-              />
-            </FormControl>
-            <br />
-            <FormControl style={{ marginBottom: "15px" }}>
-              <FormLabel style={{ marginBottom: "5px" }}>
-                What'd you like to do?
-              </FormLabel>
-              <Autocomplete
-                id="category-select"
-                sx={{ width: 300 }}
-                options={categories}
-                autoHighlight
-                onChange={(event, newValue) => {
-                  setCategory(newValue);
-                }}
-                getOptionLabel={(option) => option}
-                renderOption={(props, option) => (
-                  <Box
-                    component="li"
-                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                    {...props}
-                  >
-                    {option}
-                  </Box>
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Choose a category"
-                    inputProps={{
-                      ...params.inputProps,
-                      autoComplete: "new-password", // disable autocomplete and autofill
-                    }}
-                  />
-                )}
-              />
-            </FormControl>
-            <br />
-            <FormControl style={{ marginBottom: "10px" }}>
-              <FormLabel id="is-public">
-                Make your itinerary private or public?
-              </FormLabel>
-              <RadioGroup
-                name="is-public"
-                value={isPublic}
-                onChange={handlePublicChange}
-                row
               >
-                <FormControlLabel
-                  value="false"
-                  control={<Radio />}
-                  label="Private"
-                />
-                <FormControlLabel
-                  value="true"
-                  control={<Radio />}
-                  label="Public"
-                />
-              </RadioGroup>
-            </FormControl>
-            <br />
-
-            {isPublic === false ? null : (
-              <>
-                <FormControl
-                  style={{
-                    marginBottom: "15px",
-                  }}
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="en-gb"
                 >
-                  <FormLabel
-                    style={{
-                      marginBottom: "5px",
+                  <DatePicker
+                    label="Start date"
+                    value={startDate}
+                    onChange={(newValue) => {
+                      setStartDate(newValue);
                     }}
-                  >
-                    How many people do you want in your group?
-                  </FormLabel>
-                  <TextField
-                    style={{
-                      width: "20%",
-                    }}
-                    id="max-pax"
-                    type="number"
-                    InputProps={{
-                      inputProps: { min: 1 },
-                      style: { height: "60%" },
-                    }} // Setting minimum value to 1
-                    placeholder="Type a number..."
-                    value={maxPax}
-                    onChange={(event) => setMaxPax(event.target.value)} // You can directly access the event object
+                    shouldDisableDate={disableDatesBeforeToday}
                   />
-                </FormControl>
-                <br />
-                <FormControl>
-                  <FormLabel id="gender-preference">
-                    Gender Preference
-                  </FormLabel>
-                  <RadioGroup
-                    aria-labelledby="gender-preference"
-                    name="controlled-radio-buttons-group"
-                    value={genderPreference}
-                    onChange={handleGenderChange}
-                    row
-                  >
-                    <FormControlLabel
-                      value="any"
-                      control={<Radio />}
-                      label="Any"
-                    />
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                  </RadioGroup>
-                </FormControl>
-                <br />
-                <br />
-              </>
-            )}
+                </LocalizationProvider>
 
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="en-gb"
+                >
+                  <DatePicker
+                    disabled={!startDate}
+                    label="End date"
+                    value={endDate || startDate}
+                    onChange={(newValue) => {
+                      setEndDate(newValue);
+                    }}
+                    shouldDisableDate={disableDatesBeforeStartDate}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
+
+              <FormControl style={{ marginBottom: "15px" }}>
+                <FormLabel style={{ marginBottom: "5px" }}>Where to?</FormLabel>
+                <Autocomplete
+                  id="country-select"
+                  sx={{ width: 300 }}
+                  options={countries}
+                  autoHighlight
+                  onChange={(event, newValue) => {
+                    setCountry(newValue.label);
+                  }}
+                  getOptionLabel={(option) => option.label}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      <img
+                        loading="lazy"
+                        width="20"
+                        src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                        srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                        alt=""
+                      />
+                      {option.label}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Choose a country"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password", // disable autocomplete and autofill
+                      }}
+                    />
+                  )}
+                />
+              </FormControl>
+              <br />
+              <FormControl style={{ marginBottom: "15px" }}>
+                <FormLabel style={{ marginBottom: "5px" }}>
+                  What'd you like to do?
+                </FormLabel>
+                <Autocomplete
+                  id="category-select"
+                  sx={{ width: 300 }}
+                  options={categories}
+                  autoHighlight
+                  onChange={(event, newValue) => {
+                    setCategory(newValue);
+                  }}
+                  getOptionLabel={(option) => option}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      {option}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Choose a category"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password", // disable autocomplete and autofill
+                      }}
+                    />
+                  )}
+                />
+              </FormControl>
+              <br />
+              <FormControl style={{ marginBottom: "10px" }}>
+                <FormLabel id="is-public">
+                  Make your itinerary private or public?
+                </FormLabel>
+                <RadioGroup
+                  name="is-public"
+                  value={isPublic}
+                  onChange={handlePublicChange}
+                  row
+                >
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="Private"
+                  />
+                  <FormControlLabel
+                    value="true"
+                    control={<Radio />}
+                    label="Public"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <br />
+
+              {isPublic === false ? null : (
+                <>
+                  <FormControl
+                    style={{
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <FormLabel
+                      style={{
+                        marginBottom: "5px",
+                      }}
+                    >
+                      How many people do you want in your group?
+                    </FormLabel>
+                    <TextField
+                      style={{
+                        width: "20%",
+                      }}
+                      id="max-pax"
+                      type="number"
+                      InputProps={{
+                        inputProps: { min: 1 },
+                        style: { height: "60%" },
+                      }} // Setting minimum value to 1
+                      placeholder="Type a number..."
+                      value={maxPax}
+                      onChange={(event) => setMaxPax(event.target.value)} // You can directly access the event object
+                    />
+                  </FormControl>
+                  <br />
+                  <FormControl>
+                    <FormLabel id="gender-preference">
+                      Gender Preference
+                    </FormLabel>
+                    <RadioGroup
+                      aria-labelledby="gender-preference"
+                      name="controlled-radio-buttons-group"
+                      value={genderPreference}
+                      onChange={handleGenderChange}
+                      row
+                    >
+                      <FormControlLabel
+                        value="any"
+                        control={<Radio />}
+                        label="Any"
+                      />
+                      <FormControlLabel
+                        value="female"
+                        control={<Radio />}
+                        label="Female"
+                      />
+                      <FormControlLabel
+                        value="male"
+                        control={<Radio />}
+                        label="Male"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                  <br />
+                  <br />
+                </>
+              )}
+
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  variant="contained"
+                  endIcon={<FlightTakeoffIcon />}
+                  disabled={!isFormValid()}
+                  onClick={handleGenerateItinerary}
+                >
+                  Generate itinerary
+                </Button>
+              </div>
+            </Box>
+          ) : (
+            <>
+              <Typography
+                component="h2"
+                id="modal-title"
+                textColor="inherit"
+                mb={2}
+                variant="h6"
+                fontWeight="bold"
+              >
+                ERROR!
+              </Typography>
+
+              <Typography>
+                You need to be authenticated to access this feature.
+              </Typography>
               <Button
                 variant="contained"
-                endIcon={<FlightTakeoffIcon />}
-                disabled={!isFormValid()}
-                onClick={handleGenerateItinerary}
+                color="primary"
+                onClick={() => navigate("/profile")}
               >
-                Generate itinerary
+                Go to Login Page
               </Button>
-            </div>
-          </Box>
+            </>
+          )}
         </ModalDialog>
       </Modal>
       {isLoading && (
