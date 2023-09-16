@@ -6,22 +6,22 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar({ value, setValue }) {
+export default function Navbar({ value, setValue, isAuthenticated }) {
   const navigate = useNavigate();
 
   const handleIconClick = () => {
+    isAuthenticated ? setValue(`upcoming`) : setValue(`explore`);
     navigate(`/`);
-    setValue(null);
   };
 
   const handleClick = () => {
-    navigate(`/credits`);
     setValue(null);
+    navigate(`/credits`);
   };
 
   const handleProfileClick = () => {
-    navigate(`/profile`);
     setValue(null);
+    navigate(`/profile`);
   };
 
   return (

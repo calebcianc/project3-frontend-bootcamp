@@ -158,6 +158,33 @@ export default function GenerateItineraryModal({
     }
   }
 
+  // code relating to the loading spinner
+  const phrases = [
+    "Packing your virtual suitcase... 🧳",
+    "Plotting the perfect route on your travel map... 🗺️",
+    "Scouting the best local eateries for you... 🍲",
+    "Calculating the shortest layovers... ✈️",
+    "Collating the must-see landmarks... 🗽",
+    "Checking the weather at your destination... ☀️",
+    "Reserving your window seat to the world... 🌍",
+    "Assembling your dream itinerary... 📝",
+    'Translating "Hello" into every language... 👋',
+    "Finding the hidden gems only locals know about... 💎",
+  ];
+  const [currentPhrase, setCurrentPhrase] = useState(phrases[0]);
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % phrases.length);
+    }, 10000); // Update every 10 seconds
+
+    return () => clearInterval(intervalId); // Clean up interval on unmount
+  }, [isLoading]);
+
+  useEffect(() => {
+    setCurrentPhrase(phrases[index]);
+  }, [index]);
+
   return (
     <div>
       <Modal
@@ -430,7 +457,27 @@ export default function GenerateItineraryModal({
       </Modal>
       {isLoading && (
         <div className="loading-overlay">
-          <CircularProgress />
+          <img
+            src="https://i.pinimg.com/originals/43/3b/6c/433b6c5336c72a21bcfd9db8d831562a.gif"
+            alt="Loading..."
+            style={{ borderRadius: "10px" }}
+          />
+
+          <div
+            style={{
+              position: "fixed", // Set the position to fixed
+              top: "50%", // Vertically center
+              left: "50%", // Horizontally center
+              transform: "translate(-50%, 170px)", // Offset by 150px down
+              color: "black",
+              textAlign: "center",
+              zIndex: 1,
+              fontSize: "20px",
+              fontWeight: "bold",
+            }}
+          >
+            {currentPhrase}
+          </div>
         </div>
       )}
     </div>

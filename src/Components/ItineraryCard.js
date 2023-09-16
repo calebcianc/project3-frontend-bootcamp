@@ -1,11 +1,10 @@
 import { useEffect, useState, useContext } from "react";
-import { Modal, ModalDialog, ModalClose, CircularProgress } from "@mui/joy";
+import { Modal, ModalDialog, ModalClose } from "@mui/joy";
 import {
   Box,
   TextField,
   Radio,
   RadioGroup,
-  Autocomplete,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -48,7 +47,7 @@ export default function ItineraryCard({
   const navigate = useNavigate();
 
   const [editModalView, setEditModalView] = useState(false);
-  const handleOpen = () => setEditModalView(true);
+
   const handleClose = () => setEditModalView(false);
 
   const [name, setName] = useState("");
