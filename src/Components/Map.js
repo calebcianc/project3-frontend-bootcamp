@@ -228,17 +228,18 @@ const Map = ({
                           : undefined
                         : undefined
                     }
-                  />
-                  {isHighlighted === itineraryFirstActivity.id ? (
-                    <InfoWindowF
-                      position={{
-                        lat: itineraryFirstActivity["latitude"],
-                        lng: itineraryFirstActivity["longitude"],
-                      }}
-                    >
-                      <p>{itineraryFirstActivity.name}</p>
-                    </InfoWindowF>
-                  ) : null}
+                  >
+                    {isHighlighted === itineraryFirstActivity.id && (
+                      <InfoWindowF
+                        position={{
+                          lat: itineraryFirstActivity["latitude"],
+                          lng: itineraryFirstActivity["longitude"],
+                        }}
+                      >
+                        <p>{itineraryFirstActivity.name}</p>
+                      </InfoWindowF>
+                    )}
+                  </MarkerF>
                 </>
               ))
             : null}

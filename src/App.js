@@ -49,6 +49,15 @@ const App = () => {
     setAccessToken(token);
     setCurrUser(request.data);
   };
+
+  // if unauthenticated, app initialises the explore page. but midway if the user gets authenticated, the app directs to the upcoming page and the bottom upcoming icon gets updated as well
+  useEffect(() => {
+    if (isAuthenticated) {
+      setValue("upcoming");
+    }
+    console.log(`isAuthenticated: ${isAuthenticated}`);
+  }, [isAuthenticated]);
+
   return (
     <>
       <AccessTokenContext.Provider value={accessToken}>
@@ -56,7 +65,11 @@ const App = () => {
           <Router>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <div>
-                <Navbar value={value} setValue={setValue} />
+                <Navbar
+                  value={value}
+                  setValue={setValue}
+                  isAuthenticated={isAuthenticated}
+                />
 
                 <Routes>
                   <Route
