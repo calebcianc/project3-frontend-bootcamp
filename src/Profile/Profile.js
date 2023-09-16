@@ -23,7 +23,7 @@ export default function Profile() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "whitesmoke",
+        backgroundColor: "white",
       }}
     >
       {isAuthenticated ? (

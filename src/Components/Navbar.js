@@ -9,6 +9,11 @@ import { useNavigate } from "react-router-dom";
 export default function Navbar({ value, setValue }) {
   const navigate = useNavigate();
 
+  const handleIconClick = () => {
+    navigate(`/`);
+    setValue(null);
+  };
+
   const handleClick = () => {
     navigate(`/credits`);
     setValue(null);
@@ -41,7 +46,7 @@ export default function Navbar({ value, setValue }) {
             cursor: "pointer",
             color: value ? null : "whitesmoke",
           }}
-          onClick={handleClick}
+          onClick={handleIconClick}
         >
           <div style={{ marginRight: "10px" }}>TravelGPT</div>
           <FlightIcon />
@@ -53,7 +58,9 @@ export default function Navbar({ value, setValue }) {
           >
             <AccountCircle />
           </div>
-          <MenuIcon />
+          <div style={{ cursor: "pointer" }} onClick={handleClick}>
+            <MenuIcon />
+          </div>
         </div>
       </Toolbar>
     </AppBar>

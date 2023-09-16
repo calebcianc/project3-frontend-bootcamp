@@ -137,25 +137,13 @@ const Map = ({
           return {
             id: itinerary.id,
             name: itinerary.name,
-            latitude: firstActivity?.latitude || 0,
-            longitude: firstActivity?.longitude || 0,
+            latitude: firstActivity.latitude,
+            longitude: firstActivity.longitude,
           };
         });
       setArrayOfCoordinates(arrayOfCoordinatesOfEachItinerary);
     }
   }, [itineraryActivities, selectedItinerary, appliedFilters]);
-
-  // coordinates to center the map on; to be changed to bounds instead
-  // const center = useMemo(() => {
-  //   if (arrayOfCoordinates && arrayOfCoordinates.length > 0) {
-  //     return {
-  //       lat: arrayOfCoordinates[0]["latitude"],
-  //       lng: arrayOfCoordinates[0]["longitude"],
-  //     };
-  //   } else {
-  //     return { lat: 1.3521, lng: 103.8198 }; // Latitude and Longitude of Singapore
-  //   }
-  // }, [arrayOfCoordinates]);
 
   const onLoad = (map) => {
     mapRef.current = map;
