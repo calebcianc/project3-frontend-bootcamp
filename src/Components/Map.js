@@ -100,7 +100,8 @@ const Map = ({
       setArrayOfCoordinates(arrayOfCoordinatesOfEveryActivity);
     } else if (
       selectedItinerary === null &&
-      (!Array.isArray(itineraryActivities) || itineraryActivities.length === 0)
+      Array.isArray(itineraryActivities) &&
+      itineraryActivities.length >= 1
     ) {
       // if user has not selected any itinerary
       const arrayOfCoordinatesOfEachItinerary = itineraryActivities
