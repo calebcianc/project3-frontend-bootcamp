@@ -25,6 +25,7 @@ const Map = ({
   appliedFilters,
   setAppliedFilters,
 }) => {
+  // code relating to getting google maps from server
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
@@ -34,44 +35,46 @@ const Map = ({
   // useState & useEffect to get marker & polyline coordinates
   const [arrayOfCoordinates, setArrayOfCoordinates] = useState(null);
   useEffect(() => {
+    // if user has selected an itinerary, push the coordinates of the activities within the itinerary into arrayOfCoordinates
     if (selectedItinerary) {
-      // console.log("itineraryActivities: ", JSON.stringify(itineraryActivities));
-
       const arrayOfCoordinatesOfEveryActivity = () => {
         const finditineraryById = itineraryActivities
-          .filter((itinerary) => {
-            // Filter based on start and end dates if they exist
-            if (appliedFilters.startDate && appliedFilters.endDate) {
-              const itineraryStartDate = dayjs(itinerary.startDate);
-              const itineraryEndDate = dayjs(itinerary.endDate);
-              if (
-                itineraryStartDate.isBefore(appliedFilters.startDate) ||
-                itineraryEndDate.isAfter(appliedFilters.endDate)
-              ) {
-                return false;
-              }
-            }
+          // apply filters to the itineraryActivities - not actually needed
+          // .filter((itinerary) => {
+          //   // Filter based on start and end dates if they exist
+          //   if (appliedFilters.startDate && appliedFilters.endDate) {
+          //     const itineraryStartDate = dayjs(itinerary.startDate);
+          //     const itineraryEndDate = dayjs(itinerary.endDate);
+          //     if (
+          //       itineraryStartDate.isBefore(appliedFilters.startDate) ||
+          //       itineraryEndDate.isAfter(appliedFilters.endDate)
+          //     ) {
+          //       return false;
+          //     }
+          //   }
 
-            // Filter based on country if it exists
-            if (
-              appliedFilters.country &&
-              itinerary.country !== appliedFilters.country.label
-            ) {
-              return false;
-            }
+          //   // Filter based on country if it exists
+          //   if (
+          //     appliedFilters.country &&
+          //     itinerary.country !== appliedFilters.country.label
+          //   ) {
+          //     return false;
+          //   }
 
-            // Filter based on category if it exists
-            if (
-              appliedFilters.category &&
-              itinerary.category !== appliedFilters.category
-            ) {
-              return false;
-            }
+          //   // Filter based on category if it exists
+          //   if (
+          //     appliedFilters.category &&
+          //     itinerary.category !== appliedFilters.category
+          //   ) {
+          //     return false;
+          //   }
 
-            return true; // Include the itinerary if none of the above conditions were met
-          })
+          //   return true; // Include the itinerary if none of the above conditions were met
+          // })
+          // assign the itinerary data to finditineraryById
           .find((itinerary) => itinerary.id === selectedItinerary);
 
+        // sort the activities by date and activityOrder
         const sortedActivities = finditineraryById.activities.sort((a, b) => {
           const dateA = new Date(a["date"]);
           const dateB = new Date(b["date"]);
@@ -79,6 +82,8 @@ const Map = ({
           if (dateA > dateB) return 1;
           return a["activityOrder"] - b["activityOrder"];
         });
+
+        // map through the array of sortedActivities and assign the array of coordinates of each activity to the const variable coordinates
         const coordinates = sortedActivities.map((activity) => {
           return {
             id: activity.id,
@@ -87,12 +92,20 @@ const Map = ({
             longitude: activity.longitude,
           };
         });
-        // console.log("coordinates: ", JSON.stringify(coordinates));
+
         return coordinates;
       };
+
+      // set the arrayOfCoordinates value to the newly declared and assigned const variable coordinates
       setArrayOfCoordinates(arrayOfCoordinatesOfEveryActivity);
-    } else {
+    } else if (
+      selectedItinerary === null &&
+      (!Array.isArray(itineraryActivities) || itineraryActivities.length === 0)
+    ) {
+      // if user has not selected any itinerary
       const arrayOfCoordinatesOfEachItinerary = itineraryActivities
+
+        // filter the itineraryActivities based on the criteria selected
         .filter((itinerary) => {
           // Filter based on start and end dates if they exist
           if (appliedFilters.startDate && appliedFilters.endDate) {
@@ -124,6 +137,8 @@ const Map = ({
 
           return true; // Include the itinerary if none of the above conditions were met
         })
+
+        // map through the filtered JSON data to push the id, name, lat, and lng, of the first activity of the filtered list of itineraries into an array const arrayOfCoordinatesOfEachItinerary
         .map((itinerary) => {
           const firstActivity = itinerary.activities.reduce(
             (minActivity, currentActivity) => {
@@ -141,10 +156,13 @@ const Map = ({
             longitude: firstActivity.longitude,
           };
         });
+
+      // set the value of the arrayOfCoordiantes to the const variable arrayOfCoordinatesOfEachItinerary
       setArrayOfCoordinates(arrayOfCoordinatesOfEachItinerary);
-    }
+    } else setArrayOfCoordinates(null);
   }, [itineraryActivities, selectedItinerary, appliedFilters]);
 
+  // instructions on how to load the map e.g., what bounds to set
   const onLoad = (map) => {
     mapRef.current = map;
     if (arrayOfCoordinates && arrayOfCoordinates.length > 0) {
@@ -158,6 +176,7 @@ const Map = ({
       });
       map.fitBounds(bounds);
 
+      // if there are no itineraries or if there is only one, set the zoom of the map to level 10
       if (!itineraryActivities || itineraryActivities.length <= 1) {
         const listener = google.maps.event.addListener(
           map,
