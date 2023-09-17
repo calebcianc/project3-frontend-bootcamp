@@ -153,8 +153,8 @@ const Map = ({
           return {
             id: itinerary.id,
             name: itinerary.name,
-            latitude: firstActivity.latitude,
-            longitude: firstActivity.longitude,
+            latitude: firstActivity ? firstActivity.latitude : 0,
+            longitude: firstActivity ? firstActivity.longitude : 0,
           };
         });
 
