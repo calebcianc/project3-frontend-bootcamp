@@ -97,6 +97,8 @@ export default function ItineraryIcon({
       });
   }, [itineraryId]);
 
+  console.log("users", users);
+
   return (
     <div onClick={handleOpen} style={{ cursor: "pointer" }}>
       <Tooltip
@@ -207,7 +209,7 @@ export default function ItineraryIcon({
             </Grid>
             <Grid item>
               <Typography>
-                {itinerary.users.length}/{itinerary.maxPax} participants (
+                {users.length}/{itinerary.maxPax} participants (
                 {itinerary.genderPreference})
               </Typography>
             </Grid>
