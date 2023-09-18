@@ -53,8 +53,9 @@ export default function ItineraryIcon({
       return;
     }
     if (
-      (currUser.gender === itinerary.genderPreference) |
-      (itinerary.genderPreference === "Any")
+      currUser.gender.toLowerCase() ===
+        itinerary.genderPreference.toLowerCase() ||
+      itinerary.genderPreference.toLowerCase() === "any"
     ) {
       axios
         .post(`${BACKEND_URL}/itinerary/${userId}/${itineraryId}`)
