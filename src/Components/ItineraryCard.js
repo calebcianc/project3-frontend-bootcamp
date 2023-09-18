@@ -45,18 +45,14 @@ export default function ItineraryCard({
   const currUser = useContext(CurrUserContext);
   const [currUserCreator, setCurrUserCreator] = useState(false);
   const navigate = useNavigate();
-
   const [editModalView, setEditModalView] = useState(false);
+  const [name, setName] = useState(itinerary.name);
+  const [isPublic, setIsPublic] = useState(itinerary.isPublic);
+  const [maxPax, setMaxPax] = useState(itinerary.maxPax);
+  const [genderPreference, setGenderPreference] = useState(
+    itinerary.genderPreference
+  );
 
-  const handleClose = () => setEditModalView(false);
-
-  const [name, setName] = useState("");
-  const [isPublic, setIsPublic] = useState(false);
-  const [maxPax, setMaxPax] = useState(1);
-  const [genderPreference, setGenderPreference] = useState("any");
-
-  // get all users for this itinerary and set it as user
-  // check if curr user is creator and set it as currUserCreator
   useEffect(() => {
     axios.get(`${BACKEND_URL}/user/${itinerary.id}`).then((response) => {
       setUsers(response.data); //JSON.stringify
@@ -75,13 +71,25 @@ export default function ItineraryCard({
   const handleSelectItinerary = () => {
     setSelectedItinerary(itinerary.id);
   };
-
-  const handleEdit = (id) => {
-    console.log(`Editing itinerary with id ${id}`);
-    console.log("itinerary", itinerary.name);
-    console.log("itinerary", itinerary.isPublic);
-    console.log("itinerary", itinerary.maxPax);
-    console.log("itinerary", itinerary.genderPreference);
+  const handleOpen = () => setEditModalView(true);
+  const handleClose = () => setEditModalView(false);
+  const handleEdit = async () => {
+    try {
+      const response = await axios.put(
+        `${BACKEND_URL}/itinerary/${currUser.id}/${itinerary.id}`,
+        {
+          name: name,
+          isPublic: isPublic,
+          maxPax: maxPax,
+          genderPreference: genderPreference,
+        }
+      );
+      handleClose();
+      setDataChanged(!dataChanged);
+      navigate(`/upcoming`);
+    } catch (error) {
+      console.error("An error occurred while updating the itinerary:", error);
+    }
   };
 
   const handleDelete = (id) => {
@@ -112,26 +120,16 @@ export default function ItineraryCard({
     return country ? country.code : null;
   };
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handlePublicChange = (event) => {
-    const value = event.target.value;
-    setIsPublic(value === "true");
-  };
-
-  const handleGenderChange = (event) => {
-    setGenderPreference(event.target.value);
-  };
-
-  // Validation function to be called before submitting form
   const isFormValid = () => {
     if (!itinerary.name.trim()) {
       alert("Name cannot be empty");
       return false;
     }
     return true;
+  };
+  const handlePublicChange = (event) => {
+    const value = event.target.value;
+    setIsPublic(value === "true");
   };
 
   return (
@@ -162,7 +160,6 @@ export default function ItineraryCard({
             }}
             image={itinerary.photoUrl ? itinerary.photoUrl : null}
             title={`Click to view ${itinerary.name}`}
-            // onClick={handleSelectItinerary}
           />
           <Box
             position="absolute"
@@ -255,11 +252,7 @@ export default function ItineraryCard({
                 >
                   View
                 </Button>
-                <Button
-                  size="small"
-                  // variant="outlined"
-                  onClick={() => handleEdit(itinerary.id)}
-                >
+                <Button size="small" onClick={() => handleOpen()}>
                   Edit
                 </Button>
                 <Button
@@ -308,7 +301,7 @@ export default function ItineraryCard({
               fontWeight="lg"
               mb={2}
             >
-              Edit your ideal itinerary!
+              Edit your itinerary!
             </Typography>
 
             <FormControl style={{ display: "flex" }}>
@@ -319,7 +312,7 @@ export default function ItineraryCard({
                 id="itinerary-name"
                 label="Itinerary name"
                 value={name}
-                onChange={handleNameChange}
+                onChange={(event) => setName(event.target.value)}
               />
             </FormControl>
             <br />
@@ -372,10 +365,10 @@ export default function ItineraryCard({
                     InputProps={{
                       inputProps: { min: 1 },
                       style: { height: "60%" },
-                    }} // Setting minimum value to 1
+                    }}
                     placeholder="Type a number..."
                     value={maxPax}
-                    onChange={(event) => setMaxPax(event.target.value)} //
+                    onChange={(event) => setMaxPax(event.target.value)}
                   />
                 </FormControl>
                 <br />
@@ -387,7 +380,9 @@ export default function ItineraryCard({
                     aria-labelledby="gender-preference"
                     name="controlled-radio-buttons-group"
                     value={genderPreference}
-                    onChange={handleGenderChange}
+                    onChange={(event) =>
+                      setGenderPreference(event.target.value)
+                    }
                     row
                   >
                     <FormControlLabel
@@ -417,9 +412,9 @@ export default function ItineraryCard({
                 variant="contained"
                 endIcon={<FlightTakeoffIcon />}
                 disabled={!isFormValid()}
-                onClick={handleEdit}
+                onClick={() => handleEdit(itinerary.id)}
               >
-                Generate itinerary
+                Edit itinerary
               </Button>
             </div>
           </Box>

@@ -53,8 +53,9 @@ export default function ItineraryIcon({
       return;
     }
     if (
-      (currUser.gender === itinerary.genderPreference) |
-      (itinerary.genderPreference === "Any")
+      currUser.gender.toLowerCase() ===
+        itinerary.genderPreference.toLowerCase() ||
+      itinerary.genderPreference.toLowerCase() === "any"
     ) {
       axios
         .post(`${BACKEND_URL}/itinerary/${userId}/${itineraryId}`)
@@ -95,6 +96,8 @@ export default function ItineraryIcon({
         console.log("Error fetching data: ", error);
       });
   }, [itineraryId]);
+
+  console.log("users", users);
 
   return (
     <div onClick={handleOpen} style={{ cursor: "pointer" }}>
@@ -206,7 +209,7 @@ export default function ItineraryIcon({
             </Grid>
             <Grid item>
               <Typography>
-                {itinerary.users.length}/{itinerary.maxPax} participants (
+                {users.length}/{itinerary.maxPax} participants (
                 {itinerary.genderPreference})
               </Typography>
             </Grid>
