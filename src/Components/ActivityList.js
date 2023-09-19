@@ -7,7 +7,10 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  Modal,
 } from "@mui/material";
+import ModalDialog from "@mui/joy/ModalDialog";
+import ModalClose from "@mui/joy/ModalClose";
 import { useState, useEffect, useRef } from "react";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -18,6 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { BACKEND_URL } from "../constants.js";
 import { useNavigate } from "react-router-dom";
 import GoogleInitialisation from "../Auth/GoogleInitialisation";
+import LoginButton from "../Auth/LoginButton";
 
 export default function ActivityList({
   selectedItinerary,
@@ -89,6 +93,12 @@ export default function ActivityList({
     }
   };
 
+  const [isModalOpen, setModalOpen] = useState(false);
+  const handleCloseLogin = (event) => {
+    if (event) event.stopPropagation();
+    setModalOpen(false);
+  };
+
   return (
     <div
       style={{
@@ -103,13 +113,10 @@ export default function ActivityList({
           </Button>
         </div>
         <div style={{ marginLeft: "auto", marginRight: "4mm" }}>
-          {/* <Button
-            endIcon={<FileDownloadIcon />}
-            onClick={() => setShowDownloadDialog(true)}
-          >
-            Download
-          </Button> */}
-          <GoogleInitialisation selectedItinerary={selectedItinerary} />
+          <GoogleInitialisation
+            selectedItinerary={selectedItinerary}
+            setModalOpen={setModalOpen}
+          />
         </div>
       </div>
 
@@ -214,7 +221,7 @@ export default function ActivityList({
         })}
       </div>
 
-      {showDownloadDialog && (
+      {/* {showDownloadDialog && (
         <Dialog open={showDownloadDialog} close={handleCloseDialog}>
           <DialogTitle>Select Download Type</DialogTitle>
           <IconButton
@@ -257,7 +264,31 @@ export default function ActivityList({
             </div>
           </DialogContent>
         </Dialog>
-      )}
+      )} */}
+
+      <Modal open={isModalOpen}>
+        <ModalDialog size="lg" variant="outlined">
+          <ModalClose onClick={handleCloseLogin} />
+          {isModalOpen && (
+            <>
+              <Typography
+                component="h2"
+                id="modal-title"
+                textColor="inherit"
+                mb={2}
+                variant="h6"
+                fontWeight="bold"
+              >
+                Hey there!
+              </Typography>
+
+              <Typography>Sign up / Log in to use this feature!</Typography>
+              <br />
+              <LoginButton />
+            </>
+          )}
+        </ModalDialog>
+      </Modal>
     </div>
   );
 }
