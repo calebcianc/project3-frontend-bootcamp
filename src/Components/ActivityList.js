@@ -16,6 +16,8 @@ import MicrosoftIcon from "@mui/icons-material/Microsoft";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { BACKEND_URL } from "../constants.js";
+import { useNavigate } from "react-router-dom";
+import GoogleInitialisation from "../Auth/GoogleInitialisation";
 
 export default function ActivityList({
   selectedItinerary,
@@ -70,27 +72,20 @@ export default function ActivityList({
   const handleCloseDialog = () => {
     setShowDownloadDialog(false);
   };
+  // function to handle downloading of itinerary into an excel
   const downloadExcel = () => {
     window.open(`${BACKEND_URL}/download/excel/${itinerary.id}`);
   };
-  const downloadGoogleSheet = () => {
-    fetch(`${BACKEND_URL}/download/googleSheet/${itinerary.id}`)
-      .then((response) => {
-        console.log("Received response:", response);
-        response.json().then((data) => {
-          console.log("Received JSON data:", data);
-          window.open(data.url, "_blank");
-        });
-      })
-      .catch((err) => console.error(err));
-  };
+
+  const navigate = useNavigate();
+
   const handleDownload = (type) => {
     setShowDownloadDialog(false);
 
     if (type === "excel") {
       downloadExcel();
     } else if (type === "googleSheet") {
-      downloadGoogleSheet();
+      navigate(`/googleInitialisation`);
     }
   };
 
@@ -108,12 +103,13 @@ export default function ActivityList({
           </Button>
         </div>
         <div style={{ marginLeft: "auto", marginRight: "4mm" }}>
-          <Button
+          {/* <Button
             endIcon={<FileDownloadIcon />}
             onClick={() => setShowDownloadDialog(true)}
           >
             Download
-          </Button>
+          </Button> */}
+          <GoogleInitialisation selectedItinerary={selectedItinerary} />
         </div>
       </div>
 
@@ -249,6 +245,7 @@ export default function ActivityList({
               >
                 Excel
               </Button>
+
               <Button
                 onClick={() => handleDownload("googleSheet")}
                 startIcon={<GoogleIcon />}

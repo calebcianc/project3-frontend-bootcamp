@@ -12,6 +12,7 @@ import Credits from "./Credits/Credits";
 import Profile from "./Profile/Profile";
 import { BACKEND_URL } from "./constants.js";
 import { useAuth0 } from "@auth0/auth0-react";
+import GoogleInitialisation from "./Auth/GoogleInitialisation";
 
 export const AccessTokenContext = createContext();
 export const CurrUserContext = createContext();
@@ -122,6 +123,14 @@ const App = () => {
                   />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/credits" element={<Credits />} />
+                  <Route
+                    path="/googleInitialisation"
+                    element={
+                      <GoogleInitialisation
+                        selectedItinerary={selectedItinerary}
+                      />
+                    }
+                  />
                 </Routes>
 
                 <BottomNavbar
