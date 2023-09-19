@@ -12,6 +12,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import Grid from "@mui/material/Grid";
 import { countries } from "../Data/Countries";
 import { AccessTokenContext, CurrUserContext } from "../App";
+import LoginButton from "../Auth/LoginButton.js";
 
 export default function ItineraryIcon({
   itineraryId,
@@ -293,13 +294,14 @@ export default function ItineraryIcon({
 
               <Typography>Sign up / Log in to use this feature!</Typography>
               <br />
-              <Button
+              <LoginButton />
+              {/* <Button
                 variant="contained"
                 color="primary"
                 onClick={() => navigate("/profile")}
               >
                 Sign Up / Log In
-              </Button>
+              </Button> */}
             </>
           )}
         </ModalDialog>

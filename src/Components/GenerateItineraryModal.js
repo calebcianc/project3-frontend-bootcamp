@@ -28,6 +28,7 @@ import { categories } from "../Data/Categories";
 import "./LoadingSpinner.css";
 import { AccessTokenContext, CurrUserContext } from "../App";
 import { BACKEND_URL } from "../constants";
+import LoginButton from "../Auth/LoginButton";
 
 var utc = require("dayjs/plugin/utc");
 var timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
@@ -444,13 +445,14 @@ export default function GenerateItineraryModal({
 
               <Typography>Sign up / Log in to use this feature!</Typography>
               <br />
-              <Button
+              <LoginButton />
+              {/* <Button
                 variant="contained"
                 color="primary"
                 onClick={() => navigate("/profile")}
               >
                 Sign Up / Log In
-              </Button>
+              </Button> */}
             </>
           )}
         </ModalDialog>
