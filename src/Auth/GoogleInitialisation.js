@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { BACKEND_URL } from "../constants.js";
 import { Button } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import { AccessTokenContext, CurrUserContext } from "../App";
 
-export default function GoogleInitialisation({ selectedItinerary }) {
+export default function GoogleInitialisation({
+  selectedItinerary,
+  setModalOpen,
+}) {
   // function to handle downloading of itinerary into a google sheet
   const downloadGoogleSheet = (idToken) => {
     fetch(`${BACKEND_URL}/download/googleSheet/${selectedItinerary}`, {
@@ -36,7 +40,13 @@ export default function GoogleInitialisation({ selectedItinerary }) {
     };
   }, []);
 
+  const accessToken = useContext(AccessTokenContext);
+
   const handleAuthorization = () => {
+    if (!accessToken) {
+      setModalOpen(true);
+      return;
+    }
     const oauth2Client = window.google.accounts.oauth2.initTokenClient({
       client_id:
         "873743915108-ol7ape5n62nmlmji0ngu587aa2vecmq4.apps.googleusercontent.com",
@@ -51,16 +61,6 @@ export default function GoogleInitialisation({ selectedItinerary }) {
   };
 
   return (
-    // <div
-    //   style={{
-    //     height: "calc(100vh - 64px - 56px )",
-    //     maxWidth: "1280px",
-    //     display: "flex",
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //   }}
-    // >
-    // </div>
     <Button startIcon={<GoogleIcon />} onClick={handleAuthorization}>
       Export
     </Button>
