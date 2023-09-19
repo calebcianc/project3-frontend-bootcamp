@@ -54,8 +54,9 @@ export default function ItineraryIcon({
       return;
     }
     if (
-      currUser.gender.toLowerCase() ===
-        itinerary.genderPreference.toLowerCase() ||
+      (currUser.gender &&
+        currUser.gender.toLowerCase() ===
+          itinerary.genderPreference.toLowerCase()) ||
       itinerary.genderPreference.toLowerCase() === "any"
     ) {
       axios
