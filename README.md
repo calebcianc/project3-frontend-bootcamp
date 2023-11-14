@@ -24,7 +24,7 @@ gif walkthrough to be uploaded
 
 ## Setup
 
-**Pre-requisite: To be used with [TravelGPT Backend](https://github.com/calebcianc/project3-backend-bootcamp) in order to run the full application.**
+**Pre-requisite: To be used with [TravelGPT Backend](https://github.com/calebcianc/project3-backend-bootcamp) in order to run the full application locally.**
 
 This project is created using create-react-app. Before starting, it is required to run the following steps for the application to work
 
