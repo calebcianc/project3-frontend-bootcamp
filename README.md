@@ -2,7 +2,7 @@
 
 A travel itinerary planner to create, join and manage travel itineraries with the aid of openAI.
 
-Deployment page: [TravelGPT]("https://project3-frontend-bootcamp.vercel.app/)
+Deployment page: [TravelGPT]("https://project3-frontend-bootcamp.vercel.app/")
 
 ## Preview
 
@@ -11,10 +11,10 @@ gif walkthrough to be uploaded
 ## Features
 
 - Add new users or check for existing users in the database
-- Add, edit and delete itinerary/ activities
-- Join/ Leave itinerary that are tagged as public
+- Add, edit and delete itinerary / activities
+- Join / Leave itinerary that are tagged as public
 - Separate the itinerary available to user via public itineraries, upcoming user itineraries and historical user itineraries
-- view the tracjectory taken by the itinerary on the map which shows all the location of interest covered by the itinerary
+- View the tracjectory taken by the itinerary on the map which shows all the location of interest covered by the itinerary
 
 ## Tech Used
 
