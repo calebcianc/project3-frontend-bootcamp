@@ -2,7 +2,7 @@
 
 A travel itinerary planner to create, join and manage travel itineraries with the aid of openAI.
 
-Deployment page: [TravelGPT]("https://project3-frontend-bootcamp.vercel.app/")
+Deployment page: [TravelGPT](https://project3-frontend-bootcamp.vercel.app/)
 
 ## Preview
 
